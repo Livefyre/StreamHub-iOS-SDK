@@ -8,6 +8,7 @@
 
 #import "LFClientBase.h"
 #import "LFConstants.h"
+#import <UIKit/UIKit.h>
 
 static NSOperationQueue *_LFQueue;
 
@@ -36,7 +37,6 @@ static NSOperationQueue *_LFQueue;
     NSURL *connectionURL = [[NSURL alloc] initWithScheme:kLFSDKScheme host:host path:path];
     NSMutableURLRequest *connectionReq = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
     [connectionReq setHTTPMethod:httpMethod];
-    [connectionReq setValue:@"LFClient iOS" forHTTPHeaderField:@"User-Agent" ];
     
     if (payload && [httpMethod isEqualToString:@"POST"]) {
         //strip off our beloved question mark

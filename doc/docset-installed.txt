@@ -1,0 +1,4 @@
+Documentation set was installed to Xcode!
+
+Path: /Users/zjj/Library/Developer/Shared/Documentation/DocSets/com.livefyre.Streamhub-iOS-SDK.docset
+Time: 2013-01-22 22:35:02 +0000

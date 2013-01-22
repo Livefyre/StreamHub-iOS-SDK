@@ -3,11 +3,16 @@
 //  LivefyreClient
 //
 //  Created by Thomas Goyne on 5/17/12.
-//  Copyright (c) 2012 7x7 Labs. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @interface LFARC4 : NSObject
-+ (NSString *)decrypt:(NSString *)string withKey:(NSString *)key;
+/// @name eref decoding.
+///
+/// A method to assist with decoding erefs using a Livefyre user's key or keys.
+/// @param eref The eref to try and decode.
+/// @param keys The keys to apply to the encoded content.
++ (NSString *)tryToDecodeEref:(NSString *)eref WithKeys:(NSArray *)keys;
+
 @end
