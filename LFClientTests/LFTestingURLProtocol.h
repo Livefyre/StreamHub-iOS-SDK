@@ -1,8 +1,8 @@
 //
-//  NSDate+Relative.m
-//  LivefyreClient
+//  LFTestingURLProtocol.h
+//  LFClient
 //
-//  Created by Thomas Goyne on 8/29/12.
+//  Created by zjj on 1/23/13.
 //
 //  Copyright (c) 2013 Livefyre
 //
@@ -27,31 +27,8 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSDate+Relative.h"
+#import <Foundation/Foundation.h>
 
-@implementation NSDate (Relative)
-- (NSString *)relativeTime {
-    NSTimeInterval time = -[self timeIntervalSinceNow];
+@interface LFTestingURLProtocol : NSURLProtocol
 
-    if (time < 0)
-        return @"In the future";
-    if (time < 1)
-        return @"Now";
-    if (time < 2)
-        return @"One second ago";
-    if (time < 60)
-        return [NSString stringWithFormat:@"%d seconds ago", (int)time];
-    if (time < 120)
-        return @"One minute ago";
-    if (time < 3600)
-        return [NSString stringWithFormat:@"%d minutes ago", (int)time / 60];
-    if (time < 7200)
-        return @"One hour ago";
-    if (time < 86400)
-        return [NSString stringWithFormat:@"%d hours ago", (int)time / 3600];
-
-    return [NSDateFormatter localizedStringFromDate:self
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterShortStyle];
-}
 @end

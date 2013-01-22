@@ -1,8 +1,8 @@
 //
-//  NSDate+Relative.m
+//  ARC4.h
 //  LivefyreClient
 //
-//  Created by Thomas Goyne on 8/29/12.
+//  Created by Thomas Goyne on 5/17/12.
 //
 //  Copyright (c) 2013 Livefyre
 //
@@ -27,31 +27,25 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSDate+Relative.h"
+#import <Foundation/Foundation.h>
 
-@implementation NSDate (Relative)
-- (NSString *)relativeTime {
-    NSTimeInterval time = -[self timeIntervalSinceNow];
+@interface LFARC4 : NSObject
+/** @name eref decoding. */
 
-    if (time < 0)
-        return @"In the future";
-    if (time < 1)
-        return @"Now";
-    if (time < 2)
-        return @"One second ago";
-    if (time < 60)
-        return [NSString stringWithFormat:@"%d seconds ago", (int)time];
-    if (time < 120)
-        return @"One minute ago";
-    if (time < 3600)
-        return [NSString stringWithFormat:@"%d minutes ago", (int)time / 60];
-    if (time < 7200)
-        return @"One hour ago";
-    if (time < 86400)
-        return [NSString stringWithFormat:@"%d hours ago", (int)time / 3600];
+/** 
+ * A method to assist with decoding content erefs using a Livefyre user's key or keys.
+ *
+ * @param eref The eref to attempt to decode.
+ * @param keys The keys to apply to the encoded content.
+ * @return NSString
+ */
++ (NSString *)tryToDecodeEref:(NSString *)eref WithKeys:(NSArray *)keys;
 
-    return [NSDateFormatter localizedStringFromDate:self
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterShortStyle];
-}
+/**
+ * A method to assist with decoding Livefyre content ciphers.
+ * @param string The cipher text.
+ * @param key The secret key.
+ * @return NSString
+ */
++ (NSString *)decrypt:(NSString *)string withKey:(NSString *)key;
 @end

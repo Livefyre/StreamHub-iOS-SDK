@@ -1,8 +1,8 @@
 //
-//  NSDate+Relative.m
+//  Config.m
 //  LivefyreClient
 //
-//  Created by Thomas Goyne on 8/29/12.
+//  Created by Thomas Goyne on 5/27/12.
 //
 //  Copyright (c) 2013 Livefyre
 //
@@ -27,31 +27,30 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSDate+Relative.h"
+#import "Config.h"
 
-@implementation NSDate (Relative)
-- (NSString *)relativeTime {
-    NSTimeInterval time = -[self timeIntervalSinceNow];
+@implementation Config
++ (NSDictionary *)ConfigDictionary {
+    static NSDictionary *configDictionary = nil;
+    if (!configDictionary) {
+        NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"TestConfig" ofType:@"plist"];
+        if (!path)
+            return nil;
+        
+        configDictionary = [[NSDictionary alloc] initWithContentsOfFile:path];
+    }
 
-    if (time < 0)
-        return @"In the future";
-    if (time < 1)
-        return @"Now";
-    if (time < 2)
-        return @"One second ago";
-    if (time < 60)
-        return [NSString stringWithFormat:@"%d seconds ago", (int)time];
-    if (time < 120)
-        return @"One minute ago";
-    if (time < 3600)
-        return [NSString stringWithFormat:@"%d minutes ago", (int)time / 60];
-    if (time < 7200)
-        return @"One hour ago";
-    if (time < 86400)
-        return [NSString stringWithFormat:@"%d hours ago", (int)time / 3600];
+    return configDictionary;
+}
 
-    return [NSDateFormatter localizedStringFromDate:self
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterShortStyle];
++ (id)objectForKey:(id)key {
+    return [[self ConfigDictionary] objectForKey:key];
+}
+
+- (NSCondition *)condition
+{
+    if (!self.condition)
+        self.condition = [NSCondition new];
+    return self.condition;
 }
 @end

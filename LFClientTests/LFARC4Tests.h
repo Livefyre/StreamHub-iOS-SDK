@@ -1,8 +1,6 @@
 //
-//  NSDate+Relative.m
+//  ARC4Tests.h
 //  LivefyreClient
-//
-//  Created by Thomas Goyne on 8/29/12.
 //
 //  Copyright (c) 2013 Livefyre
 //
@@ -26,32 +24,10 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
+//
 
-#import "NSDate+Relative.h"
+#import <SenTestingKit/SenTestingKit.h>
 
-@implementation NSDate (Relative)
-- (NSString *)relativeTime {
-    NSTimeInterval time = -[self timeIntervalSinceNow];
+@interface LFARC4Tests : SenTestCase
 
-    if (time < 0)
-        return @"In the future";
-    if (time < 1)
-        return @"Now";
-    if (time < 2)
-        return @"One second ago";
-    if (time < 60)
-        return [NSString stringWithFormat:@"%d seconds ago", (int)time];
-    if (time < 120)
-        return @"One minute ago";
-    if (time < 3600)
-        return [NSString stringWithFormat:@"%d minutes ago", (int)time / 60];
-    if (time < 7200)
-        return @"One hour ago";
-    if (time < 86400)
-        return [NSString stringWithFormat:@"%d hours ago", (int)time / 3600];
-
-    return [NSDateFormatter localizedStringFromDate:self
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterShortStyle];
-}
 @end

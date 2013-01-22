@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>--project-name</key>
+	<string>Streamhub iOS SDK</string>
+	<key>--project-company</key>
+	<string>Livefyre, Inc</string>
+	<key>--company-id</key>
+	<string>com.livefyre</string>
+	<key>--output</key>
+	<string>./doc</string>
+	<key>--docset-feed-url</key>
+	<string>http://livefyre.github.com/StreamHub-iOS-SDK/%DOCSETATOMFILENAME</string>
+	<key>--docset-package-url</key>
+	<string>http://livefyre.github.com/StreamHub-iOS-SDK/%DOCSETPACKAGEFILENAME</string>
+	<key>--no-repeat-first-par</key>
+	<true/>
+	<key>--warn-undocumented-object</key> 
+	<false/>
+</dict>
+</plist>

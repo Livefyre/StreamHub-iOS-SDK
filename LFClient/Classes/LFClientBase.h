@@ -1,8 +1,8 @@
 //
-//  NSDate+Relative.m
-//  LivefyreClient
+//  LFClientBase.h
+//  LFClient
 //
-//  Created by Thomas Goyne on 8/29/12.
+//  Created by zjj on 1/14/13.
 //
 //  Copyright (c) 2013 Livefyre
 //
@@ -27,31 +27,25 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSDate+Relative.h"
+#import <Foundation/Foundation.h>
+#import "LFConstants.h"
 
-@implementation NSDate (Relative)
-- (NSString *)relativeTime {
-    NSTimeInterval time = -[self timeIntervalSinceNow];
+@interface LFClientBase : NSObject
+// Returns the queue for handling our callback blocks.
++ (NSOperationQueue *)LFQueue;
 
-    if (time < 0)
-        return @"In the future";
-    if (time < 1)
-        return @"Now";
-    if (time < 2)
-        return @"One second ago";
-    if (time < 60)
-        return [NSString stringWithFormat:@"%d seconds ago", (int)time];
-    if (time < 120)
-        return @"One minute ago";
-    if (time < 3600)
-        return [NSString stringWithFormat:@"%d minutes ago", (int)time / 60];
-    if (time < 7200)
-        return @"One hour ago";
-    if (time < 86400)
-        return [NSString stringWithFormat:@"%d hours ago", (int)time / 3600];
+// Sends an asynchronous request to the specified resource.
++ (void)requestWithHost:(NSString *)host
+               WithPath:(NSString *)path
+            WithPayload:(NSString *)payload
+             WithMethod:(NSString *)httpMethod
+            WithSuccess:(void (^)(NSDictionary *res))success
+            WithFailure:(void (^)(NSError *))failure;
 
-    return [NSDateFormatter localizedStringFromDate:self
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterShortStyle];
-}
+// Generic handling of HTTP responses, 
+// handling error reporting and JSON parsing.
++ (NSDictionary *)handleResponse:(NSURLResponse *)resp
+                       WithError:(NSError *)err
+                        WithData:(NSData *)data
+                     WithFailure:(void (^)(NSError *))failure;
 @end

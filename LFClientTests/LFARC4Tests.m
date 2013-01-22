@@ -1,8 +1,8 @@
 //
-//  NSDate+Relative.m
+//  ARC4Tests.m
 //  LivefyreClient
 //
-//  Created by Thomas Goyne on 8/29/12.
+//  Created by Thomas Goyne on 5/29/12.
 //
 //  Copyright (c) 2013 Livefyre
 //
@@ -27,31 +27,22 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSDate+Relative.h"
+#import "LFARC4Tests.h"
 
-@implementation NSDate (Relative)
-- (NSString *)relativeTime {
-    NSTimeInterval time = -[self timeIntervalSinceNow];
+#import "LFARC4.h"
 
-    if (time < 0)
-        return @"In the future";
-    if (time < 1)
-        return @"Now";
-    if (time < 2)
-        return @"One second ago";
-    if (time < 60)
-        return [NSString stringWithFormat:@"%d seconds ago", (int)time];
-    if (time < 120)
-        return @"One minute ago";
-    if (time < 3600)
-        return [NSString stringWithFormat:@"%d minutes ago", (int)time / 60];
-    if (time < 7200)
-        return @"One hour ago";
-    if (time < 86400)
-        return [NSString stringWithFormat:@"%d hours ago", (int)time / 3600];
+@implementation LFARC4Tests
+- (void)testDecrypt {
+    const char rawKey[] = "secret key"; // 736563726574206B6579
+    NSString *cipherText = @"0DC9D79D144D7B0C491F2ACF8F8B9B";
+    NSString *plainText = @"a sample string";
 
-    return [NSDateFormatter localizedStringFromDate:self
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterShortStyle];
+    NSMutableString *key = [NSMutableString stringWithCapacity:(sizeof(rawKey) * 2)];
+    for (size_t i = 0; i < sizeof(rawKey) - 1; ++i) {
+        [key appendFormat:@"%02X", (unsigned char)rawKey[i]];
+    }
+
+    NSString *decrypted = [LFARC4 decrypt:cipherText withKey:key];
+    STAssertEqualObjects(decrypted, plainText, nil);
 }
 @end
