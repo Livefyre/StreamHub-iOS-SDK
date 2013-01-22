@@ -38,11 +38,11 @@ static NSOperationQueue *_LFQueue;
     [connectionReq setHTTPMethod:httpMethod];
     [connectionReq setValue:@"LFClient iOS" forHTTPHeaderField:@"User-Agent" ];
     
-    if (payload && [httpMethod isEqualToString:@"POST"])
+    if (payload && [httpMethod isEqualToString:@"POST"]) {
         //strip off our beloved question mark
         payload = [payload substringFromIndex:1];
         [connectionReq setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
-        
+    }
     
     [NSURLConnection sendAsynchronousRequest:connectionReq queue:[self LFQueue] completionHandler:^(NSURLResponse *resp, NSData *data, NSError *err) {
         
