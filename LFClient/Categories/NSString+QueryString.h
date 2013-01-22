@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-
-@interface NSString(QueryString) 
+@interface NSString(QueryString)
+//Returns a query string beginning with '?' and with each key/value pair 
+//joined by a '=' and separated by a '&'. 
 - (NSString *)initWithParams:(NSDictionary *)params;
 @end

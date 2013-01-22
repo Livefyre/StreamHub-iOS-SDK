@@ -5,8 +5,7 @@
 //  Created by Thomas Goyne on 8/29/12.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface NSDate (Relative)
+// Returns fuzzy, human readable, time deltas.
 - (NSString *)relativeTime;
 @end
