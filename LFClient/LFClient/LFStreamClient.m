@@ -19,7 +19,7 @@ static dispatch_queue_t modify_pollingCollections_queue() {
 }
 
 @interface LFStreamClient()
-// TODO, lazy instantiate
+// TODO, dumber stream client, polling in client.
 @property (strong) NSMutableArray *pollingCollections;
 @end
 
