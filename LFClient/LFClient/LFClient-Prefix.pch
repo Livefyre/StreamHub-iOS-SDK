@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'LFClient' target in the 'LFClient' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
