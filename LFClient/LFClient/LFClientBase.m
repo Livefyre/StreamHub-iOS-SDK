@@ -28,6 +28,7 @@ static NSOperationQueue *_LFQueue;
 
 + (void)requestWithHost:(NSString *)host
                WithPath:(NSString *)path
+            WithPayload:(NSString *)payload
              WithMethod:(NSString *)httpMethod
             WithSuccess:(void (^)(NSDictionary *res))success
             WithFailure:(void (^)(NSError *))failure
@@ -36,6 +37,13 @@ static NSOperationQueue *_LFQueue;
     NSMutableURLRequest *connectionReq = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
     [connectionReq setHTTPMethod:httpMethod];
     [connectionReq setValue:@"LFClient iOS" forHTTPHeaderField:@"User-Agent" ];
+    
+    //this is a post with a payload
+    if (payload)
+        //strip off our beloved question mark
+        payload = [payload substringFromIndex:1];
+        [connectionReq setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
+        
     
     [NSURLConnection sendAsynchronousRequest:connectionReq queue:[self LFQueue] completionHandler:^(NSURLResponse *resp, NSData *data, NSError *err) {
         

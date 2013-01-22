@@ -46,10 +46,11 @@ static NSString *_quill = @"quill";
     
     contentId = [contentId stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *host = [NSString stringWithFormat:@"%@.%@", _quill, networkDomain];
-    NSString *path = [NSString stringWithFormat:@"/api/v3.0/message/%@/%@/%@", contentId, actionEndpoint, queryString];
+    NSString *path = [NSString stringWithFormat:@"/api/v3.0/message/%@/%@/", contentId, actionEndpoint];
 
     [self requestWithHost:host
                  WithPath:path
+              WithPayload:queryString
                WithMethod:@"POST"
               WithSuccess:success
               WithFailure:failure];
@@ -69,10 +70,11 @@ static NSString *_quill = @"quill";
     
     NSString *queryString = [[NSString alloc] initWithParams:paramsDict];
     NSString *host = [NSString stringWithFormat:@"%@.%@", _quill, networkDomain];
-    NSString *path = [NSString stringWithFormat:@"/api/v3.0/collection/%@/post/%@", collectionId, queryString];
+    NSString *path = [NSString stringWithFormat:@"/api/v3.0/collection/%@/post/", collectionId];
     
     [self requestWithHost:host
                  WithPath:path
+              WithPayload:queryString
                WithMethod:@"POST"
               WithSuccess:success
               WithFailure:failure];

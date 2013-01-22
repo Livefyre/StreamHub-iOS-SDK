@@ -12,6 +12,7 @@
 + (NSOperationQueue *)LFQueue;
 + (void)requestWithHost:(NSString *)host
                WithPath:(NSString *)path
+            WithPayload:(NSString *)payload
              WithMethod:(NSString *)httpMethod
             WithSuccess:(void (^)(NSDictionary *res))success
             WithFailure:(void (^)(NSError *))failure;

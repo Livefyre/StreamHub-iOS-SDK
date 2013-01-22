@@ -36,6 +36,7 @@ static NSString *_admin = @"admin";
     
     [self requestWithHost:host
                  WithPath:path
+              WithPayload:nil
                WithMethod:@"GET"
               WithSuccess:success
               WithFailure:failure];

@@ -36,6 +36,7 @@ static NSString *_bootstrap = @"bootstrap";
     
     [self requestWithHost:host
                  WithPath:path
+              WithPayload:nil
                WithMethod:@"GET"
               WithSuccess:^(NSDictionary *res) {
                   NSArray *results = [res objectForKey:@"data"];
@@ -69,6 +70,7 @@ static NSString *_bootstrap = @"bootstrap";
     
     [self requestWithHost:host
                  WithPath:path
+              WithPayload:nil
                WithMethod:@"GET"
               WithSuccess:^(NSDictionary *res) {
                   NSArray *results = [res objectForKey:@"data"];
