@@ -8,13 +8,12 @@
 
 #import "LFPublicAPIClient.h"
 #import "NSString+QueryString.h"
-#import "LFConstants.h"
 
 static NSString *_bootstrap = @"bootstrap";
 
 @implementation LFPublicAPIClient
 + (void)getTrendingCollectionsForTag:(NSString *)tag
-                              inSite:(NSString *)siteId
+                              forSite:(NSString *)siteId
                            onNetwork:(NSString *)networkDomain
                       desiredResults:(NSUInteger)number
                              success:(void (^)(NSArray *))success

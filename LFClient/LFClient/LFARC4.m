@@ -6,7 +6,6 @@
 //
 
 #import "LFARC4.h"
-
 #import <CommonCrypto/CommonCryptor.h>
 
 static NSData *hexStringToBytes(NSString *string) {
@@ -56,5 +55,4 @@ static NSData *hexStringToBytes(NSString *string) {
     }
     return nil;
 }
-
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "LFWriteClient.h"
-#import "LFConstants.h"
 #import "NSString+QueryString.h"
 
 static NSString *_quill = @"quill";

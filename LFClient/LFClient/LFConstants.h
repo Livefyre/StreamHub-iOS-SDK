@@ -8,14 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+//TODO add constants and enums to appledoc.
 @interface LFConstants : NSObject
 extern NSString *const kLFSDKScheme;
 extern NSString *const kLFError;
-/// Share types
 extern NSString *const kShareTypeTwitter;
 extern NSString *const kShareTypeFacebook;
 extern NSString *const kShareTypeLinkedin;
-/// Comment states
 extern NSString *const kCommentStatusActive;
 extern NSString *const kCommentStatusBozo;
 extern NSString *const kCommentStatusPending;
@@ -24,23 +23,23 @@ extern NSString *const kCommentStatusHidden;
 extern NSString *const kCommentStatusDeleted;
 
 enum ContentType {
-    /// A message posted by a user in reply to an article or another comment.
+    // A message posted by a user in reply to an article or another comment.
     ContentTypeMessage = 0,
-    /// An opinion from a user indicating that they like a comment or an embed.
+    // An opinion from a user indicating that they like a comment or an embed.
     ContentTypeOpine = 1,
-    /// An embedded image which is part of a comment.
+    // An embedded image which is part of a comment.
     ContentTypeEmbed = 3
 };
 
 enum ContentVisibility {
-    /// The content is visible to no one, usually due to being deleted.
+    // The content is visible to no one, usually due to being deleted.
     ContentVisibilityNone = 0,
-    /// The content is visible to everyone.
+    // The content is visible to everyone.
     ContentVisibilityEveryone = 1,
-    /// The content is visible to only the author due to bozoing.
+    // The content is visible to only the author due to bozoing.
     ContentVisibilityOwner = 2,
-    /// The content is visible to the author and any moderators for the
-    /// collection, usually meaning that it's waiting for approval.
+    // The content is visible to the author and any moderators for the
+    // collection, usually meaning that it's waiting for approval.
     ContentVisibilityGroup = 3
 };
 

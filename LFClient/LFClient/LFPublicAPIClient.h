@@ -6,42 +6,49 @@
 //  Copyright (c) 2013 Livefyre. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "LFClientBase.h"
-
 @interface LFPublicAPIClient : LFClientBase
-/// @name Heat Index Trends
+/** @name Heat Index Trends */
 
-/// Polls for trending Collections
-/// @param tag (optional) Tag to filter on.
-/// @param siteId (optional) Site ID to filter on.
-/// @param networkDomain The network to query on, identified by domain, i.e. livefyre.com.
-/// @param results (optional) Number of results to be returned. The default is 10 and the maximum is 100.
-/// @param success (optional) Callback called with a dictionary of results. Only technically optional.
-/// @param failure (optional) Callback called with error on a failure to retrieve data.
-///
-/// This method hands to the callback an array of HotCollection objects.
-/// For more information see:
-/// https://github.com/Livefyre/livefyre-docs/wiki/Trending-Collection-API
+/**
+ * Polls for trending Collections
+ *
+ * For more information see:
+ * https://github.com/Livefyre/livefyre-docs/wiki/Trending-Collection-API
+ *
+ * @param tag (optional) Tag to filter on.
+ * @param siteId (optional) Site ID to filter on.
+ * @param networkDomain The network to query against as identified by domain, i.e. livefyre.com.
+ * @param numberOfResults (optional) Number of results to be returned. The default is 10 and the maximum is 100.
+ * @param success Callback called with a dictionary after the results data has
+ * been retrieved.
+ * @param failure Callback called with an error after a failure to retrieve data.
+ * @return void
+ */
 + (void)getTrendingCollectionsForTag:(NSString *)tag
-                              inSite:(NSString *)siteId
+                             forSite:(NSString *)siteId
                            onNetwork:(NSString *)networkDomain
-                      desiredResults:(NSUInteger)number
+                      desiredResults:(NSUInteger)numberOfResults
                              success:(void (^)(NSArray *results))success
                              failure:(void (^)(NSError *error))failure;
-/// @name User Information
+                             
+/** @name User Information */
 
-/// Pulls the user's content history
-/// @param userId The Id of the user whose content is to be fetched.
-/// @param userToken (optional) The token of the user whose content is to be fetch, required by default unless the Newtwork specifies otherwise.
-/// @param status (optional) CSV of comment states to return.
-/// @param offset (optional) Number of results to skip. Defaults to 0, 25 pieces of content are returned at a time.
-/// @param success (optional) Callback called with a dictionary of results.
-/// @param failure (optional) Callback called with error on a failure to retrieve data.
-///
-/// This method hands to the callback an array of UserContent objects.
-/// For more information see:
-/// https://github.com/Livefyre/livefyre-docs/wiki/User-Content-API
+/**
+ * Fetches the user's content history
+ *
+ * For more information see:
+ * https://github.com/Livefyre/livefyre-docs/wiki/User-Content-API
+ *
+ * @param userId The Id of the user whose content is to be fetched.
+ * @param userToken (optional) The lftoken of the user whose content is to be fetched. This parameter is required by default unless the network specifies otherwise.
+ * @param networkDomain The network to query agianst as identified by domain, i.e. livefyre.com.
+ * @param status (optional) CSV of comment states to return.
+ * @param offset (optional) Number of results to skip, defaults to 0. 25 items are returned at a time.
+ * @param success Callback called with a dictionary after the results data has
+ * been retrieved.
+ * @param failure Callback called with an error after a failure to retrieve data.
+ * @return void
+ */
 + (void)getUserContentForUser:(NSString *)userId
                     withToken:(NSString *)userToken
                     onNetwork:(NSString *)networkDomain

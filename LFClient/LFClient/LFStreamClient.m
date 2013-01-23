@@ -7,7 +7,6 @@
 //
 
 #import "LFStreamClient.h"
-#import "LFConstants.h"
 
 static NSString *_stream = @"stream";
 static dispatch_queue_t _modify_pollingCollections_queue;
@@ -102,5 +101,4 @@ static dispatch_queue_t modify_pollingCollections_queue() {
         [self.pollingCollections removeObject:collectionId];
     });
 }
-
 @end

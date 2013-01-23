@@ -8,14 +8,13 @@
 
 #import "LFBootstrapClient.h"
 #import "NSString+Base64Encoding.h"
-#import "LFConstants.h"
 
 static NSString *_bootstrap = @"bootstrap";
 
 @implementation LFBootstrapClient
 + (void)getInitForArticle:(NSString *)articleId
-                   inSite:(NSString *)siteId
-              withNetwork:(NSString *)networkDomain
+                  forSite:(NSString *)siteId
+                onNetwork:(NSString *)networkDomain
           withEnvironment:(NSString *)environment
                   success:(void (^)(NSDictionary *))success
                   failure:(void (^)(NSError *))failure

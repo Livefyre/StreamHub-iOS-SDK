@@ -4,8 +4,7 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-
 @interface NSString (Base64Encoding)
+//Returns a base 64 encoded string.
 - (NSString *)base64EncodedString;
 @end

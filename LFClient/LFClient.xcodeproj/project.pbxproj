@@ -32,7 +32,7 @@
 		1C4CC89716A48B3800C33DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4CC88416A48B3800C33DEC /* Foundation.framework */; };
 		1C4CC89A16A48B3800C33DEC /* libLFClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4CC88116A48B3800C33DEC /* libLFClient.a */; };
 		1C4CC8A016A48B3800C33DEC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C4CC89E16A48B3800C33DEC /* InfoPlist.strings */; };
-		1C4CC8A316A48B3800C33DEC /* LFClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4CC8A216A48B3800C33DEC /* LFClientTests.m */; };
+		1C4CC8A316A48B3800C33DEC /* LFClientNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4CC8A216A48B3800C33DEC /* LFClientNetworkTests.m */; };
 		1C4CC8C716A4907800C33DEC /* NSDate+Relative.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4CC8C216A4907800C33DEC /* NSDate+Relative.m */; };
 		1C4CC8C816A4907800C33DEC /* NSString+Base64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4CC8C416A4907800C33DEC /* NSString+Base64Encoding.m */; };
 		1C4CC8C916A4907800C33DEC /* NSString+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4CC8C616A4907800C33DEC /* NSString+QueryString.m */; };
@@ -95,8 +95,8 @@
 		1C4CC89516A48B3800C33DEC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		1C4CC89D16A48B3800C33DEC /* LFClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LFClientTests-Info.plist"; sourceTree = "<group>"; };
 		1C4CC89F16A48B3800C33DEC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1C4CC8A116A48B3800C33DEC /* LFClientTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFClientTests.h; sourceTree = "<group>"; };
-		1C4CC8A216A48B3800C33DEC /* LFClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFClientTests.m; sourceTree = "<group>"; };
+		1C4CC8A116A48B3800C33DEC /* LFClientNetworkTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFClientNetworkTests.h; sourceTree = "<group>"; };
+		1C4CC8A216A48B3800C33DEC /* LFClientNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFClientNetworkTests.m; sourceTree = "<group>"; };
 		1C4CC8C116A4907800C33DEC /* NSDate+Relative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Relative.h"; sourceTree = "<group>"; };
 		1C4CC8C216A4907800C33DEC /* NSDate+Relative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Relative.m"; sourceTree = "<group>"; };
 		1C4CC8C316A4907800C33DEC /* NSString+Base64Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64Encoding.h"; sourceTree = "<group>"; };
@@ -198,11 +198,10 @@
 			isa = PBXGroup;
 			children = (
 				1C0ADC3316A5DBFB00ACC0EA /* TestConfig.plist */,
-				1C0ADC3816A6238900ACC0EA /* init-sample.json */,
 				1C0ADC3016A5DBF000ACC0EA /* Config.h */,
 				1C0ADC3116A5DBF000ACC0EA /* Config.m */,
-				1C4CC8A116A48B3800C33DEC /* LFClientTests.h */,
-				1C4CC8A216A48B3800C33DEC /* LFClientTests.m */,
+				1C4CC8A116A48B3800C33DEC /* LFClientNetworkTests.h */,
+				1C4CC8A216A48B3800C33DEC /* LFClientNetworkTests.m */,
 				1C4CC89C16A48B3800C33DEC /* Supporting Files */,
 			);
 			path = LFClientTests;
@@ -211,6 +210,7 @@
 		1C4CC89C16A48B3800C33DEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1C0ADC3816A6238900ACC0EA /* init-sample.json */,
 				1C4CC89D16A48B3800C33DEC /* LFClientTests-Info.plist */,
 				1C4CC89E16A48B3800C33DEC /* InfoPlist.strings */,
 			);
@@ -350,7 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C4CC8A316A48B3800C33DEC /* LFClientTests.m in Sources */,
+				1C4CC8A316A48B3800C33DEC /* LFClientNetworkTests.m in Sources */,
 				1C4CC8C716A4907800C33DEC /* NSDate+Relative.m in Sources */,
 				1C4CC8C816A4907800C33DEC /* NSString+Base64Encoding.m in Sources */,
 				1C4CC8C916A4907800C33DEC /* NSString+QueryString.m in Sources */,

@@ -25,5 +25,7 @@
 		<string>./doc/Build-template.md</string>
 		<string>./doc/Getting Started-template.md</string>
 	</array>
+	<key>--no-repeat-first-par</key>
+	<true/>
 </dict>
 </plist>

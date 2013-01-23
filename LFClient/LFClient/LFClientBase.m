@@ -7,8 +7,6 @@
 //
 
 #import "LFClientBase.h"
-#import "LFConstants.h"
-#import <UIKit/UIKit.h>
 
 static NSOperationQueue *_LFQueue;
 
@@ -64,6 +62,7 @@ static NSOperationQueue *_LFQueue;
         return nil;
     }
     
+    //TODO, handle NaN bug.
     NSError *JSONerror;
     NSDictionary *payload  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONerror];
     if (JSONerror) {

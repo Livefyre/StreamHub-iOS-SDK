@@ -14,9 +14,9 @@ static NSString *_admin = @"admin";
 
 @implementation LFAdminClient
 + (void)authenticateUserWithToken:(NSString *)userToken
-                          forSite:(NSString *)siteId
-                       forArticle:(NSString *)articleId
                     forCollection:(NSString *)collectionId
+                       forArticle:(NSString *)articleId
+                          forSite:(NSString *)siteId
                         onNetwork:(NSString *)networkDomain
                           success:(void (^)(NSDictionary *))success
                           failure:(void (^)(NSError *))failure
