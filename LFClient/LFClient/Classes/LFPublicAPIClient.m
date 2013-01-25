@@ -19,7 +19,11 @@ static NSString *_bootstrap = @"bootstrap";
                              success:(void (^)(NSArray *))success
                              failure:(void (^)(NSError *))failure
 {
-    // https://github.com/Livefyre/livefyre-docs/wiki/Hottest-Collection-API
+    if (!networkDomain) {
+        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to get trending collections."
+                                                                                                 forKey:NSLocalizedDescriptionKey]]);
+        return;
+    }
     
     NSMutableDictionary *paramsDict = [[NSMutableDictionary alloc] init];
     if (tag)
@@ -53,7 +57,11 @@ static NSString *_bootstrap = @"bootstrap";
                       success:(void (^)(NSArray *))success
                       failure:(void (^)(NSError *))failure
 {
-    //https://github.com/Livefyre/livefyre-docs/wiki/User-Content-API
+    if (!networkDomain || !userId) {
+        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to get user content."
+                                                                                                 forKey:NSLocalizedDescriptionKey]]);
+        return;
+    }
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     if (userToken)

@@ -5,12 +5,18 @@
 //  Created by zjj on 1/14/13.
 //  Copyright (c) 2013 Livefyre. All rights reserved.
 //
+#import <Foundation/Foundation.h>
+#import "LFConstants.h"
+#import "LFClientBase.h"
 
 @interface LFBootstrapClient : LFClientBase
 /** @name Collection Initialization */
 
 /**
  * Get the initial bootstrap data for a collection.
+ * 
+ * For more information see:
+ * https://github.com/Livefyre/livefyre-docs/wiki/StreamHub-API-Reference#wiki-init
  *
  * @param articleId The Id of the collection's article.
  * @param siteId The Id of the article's site.

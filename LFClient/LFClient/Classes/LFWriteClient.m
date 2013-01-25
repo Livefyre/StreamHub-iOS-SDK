@@ -40,6 +40,12 @@ static NSString *_quill = @"quill";
                     success:(void (^)(NSDictionary *))success
                     failure:(void (^)(NSError *))failure
 {
+    if (!networkDomain || !userToken || !collectionId || !contentId) {
+        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to like content."
+                                                                                                 forKey:NSLocalizedDescriptionKey]]);
+        return;
+    }
+    
     NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:@[collectionId, userToken] forKeys:@[@"collection_id", @"lftoken"]];
     NSString *queryString = [[NSString alloc] initWithParams:paramsDict];
     
@@ -63,6 +69,12 @@ static NSString *_quill = @"quill";
             success:(void (^)(NSDictionary *))success
             failure:(void (^)(NSError *))failure
 {
+    if (!body || !userToken || !collectionId || !networkDomain) {
+        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to post content."
+                                                                                                 forKey:NSLocalizedDescriptionKey]]);
+        return;
+    }
+    
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithObjects:@[body, userToken] forKeys:@[@"body", @"lftoken"]];
     if (parentId)
         [paramsDict setObject:parentId forKey:@"parent_id"];

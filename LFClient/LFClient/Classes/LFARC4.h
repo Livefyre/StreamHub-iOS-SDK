@@ -19,4 +19,11 @@
  */
 + (NSString *)tryToDecodeEref:(NSString *)eref WithKeys:(NSArray *)keys;
 
+/**
+ * A method to assist with decoding Livefyre content ciphers.
+ * @param string The cipher text.
+ * @param key The secret key.
+ * @return NSString
+ */
++ (NSString *)decrypt:(NSString *)string withKey:(NSString *)key;
 @end

@@ -21,6 +21,12 @@ static NSString *_admin = @"admin";
                           success:(void (^)(NSDictionary *))success
                           failure:(void (^)(NSError *))failure
 {
+    if (!networkDomain || !userToken) {
+        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to check user auth."
+                                                                                                 forKey:NSLocalizedDescriptionKey]]);
+        return;
+    }
+    
     NSDictionary *paramsDict;
     if (collectionId) {
         paramsDict = [NSDictionary dictionaryWithObjects:@[collectionId, userToken] forKeys:@[@"collectionId", @"lftoken"]];

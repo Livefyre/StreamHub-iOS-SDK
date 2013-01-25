@@ -62,9 +62,15 @@ static NSOperationQueue *_LFQueue;
         return nil;
     }
     
-    //TODO, handle NaN bug.
     NSError *JSONerror;
     NSDictionary *payload  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONerror];
+    //bad news bears
+    if (JSONerror && JSONerror.code == 3840u) {
+        payload = [self handleNaNBugWithData:data];
+        if (payload)
+            return payload;
+    }
+    
     if (JSONerror) {
         failure(JSONerror);
         return nil;
@@ -90,5 +96,59 @@ static NSOperationQueue *_LFQueue;
     }
     
     return payload;
+}
+
+// When the heat index pipes down floats with many significant digits, NSJSONSerialization interprets them as Nan and throws an exception. We hack around this.
+// TODO optimize
++ (NSDictionary *)handleNaNBugWithData:(NSData *)data
+{
+    NSError *regexError;
+    NSRegularExpression *scientificNotationRegex = [NSRegularExpression regularExpressionWithPattern:@"(\\d+.\\d+e-.\\d+)" options:kNilOptions error:&regexError];
+    if (regexError)
+        return nil;
+    
+    //convert the JSON blob to a string
+    NSMutableString *responseString = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSArray *matches = [scientificNotationRegex matchesInString:responseString options:kNilOptions range:NSMakeRange(0, [responseString length])];
+    
+    //find the offensive numbers
+    NSMutableArray *replacements = [NSMutableArray new];
+    for (NSTextCheckingResult *match in matches) {
+        NSString *subString = [responseString substringWithRange:[match range]];
+        [replacements addObject:subString];
+    }
+    
+    //replace the offensive numbers with innocous placeholders
+    for (int i = 0; i < replacements.count; i++) {
+        NSString *rememberReplacement = [NSString stringWithFormat:@"\"placeHolderAtIndex%d\"", i];
+        responseString = [[responseString stringByReplacingOccurrencesOfString:[replacements objectAtIndex:i] withString:rememberReplacement] copy];
+    }
+    
+    //safely convert JSON to Dictionary
+    NSData *JSONData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *JSONerror;
+    NSMutableDictionary *payload  = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:&JSONerror];
+    if (JSONerror)
+        return nil;
+    
+    NSCharacterSet *letters = [NSCharacterSet letterCharacterSet];
+    NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
+    [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    //re-add the offensive numbers
+    NSUInteger i = 0;
+    for (NSDictionary *result in [[payload objectForKey:@"data"] copy]) {
+        NSString *heat = [result objectForKey:@"heat"];
+        if ([heat respondsToSelector:@selector(hasPrefix:)] && [[result objectForKey:@"heat"] hasPrefix:@"placeHolderAtIndex"]) {
+            NSString *index = [heat stringByTrimmingCharactersInSet:letters];
+            NSString *scientificNotation = [replacements objectAtIndex:[index doubleValue]];
+            NSNumber *offensiveNum = [numFormatter numberFromString:scientificNotation];
+            //everything is getting complicated
+            [[[payload objectForKey:@"data"] objectAtIndex:i] setValue:offensiveNum forKey:@"heat"];
+        }
+        i++;
+    }
+
+    return [NSDictionary dictionaryWithDictionary:payload];
 }
 @end

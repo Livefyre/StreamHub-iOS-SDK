@@ -16,7 +16,6 @@
 #import "Config.h"
 
 @interface LFClientNetworkTests()
-@property (strong, nonatomic) Config *config;
 @property (nonatomic) NSString *event;
 @end
 
@@ -50,17 +49,18 @@
                                  }
                                  failure:^(NSError *error) {
                                      if (error)
-                                         NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                                         NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                      dispatch_semaphore_signal(sema);
                                  }];
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    STAssertEquals([coll count], 4u, @"Collection dictionary should have 4 keys");
+    
+    //Need status code from backend
     self.event = [[coll objectForKey:@"collectionSettings"] objectForKey:@"event"];
-    NSLog(@"Got init bootstrap data");
+    STAssertNotNil(self.event, @"Should have fetched a head document");
 }
 
-- (void)testHeatAPICalls {
+- (void)testHeatAPIResultRetrieval {
     __block NSArray *res;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
@@ -72,13 +72,13 @@
                                                 res = results;
                                                 dispatch_semaphore_signal(sema);
                                             } failure:^(NSError *error) {
-                                                NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                                                NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                                 dispatch_semaphore_signal(sema);
                                             }];
  
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    STAssertEquals([res count], 10u, @"Heat API should return 10 items");
-    NSLog(@"Got trending collections");
+    
+    STAssertNotNil(res, @"Should have returned results");
 }
 
 - (void)testUserDataRetrieval {
@@ -93,14 +93,13 @@
                                          res = results;
                                          dispatch_semaphore_signal(sema);
                                    } failure:^(NSError *error) {
-                                        NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                                        NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                         dispatch_semaphore_signal(sema);
                                    }];
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
 
-    STAssertEquals([res count], 12u, @"User content API should return 12 items");
-    NSLog(@"Got user data");
+    STAssertNotNil(res, @"Should have returned results");
 }
 
 - (void)testUserAuthentication {
@@ -118,14 +117,13 @@
                                          res = gotUserData;
                                          dispatch_semaphore_signal(sema);
                                      } failure:^(NSError *error) {
-                                         NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                                         NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                          dispatch_semaphore_signal(sema);
                                      }];
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    //lazy
+    
     STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
-    NSLog(@"Authenticated user w/ site and article.");
     
     //with collection id
     res = nil;    
@@ -138,14 +136,13 @@
                                          res = gotUserData;
                                          dispatch_semaphore_signal(sema);
                                      } failure:^(NSError *error) {
-                                         NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                                         NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                          dispatch_semaphore_signal(sema);
                                      }];
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    //lazy
+    
     STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
-    NSLog(@"Authenticated user w/ collection.");
 }
 
 - (void)testLikes {
@@ -161,13 +158,13 @@
                            res = content;
                            dispatch_semaphore_signal(sema);
                        } failure:^(NSError *error) {
-                           NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                           NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                            dispatch_semaphore_signal(sema);
                        }];
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+    
     STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
-    NSLog(@"Liiiiiiiked");
     
     res = nil;
     [LFWriteClient unlikeContent:@"26373227"
@@ -178,12 +175,13 @@
                            res = content;
                            dispatch_semaphore_signal(sema);
                        } failure:^(NSError *error) {
-                           NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                           NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                            dispatch_semaphore_signal(sema);
                        }];
+    
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+    
     STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
-    NSLog(@"UnnnnnnnnnLiiiiiiiked");
 }
 
 - (void)testPost {
@@ -201,12 +199,13 @@
                            res = content;
                            dispatch_semaphore_signal(sema);
                        } failure:^(NSError *error) {
-                           NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                           NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                            dispatch_semaphore_signal(sema);
                        }];
+    
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+    
     STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
-    NSLog(@"Successfully posted");
     
     //in reply to
     NSString *parent = @"26373228";
@@ -220,13 +219,14 @@
                            res = content;
                            dispatch_semaphore_signal(sema);
                        } failure:^(NSError *error) {
-                           NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                           NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                            dispatch_semaphore_signal(sema);
                        }];
+    
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+    
     NSString *prent = [[[[[res objectForKey:@"data"] objectForKey:@"messages"] objectAtIndex:0] objectForKey:@"content"] objectForKey:@"parentId"];
     STAssertEqualObjects(prent, parent, @"This response should have been a child.");
-    NSLog(@"Successfully posted in reply");
     
     //share to
 //    ran = arc4random();
@@ -240,7 +240,7 @@
 //                           res = content;
 //                           dispatch_semaphore_signal(sema);
 //                       } failure:^(NSError *error) {
-//                           NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+//                           NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
 //                           dispatch_semaphore_signal(sema);
 //                       }];
 //    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
@@ -250,7 +250,6 @@
 
 - (void)testStream {
     __block NSDictionary *res;
-    //__block NSUInteger trips = 3;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     
     LFStreamClient *streamer = [LFStreamClient new];
@@ -259,11 +258,9 @@
                              onNetwork:[Config objectForKey:@"domain"]
                                success:^(NSDictionary *updates) {
                                    res = updates;
-//                                   trips--;
-//                                   if (trips == 0)
-                                    dispatch_semaphore_signal(sema);
+                                   dispatch_semaphore_signal(sema);
                                } failure:^(NSError *error) {
-                                   NSLog(@"Error code %d, with desciption %@", error.code, [error localizedDescription]);
+                                   NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                    dispatch_semaphore_signal(sema);
                                }];
     
@@ -272,5 +269,4 @@
     
     [streamer stopStreamForCollection:@"10665123"];
 }
-
 @end

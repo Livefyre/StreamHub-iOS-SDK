@@ -9,6 +9,7 @@
 #import "LFStreamClient.h"
 
 static NSString *_stream = @"stream";
+
 static dispatch_queue_t _modify_pollingCollections_queue;
 static dispatch_queue_t modify_pollingCollections_queue() {
     if (_modify_pollingCollections_queue == NULL) 
@@ -18,7 +19,7 @@ static dispatch_queue_t modify_pollingCollections_queue() {
 }
 
 @interface LFStreamClient()
-// TODO, dumber stream client, polling in client.
+// TODO, dumber stream client, polling in client. Better testing.
 @property (strong) NSMutableArray *pollingCollections;
 @end
 
@@ -44,7 +45,13 @@ static dispatch_queue_t modify_pollingCollections_queue() {
                                      success:(void (^)(NSDictionary *))success
                                      failure:(void (^)(NSError *))failure
 {
-    dispatch_async(modify_pollingCollections_queue(), ^{
+    if (!eventId || !collectionId || !networkDomain) {
+        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to start stream."
+                                                                                                 forKey:NSLocalizedDescriptionKey]]);
+        return;
+    }
+    
+    dispatch_sync(modify_pollingCollections_queue(), ^{
         if (![self.pollingCollections containsObject:collectionId])
             [self.pollingCollections addObject:collectionId];
     });
@@ -90,6 +97,7 @@ static dispatch_queue_t modify_pollingCollections_queue() {
     
     //if (payload && [payload objectForKey:@"timeout"]);
     //keep polling
+    //NSLog(@"Polling for collection:%@", collectionId);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [self pollForCollection:collectionId fromEvent:eventId withHost:host withPartialPath:partialPath success:success failure:failure];
     });
@@ -100,5 +108,10 @@ static dispatch_queue_t modify_pollingCollections_queue() {
     dispatch_async(modify_pollingCollections_queue(), ^{
         [self.pollingCollections removeObject:collectionId];
     });
+}
+
+- (NSArray *)getStreamingCollections
+{
+    return [NSArray arrayWithArray:self.pollingCollections];
 }
 @end

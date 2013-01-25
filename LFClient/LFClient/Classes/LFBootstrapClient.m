@@ -19,7 +19,11 @@ static NSString *_bootstrap = @"bootstrap";
                   success:(void (^)(NSDictionary *))success
                   failure:(void (^)(NSError *))failure
 {
-    // https://github.com/Livefyre/livefyre-docs/wiki/StreamHub-API-Reference#wiki-init
+    if (!networkDomain || !siteId || !articleId) {
+        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to call bootstrap init."
+                                                                                                 forKey:NSLocalizedDescriptionKey]]);
+        return;
+    }
     
     NSString *host = [NSString stringWithFormat:@"%@.%@", _bootstrap, networkDomain];
     NSString *path;

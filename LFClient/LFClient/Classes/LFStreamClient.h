@@ -5,6 +5,9 @@
 //  Created by zjj on 1/14/13.
 //  Copyright (c) 2013 Livefyre. All rights reserved.
 //
+#import <Foundation/Foundation.h>
+#import "LFConstants.h"
+#import "LFClientBase.h"
 
 @interface LFStreamClient : LFClientBase
 /**
@@ -26,8 +29,18 @@
 /**
  * Stop polling for updates made to the contents of a collection.
  *
+ * Stop polling happens asynchronously and so there is no gaurantee when it will stop,
+ * only that it will stop before the next server call.
+ *
  * @param collectionId
  * @return void The collection to stop polling for updates.
  */
 - (void)stopStreamForCollection:(NSString *)collectionId;
+
+/**
+ * Get the currently streaming collections on this StreamClient
+ *
+ * @return NSArray
+ */
+- (NSArray *)getStreamingCollections;
 @end

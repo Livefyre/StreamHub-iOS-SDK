@@ -5,6 +5,9 @@
 //  Created by zjj on 1/14/13.
 //  Copyright (c) 2013 Livefyre. All rights reserved.
 //
+#import <Foundation/Foundation.h>
+#import "LFConstants.h"
+#import "LFClientBase.h"
 
 @interface LFPublicAPIClient : LFClientBase
 /** @name Heat Index Trends */
