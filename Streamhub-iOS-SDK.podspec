@@ -1,15 +1,16 @@
 Pod::Spec.new do |s|
-  s.name     = 'Streamhub-iOS-SDk'
+  s.name     = 'Streamhub-iOS-SDK'
   s.version  = '0.2.0'
-  s.license  = 'MIT'
+  s.license  = { :type => 'MIT', :file => 'LICENSE' }
   s.summary  = "A client library for Livefyre's API"
   s.homepage = 'https://github.com/Livefyre/StreamHub-iOS-SDK'
+  s.authors = {"Livefyre" => "livefyre@livefyre.com"}
 
-  s.source   = { :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK' }
+  s.source   = { :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK.git' }
 
-  s.platform = :ios
+  s.platform = :ios, '5.0'
 
-  s.source_files = 'LFClient/LFClient'
+  s.source_files = 'src/LFClient/'
 
   s.prefix_header_contents = <<-EOS
     #ifdef __OBJC__

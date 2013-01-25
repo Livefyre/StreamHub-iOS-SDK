@@ -64,11 +64,11 @@
  * @param body HTML body of the new post.
  * @param userToken The lftoken of the user responsible for this madness(interaction).
  * @param parentId (optional) The post that this is a response to, if applicable.
- * @param shareTos (optional) Where the post will be shared to.
  * @param collectionId Collection to add the post to.
- * @param success (optional) Callback called with a dictionary once the content has
+ * @param networkDomain The collection's network as identified by domain, i.e. livefyre.com.
+ * @param success Callback called with a dictionary once the content has
  * been interacted.
- * @param failure (optional) Callback called with error on a failure to retrieve data.
+ * @param failure Callback called with error on a failure to retrieve data.
  * @return void
  */
 + (void)postContent:(NSString *)body

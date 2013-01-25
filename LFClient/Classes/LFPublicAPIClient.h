@@ -45,7 +45,7 @@
  * @param userId The Id of the user whose content is to be fetched.
  * @param userToken (optional) The lftoken of the user whose content is to be fetched. This parameter is required by default unless the network specifies otherwise.
  * @param networkDomain The network to query agianst as identified by domain, i.e. livefyre.com.
- * @param status (optional) CSV of comment states to return.
+ * @param statuses (optional) CSV of comment states to return.
  * @param offset (optional) Number of results to skip, defaults to 0. 25 items are returned at a time.
  * @param success Callback called with a dictionary after the results data has
  * been retrieved.

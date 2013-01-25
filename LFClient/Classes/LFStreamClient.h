@@ -29,11 +29,11 @@
 /**
  * Stop polling for updates made to the contents of a collection.
  *
- * Stop polling happens asynchronously and so there is no gaurantee when it will stop,
+ * Stopping the stream happens asynchronously and so there is no gaurantee when it will stop,
  * only that it will stop before the next server call.
  *
- * @param collectionId
- * @return void The collection to stop polling for updates.
+ * @param collectionId The collection to stop polling for updates.
+ * @return void 
  */
 - (void)stopStreamForCollection:(NSString *)collectionId;
 

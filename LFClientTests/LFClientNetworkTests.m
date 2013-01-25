@@ -24,7 +24,8 @@
 - (void)setUp
 {
     [super setUp];
-    
+    if (![Config objectForKey:@"domain"])
+        STFail(@"No test settings");
     // Set-up code here.
 }
 
@@ -39,7 +40,7 @@
     __block NSDictionary *coll;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     
-    [LFBootstrapClient getInitForArticle:@"integration test collection 1357158021"
+    [LFBootstrapClient getInitForArticle:[Config objectForKey:@"article"]
                                  forSite:[Config objectForKey:@"site"]
                                onNetwork:[Config objectForKey:@"domain"]
                          withEnvironment:[Config objectForKey:@"environment"]
@@ -84,9 +85,9 @@
 - (void)testUserDataRetrieval {
     __block NSArray *res;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-    [LFPublicAPIClient getUserContentForUser:@"system"
+    [LFPublicAPIClient getUserContentForUser:[Config objectForKey:@"system user"]
                                    withToken:nil
-                                   onNetwork:@"labs-t402.fyre.co"
+                                   onNetwork:[Config objectForKey:@"labs network"]
                                  forStatuses:nil
                                   withOffset:nil
                                      success:^(NSArray *results) {
@@ -110,7 +111,7 @@
     
     [LFAdminClient authenticateUserWithToken:userToken
                                forCollection:nil
-                                  forArticle:@"integration test collection 1357158021"
+                                  forArticle:[Config objectForKey:@"article"]
                                      forSite:[Config objectForKey:@"site"]
                                    onNetwork:[Config objectForKey:@"domain"]
                                      success:^(NSDictionary *gotUserData) {
@@ -128,7 +129,7 @@
     //with collection id
     res = nil;    
     [LFAdminClient authenticateUserWithToken:userToken
-                               forCollection:@"10665123"
+                               forCollection:[Config objectForKey:@"collection"]
                                   forArticle:nil
                                      forSite:nil
                                    onNetwork:[Config objectForKey:@"domain"]
@@ -150,9 +151,9 @@
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     NSString *userToken = [Config objectForKey:@"moderator user auth token"];
 
-    [LFWriteClient likeContent:@"26373227"
+    [LFWriteClient likeContent:[Config objectForKey:@"content"]
                        forUser:userToken
-                  inCollection:@"10665123"
+                  inCollection:[Config objectForKey:@"collection"]
                      onNetwork:[Config objectForKey:@"domain"]
                        success:^(NSDictionary *content) {
                            res = content;
@@ -167,9 +168,9 @@
     STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
     
     res = nil;
-    [LFWriteClient unlikeContent:@"26373227"
+    [LFWriteClient unlikeContent:[Config objectForKey:@"content"]
                        forUser:userToken
-                  inCollection:@"10665123"
+                  inCollection:[Config objectForKey:@"collection"]
                      onNetwork:[Config objectForKey:@"domain"]
                        success:^(NSDictionary *content) {
                            res = content;
@@ -193,7 +194,7 @@
     [LFWriteClient postContent:[NSString stringWithFormat:@"test post, %d", ran]
                        forUser:userToken
                      inReplyTo:nil
-                  inCollection:@"10665123"
+                  inCollection:[Config objectForKey:@"collection"]
                      onNetwork:[Config objectForKey:@"domain"]
                        success:^(NSDictionary *content) {
                            res = content;
@@ -208,12 +209,12 @@
     STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
     
     //in reply to
-    NSString *parent = @"26373228";
+    NSString *parent = [Config objectForKey:@"content"];
     ran = arc4random();
     [LFWriteClient postContent:[NSString stringWithFormat:@"test reply, %d", ran]
                        forUser:userToken
                      inReplyTo:parent
-                  inCollection:@"10665123"
+                  inCollection:[Config objectForKey:@"collection"]
                      onNetwork:[Config objectForKey:@"domain"]
                        success:^(NSDictionary *content) {
                            res = content;
@@ -253,7 +254,7 @@
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     
     LFStreamClient *streamer = [LFStreamClient new];
-    [streamer startStreamForCollection:@"10665123"
+    [streamer startStreamForCollection:[Config objectForKey:@"collection"]
                              fromEvent:@"2648462675" //the past
                              onNetwork:[Config objectForKey:@"domain"]
                                success:^(NSDictionary *updates) {
@@ -267,6 +268,6 @@
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
     NSLog(@"Successfully streamed");
     
-    [streamer stopStreamForCollection:@"10665123"];
+    [streamer stopStreamForCollection:[Config objectForKey:@"collection"]];
 }
 @end

@@ -35,6 +35,7 @@ static NSOperationQueue *_LFQueue;
     NSURL *connectionURL = [[NSURL alloc] initWithScheme:kLFSDKScheme host:host path:path];
     NSMutableURLRequest *connectionReq = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
     [connectionReq setHTTPMethod:httpMethod];
+    [connectionReq setCachePolicy:NSURLRequestReloadRevalidatingCacheData];
     
     if (payload && [httpMethod isEqualToString:@"POST"]) {
         //strip off our beloved question mark
@@ -98,7 +99,7 @@ static NSOperationQueue *_LFQueue;
     return payload;
 }
 
-// When the heat index pipes down floats with many significant digits, NSJSONSerialization interprets them as Nan and throws an exception. We hack around this.
+// When the heat index pipes down floats exceeding 1.0e-128, NSJSONSerialization does not parse them as doubles and throws an exception. We hack around this.
 // TODO optimize
 + (NSDictionary *)handleNaNBugWithData:(NSData *)data
 {
@@ -110,6 +111,9 @@ static NSOperationQueue *_LFQueue;
     //convert the JSON blob to a string
     NSMutableString *responseString = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSArray *matches = [scientificNotationRegex matchesInString:responseString options:kNilOptions range:NSMakeRange(0, [responseString length])];
+    if (!matches.count)
+        //different problem
+        return nil;
     
     //find the offensive numbers
     NSMutableArray *replacements = [NSMutableArray new];
@@ -118,7 +122,7 @@ static NSOperationQueue *_LFQueue;
         [replacements addObject:subString];
     }
     
-    //replace the offensive numbers with innocous placeholders
+    //replace the offensive numbers with innocuous placeholders
     for (int i = 0; i < replacements.count; i++) {
         NSString *rememberReplacement = [NSString stringWithFormat:@"\"placeHolderAtIndex%d\"", i];
         responseString = [[responseString stringByReplacingOccurrencesOfString:[replacements objectAtIndex:i] withString:rememberReplacement] copy];

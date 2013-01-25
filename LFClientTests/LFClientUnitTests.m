@@ -195,4 +195,14 @@
     //dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
     STAssertNil(res, @"Stop stream should stop the stream");
 }
+
+- (void)testFloat
+{
+    NSString *spoofPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"float-test" ofType:@"json"];
+    NSData *responseData = [[NSData alloc] initWithContentsOfFile:spoofPath];
+    NSError *JSONErr;
+    NSDictionary *parsedData = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&JSONErr];
+    STAssertNotNil(parsedData, @"no error");
+    STAssertNil(JSONErr, @"no error");
+}
 @end
