@@ -25,4 +25,4 @@ Make sure you've selected the iOS Emulator as your Device in Xcode
 
 Run the Unit Tests
 
-    Type Comment+'U' to run the unit tests
+    Type Cmd+'U' to run the unit tests
