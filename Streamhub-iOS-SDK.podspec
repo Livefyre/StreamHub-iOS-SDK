@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.platform = :ios, '5.0'
 
-  s.source_files = '/LFClient'
+  s.source_files = 'LFClient/'
 
   s.prefix_header_contents = <<-EOS
     #ifdef __OBJC__

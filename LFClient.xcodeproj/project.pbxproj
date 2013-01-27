@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1C0ADC3216A5DBF000ACC0EA /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0ADC3116A5DBF000ACC0EA /* Config.m */; };
-		1C0ADC3416A5DBFB00ACC0EA /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C0ADC3316A5DBFB00ACC0EA /* TestConfig.plist */; };
 		1C0ADC3916A6238900ACC0EA /* init-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C0ADC3816A6238900ACC0EA /* init-sample.json */; };
 		1C4CC88516A48B3800C33DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4CC88416A48B3800C33DEC /* Foundation.framework */; };
 		1C4CC89416A48B3800C33DEC /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4CC89316A48B3800C33DEC /* SenTestingKit.framework */; };
@@ -77,7 +76,6 @@
 /* Begin PBXFileReference section */
 		1C0ADC3016A5DBF000ACC0EA /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		1C0ADC3116A5DBF000ACC0EA /* Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
-		1C0ADC3316A5DBFB00ACC0EA /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 		1C0ADC3816A6238900ACC0EA /* init-sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "init-sample.json"; sourceTree = "<group>"; };
 		1C4CC88116A48B3800C33DEC /* libLFClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLFClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C4CC88416A48B3800C33DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -198,7 +196,6 @@
 		1C4CC89B16A48B3800C33DEC /* LFClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				1C0ADC3316A5DBFB00ACC0EA /* TestConfig.plist */,
 				1C0ADC3016A5DBF000ACC0EA /* Config.h */,
 				1C0ADC3116A5DBF000ACC0EA /* Config.m */,
 				1CF061FA16B098C500CFA905 /* LFARC4Tests.h */,
@@ -341,7 +338,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C4CC8A016A48B3800C33DEC /* InfoPlist.strings in Resources */,
-				1C0ADC3416A5DBFB00ACC0EA /* TestConfig.plist in Resources */,
 				1C0ADC3916A6238900ACC0EA /* init-sample.json in Resources */,
 				1CF0625616B1BD5B00CFA905 /* like-sample.json in Resources */,
 				1CF0625716B1BD5B00CFA905 /* post-sample.json in Resources */,
