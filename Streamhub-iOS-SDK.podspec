@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/Livefyre/StreamHub-iOS-SDK'
   s.authors = {"Livefyre" => "livefyre@livefyre.com"}
 
-  s.source   = { :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK.git', :tag => "0.1" }
+  s.source   = { :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK.git', :tag => '0.1' }
 
   s.platform = :ios, '5.0'
 
