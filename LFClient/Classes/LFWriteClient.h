@@ -51,10 +51,10 @@
  */
 + (void)likeContent:(NSString *)contentId
             forUser:(NSString *)userToken
-       inCollection:(NSString *)collectionId
-          onNetwork:(NSString *)networkDomain
-            success:(void (^)(NSDictionary *content))success
-            failure:(void (^)(NSError *error))failure;
+         collection:(NSString *)collectionId
+            network:(NSString *)networkDomain
+          onSuccess:(void (^)(NSDictionary *content))success
+          onFailure:(void (^)(NSError *error))failure;
 
 /**
  * Unlike a comment in a collection.
@@ -73,10 +73,10 @@
  */
 + (void)unlikeContent:(NSString *)contentId
               forUser:(NSString *)userToken
-         inCollection:(NSString *)collectionId
-            onNetwork:(NSString *)networkDomain
-              success:(void (^)(NSDictionary *content))success
-              failure:(void (^)(NSError *error))failure;
+           collection:(NSString *)collectionId
+              network:(NSString *)networkDomain
+            onSuccess:(void (^)(NSDictionary *content))success
+            onFailure:(void (^)(NSError *error))failure;
 
 /**
  * Create a new comment in a collection.
@@ -96,8 +96,8 @@
 + (void)postContent:(NSString *)body
             forUser:(NSString *)userToken
           inReplyTo:(NSString *)parentId
-       inCollection:(NSString *)collectionId
-          onNetwork:(NSString *)networkDomain
-            success:(void (^)(NSDictionary *content))success
-            failure:(void (^)(NSError *error))failure;
+      forCollection:(NSString *)collectionId
+            network:(NSString *)networkDomain
+          onSuccess:(void (^)(NSDictionary *content))success
+          onFailure:(void (^)(NSError *error))failure;
 @end

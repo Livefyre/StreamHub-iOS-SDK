@@ -37,7 +37,6 @@
 #import "Config.h"
 
 @interface LFClientUnitTests()
-@property (nonatomic) NSString *event;
 @end
 
 @implementation LFClientUnitTests
@@ -56,41 +55,78 @@
     [super tearDown];
 }
 
-- (void)testBootstrapGetInit {
-    __block NSDictionary *coll;
+- (void)testBootstrapClient {
+    // Get Init
+    __block NSDictionary *bootstrapInitInfo;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     
     [LFBootstrapClient getInitForArticle:@"fakeArticle"
-                                 forSite:@"fakeSite"
-                               onNetwork:@"init-sample"
-                         withEnvironment:nil
-                                 success:^(NSDictionary *collection) {
-                                     coll = collection;
+                                    site:@"fakeSite"
+                                 network:@"init-sample"
+                             environment:nil
+                               onSuccess:^(NSDictionary *collection) {
+                                     bootstrapInitInfo = collection;
                                      dispatch_semaphore_signal(sema);
                                  }
-                                 failure:^(NSError *error) {
+                               onFailure:^(NSError *error) {
                                      if (error)
                                          NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                      dispatch_semaphore_signal(sema);
                                  }];
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    STAssertEquals([coll count], 4u, @"Collection dictionary should have 4 keys");
-    self.event = [[coll objectForKey:@"collectionSettings"] objectForKey:@"event"];
+    STAssertEquals([bootstrapInitInfo count], 4u, @"Collection dictionary should have 4 keys");
+
+    // Get Content
+    __block NSDictionary *contentInfo;
+    sema = dispatch_semaphore_create(0);
+    
+    [LFBootstrapClient getContentForPage:0
+                            withInitInfo:bootstrapInitInfo
+                               onSuccess:^(NSDictionary *content) {
+                                     contentInfo = content;
+                                     dispatch_semaphore_signal(sema);
+                                 }
+                               onFailure:^(NSError *error) {
+                                     if (error)
+                                         NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                                     dispatch_semaphore_signal(sema);
+                                 }];
+    
+    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+    STAssertNotNil(contentInfo, @"Content head document fail");
+    
+    sema = dispatch_semaphore_create(0);
+    
+    [LFBootstrapClient getContentForPage:1
+                            withInitInfo:bootstrapInitInfo
+                               onSuccess:^(NSDictionary *content) {
+                                     contentInfo = content;
+                                     dispatch_semaphore_signal(sema);
+                                 }
+                               onFailure:^(NSError *error) {
+                                     if (error)
+                                         NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                                     dispatch_semaphore_signal(sema);
+                                 }];
+    
+    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+    STAssertNotNil(contentInfo, @"Content fetch fail");
 }
+
 
 - (void)testPublicAPIGetTrending {
     __block NSArray *res;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     
-    [LFPublicAPIClient getTrendingCollectionsForTag:nil
-                                            forSite:nil
-                                          onNetwork:@"hottest-sample"
+    [LFPublicAPIClient getTrendingCollectionsForTag:@"taggy"
+                                               site:@"site"
+                                            network:@"hottest-sample"
                                      desiredResults:10
-                                            success:^(NSArray *results) {
+                                          onSuccess:^(NSArray *results) {
                                                 res = results;
                                                 dispatch_semaphore_signal(sema);
-                                            } failure:^(NSError *error) {
+                                        } onFailure:^(NSError *error) {
                                                 NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                                 dispatch_semaphore_signal(sema);
                                             }];
@@ -105,13 +141,13 @@
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     [LFPublicAPIClient getUserContentForUser:@"fakeUser"
                                    withToken:nil
-                                   onNetwork:@"usercontent-sample"
-                                 forStatuses:nil
-                                  withOffset:nil
-                                     success:^(NSArray *results) {
+                                   forNetwork:@"usercontent-sample"
+                                    statuses:nil
+                                      offset:nil
+                                   onSuccess:^(NSArray *results) {
                                          res = results;
                                          dispatch_semaphore_signal(sema);
-                                     } failure:^(NSError *error) {
+                                } onFailure:^(NSError *error) {
                                          NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                          dispatch_semaphore_signal(sema);
                                      }];
@@ -128,13 +164,13 @@
     
     [LFAdminClient authenticateUserWithToken:@"fakeToken"
                                forCollection:@"fakeColl"
-                                  forArticle:nil
-                                     forSite:nil
-                                   onNetwork:@"auth-sample"
-                                     success:^(NSDictionary *gotUserData) {
+                                     article:nil
+                                        site:nil
+                                     network:@"auth-sample"
+                                   onSuccess:^(NSDictionary *gotUserData) {
                                          res = gotUserData;
                                          dispatch_semaphore_signal(sema);
-                                     } failure:^(NSError *error) {
+                                } onFailure:^(NSError *error) {
                                          NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                                          dispatch_semaphore_signal(sema);
                                      }];
@@ -150,12 +186,12 @@
     
     [LFWriteClient likeContent:@"fakeContent"
                        forUser:@"fakeUserToken"
-                  inCollection:@"fakeColl"
-                     onNetwork:@"like-sample"
-                       success:^(NSDictionary *content) {
+                    collection:@"fakeColl"
+                       network:@"like-sample"
+                     onSuccess:^(NSDictionary *content) {
                            res = content;
                            dispatch_semaphore_signal(sema);
-                       } failure:^(NSError *error) {
+                   } onFailure:^(NSError *error) {
                            NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                            dispatch_semaphore_signal(sema);
                        }];
@@ -173,12 +209,12 @@
     [LFWriteClient postContent:[NSString stringWithFormat:@"test post, %d", ran]
                        forUser:@"fakeUser"
                      inReplyTo:nil
-                  inCollection:@"fakeColl"
-                     onNetwork:@"post-sample"
-                       success:^(NSDictionary *content) {
+                 forCollection:@"fakeColl"
+                       network:@"post-sample"
+                     onSuccess:^(NSDictionary *content) {
                            res = content;
                            dispatch_semaphore_signal(sema);
-                       } failure:^(NSError *error) {
+                   } onFailure:^(NSError *error) {
                            NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
                            dispatch_semaphore_signal(sema);
                        }];
@@ -188,34 +224,34 @@
     STAssertEquals([res count], 3u, @"Post content should return 3 items");
 }
 
-- (void)testStream {
-    __block NSDictionary *res;
-    __block NSUInteger trips = 2;
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-    
-    LFStreamClient *streamer = [LFStreamClient new];
-    [streamer startStreamForCollection:@"fakeColl"
-                             fromEvent:@"fakeId"
-                             onNetwork:@"stream-sample"
-                               success:^(NSDictionary *updates) {
-                                   res = updates;
-                                   trips--;
-                                   if (trips == 0)
-                                       dispatch_semaphore_signal(sema);
-                               } failure:^(NSError *error) {
-                                   NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
-                                   dispatch_semaphore_signal(sema);
-                               }];
-    
-    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    STAssertEquals([res count], 3u, @"Stream should return 3 items");
-    
-    [streamer stopStreamForCollection:@"fakeColl"];
-    res = nil;
-    //Stop stream will stop, but due to async magic there is no gaurantee when it will stop.
-    //dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    STAssertNil(res, @"Stop stream should stop the stream");
-}
+//- (void)testStream {
+//    __block NSDictionary *res;
+//    __block NSUInteger trips = 2;
+//    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+//     
+//    LFStreamClient *streamer = [LFStreamClient new];
+//    [streamer startStreamForCollection:@"fakeColl"
+//                             fromEvent:@"fakeId"
+//                             onNetwork:@"stream-sample"
+//                               success:^(NSDictionary *updates) {
+//                                   res = updates;
+//                                   trips--;
+//                                   if (trips == 0)
+//                                       dispatch_semaphore_signal(sema);
+//                               } failure:^(NSError *error) {
+//                                   NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+//                                   dispatch_semaphore_signal(sema);
+//                               }];
+//    
+//    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+//    STAssertEquals([res count], 3u, @"Stream should return 3 items");
+//    
+//    [streamer stopStreamForCollection:@"fakeColl"];
+//    res = nil;
+//    //Stop stream will stop, but due to async magic there is no gaurantee when it will stop.
+//    //dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+//    STAssertNil(res, @"Stop stream should stop the stream");
+//}
 
 - (void)testFloat
 {

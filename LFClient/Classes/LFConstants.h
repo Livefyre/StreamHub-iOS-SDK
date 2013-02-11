@@ -33,15 +33,22 @@
 @interface LFConstants : NSObject
 extern NSString *const kLFSDKScheme;
 extern NSString *const kLFError;
+//
 extern NSString *const kShareTypeTwitter;
 extern NSString *const kShareTypeFacebook;
 extern NSString *const kShareTypeLinkedin;
+//
 extern NSString *const kCommentStatusActive;
 extern NSString *const kCommentStatusBozo;
 extern NSString *const kCommentStatusPending;
 extern NSString *const kCommentStatusSpam;
 extern NSString *const kCommentStatusHidden;
 extern NSString *const kCommentStatusDeleted;
+//
+extern NSString *const kStreamDomain;
+extern NSString *const kAdminDomain;
+extern NSString *const kBootstrapDomain;
+extern NSString *const kQuillDomain;
 
 enum ContentType {
     // A message posted by a user in reply to an article or another comment.

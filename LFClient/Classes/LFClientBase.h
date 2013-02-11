@@ -36,16 +36,16 @@
 
 // Sends an asynchronous request to the specified resource.
 + (void)requestWithHost:(NSString *)host
-               WithPath:(NSString *)path
-            WithPayload:(NSString *)payload
-             WithMethod:(NSString *)httpMethod
-            WithSuccess:(void (^)(NSDictionary *res))success
-            WithFailure:(void (^)(NSError *))failure;
+                   path:(NSString *)path
+                payload:(NSString *)payload
+                 method:(NSString *)httpMethod
+              onSuccess:(void (^)(NSDictionary *res))success
+              onFailure:(void (^)(NSError *))failure;
 
 // Generic handling of HTTP responses, 
 // handling error reporting and JSON parsing.
 + (NSDictionary *)handleResponse:(NSURLResponse *)resp
-                       WithError:(NSError *)err
-                        WithData:(NSData *)data
-                     WithFailure:(void (^)(NSError *))failure;
+                           error:(NSError *)err
+                            data:(NSData *)data
+                       onFailure:(void (^)(NSError *))failure;
 @end

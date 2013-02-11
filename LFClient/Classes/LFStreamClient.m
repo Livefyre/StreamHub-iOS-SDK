@@ -29,110 +29,46 @@
 
 #import "LFStreamClient.h"
 
-static NSString *_stream = @"stream";
-
-static dispatch_queue_t _modify_pollingCollections_queue;
-static dispatch_queue_t modify_pollingCollections_queue() {
-    if (_modify_pollingCollections_queue == NULL) 
-        _modify_pollingCollections_queue = dispatch_queue_create("com.livefyre.SDK.pollingCollectionsQueue", NULL);
-    
-    return _modify_pollingCollections_queue;
-}
-
-@interface LFStreamClient()
-// TODO, dumber stream client, polling in client. Better testing.
-@property (strong) NSMutableArray *pollingCollections;
-@end
-
 @implementation LFStreamClient
-@synthesize pollingCollections = _pollingCollections;
-
-- (NSMutableArray *)pollingCollections
++ (NSString *)buildStreamEndpointForCollection:(NSString *)collectionId
+                                       network:(NSString *)networkDomain
 {
-    if (!_pollingCollections)
-        _pollingCollections = [[NSMutableArray alloc] init];
+    NSParameterAssert(collectionId != nil);
+    NSParameterAssert(networkDomain != nil);
     
-    return _pollingCollections;
-}
-
-- (void)setPollingCollections:(NSMutableArray *)pollingCollections
-{
-    self.pollingCollections = pollingCollections;
-}
-
-- (void)startStreamForCollection:(NSString *)collectionId
-                                   fromEvent:(NSString *)eventId
-                                   onNetwork:(NSString *)networkDomain
-                                     success:(void (^)(NSDictionary *))success
-                                     failure:(void (^)(NSError *))failure
-{
-    if (!eventId || !collectionId || !networkDomain) {
-        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to start stream."
-                                                                                                 forKey:NSLocalizedDescriptionKey]]);
-        return;
-    }
-    
-    dispatch_sync(modify_pollingCollections_queue(), ^{
-        if (![self.pollingCollections containsObject:collectionId])
-            [self.pollingCollections addObject:collectionId];
-    });
-    NSString *host = [NSString stringWithFormat:@"%@.%@", _stream, networkDomain];
+    NSString *host = [NSString stringWithFormat:@"%@.%@", kStreamDomain, networkDomain];
     NSString *eventlessPath = [NSString stringWithFormat:@"/v3.0/collection/%@/", collectionId];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [self pollForCollection:collectionId fromEvent:eventId withHost:host withPartialPath:eventlessPath success:success failure:failure];;
-    });    
+    return [host stringByAppendingString:eventlessPath];
 }
 
-- (void)pollForCollection:(NSString *)collectionId
-                fromEvent:(NSString *)eventId
-                 withHost:(NSString *)host
-          withPartialPath:(NSString *)partialPath
-                  success:(void (^)(NSDictionary *))success
-                  failure:(void (^)(NSError *))failure
++ (NSDictionary *)pollStreamEndpoint:(NSString *)endpoint
+                               event:(NSString *)eventId
+                             timeout:(NSError *__autoreleasing *)timeout
+                               error:(NSError *__autoreleasing *)error
 {
-    __block BOOL isPolling = YES;
-    dispatch_sync(modify_pollingCollections_queue(), ^{
-        if (![self.pollingCollections containsObject:collectionId])
-            isPolling = NO;
-    });
-    if (!isPolling)
-        return;
+    NSParameterAssert(eventId != nil);
+    NSParameterAssert(endpoint != nil);
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/", partialPath, eventId];
-    NSURL *connectionURL = [[NSURL alloc] initWithScheme:kLFSDKScheme host:host path:path];
-    NSURLRequest *streamReq = [NSURLRequest requestWithURL:connectionURL cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:60.0];
-    NSURLResponse *resp = nil;
-    NSError *err = nil;
+    NSString *eventedEndpoint = [endpoint stringByAppendingString:eventId];
+    NSURL *connectionURL = [[NSURL alloc] initWithString:eventedEndpoint];
+    NSURLRequest *streamReq = [NSURLRequest requestWithURL:connectionURL cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:65.0];
+    NSURLResponse *resp;
+    NSError *requestError;
     
-    NSData *data = [NSURLConnection sendSynchronousRequest:streamReq returningResponse:&resp error:&err];
+    NSData *data = [NSURLConnection sendSynchronousRequest:streamReq returningResponse:&resp error:&requestError];
     //wait
-    NSDictionary *payload = [LFClientBase handleResponse:resp WithError:err WithData:data WithFailure:failure];
-    if (payload && [payload objectForKey:@"data"]) {
-        NSDictionary *newData = [payload objectForKey:@"data"];
-        success(payload);
-        
-        //update the head event
-        eventId = [newData objectForKey:@"maxEventId"];
+    NSDictionary *payload = [LFClientBase handleResponse:resp error:requestError data:data onFailure:^(NSError *failError) {
+        if (failError)
+            // Lots of errors being juggled, the flow is this: requestError-> failError -> paramError.
+            *error = failError;
+    }];
+    if (payload && [payload objectForKey:@"timeout"]) {
+        *timeout = [NSError errorWithDomain:kLFError code:408u userInfo:[NSDictionary dictionaryWithObject:@"Request timed out."
+                                                                                                    forKey:NSLocalizedDescriptionKey]];
     }
+    if (payload && [payload objectForKey:@"data"])
+        return payload;
     
-    //if (payload && [payload objectForKey:@"timeout"]);
-    //keep polling
-    //NSLog(@"Polling for collection:%@", collectionId);
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [self pollForCollection:collectionId fromEvent:eventId withHost:host withPartialPath:partialPath success:success failure:failure];
-    });
-}
-
-- (void)stopStreamForCollection:(NSString *)collectionId
-{
-    dispatch_async(modify_pollingCollections_queue(), ^{
-        [self.pollingCollections removeObject:collectionId];
-    });
-}
-
-- (NSArray *)getStreamingCollections
-{
-    return [NSArray arrayWithArray:self.pollingCollections];
+    return nil;
 }
 @end

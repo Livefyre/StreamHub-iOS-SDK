@@ -47,12 +47,16 @@ static NSOperationQueue *_LFQueue;
 }
 
 + (void)requestWithHost:(NSString *)host
-               WithPath:(NSString *)path
-            WithPayload:(NSString *)payload
-             WithMethod:(NSString *)httpMethod
-            WithSuccess:(void (^)(NSDictionary *res))success
-            WithFailure:(void (^)(NSError *))failure
+                   path:(NSString *)path
+                payload:(NSString *)payload
+                 method:(NSString *)httpMethod
+              onSuccess:(void (^)(NSDictionary *res))success
+              onFailure:(void (^)(NSError *))failure
 {
+    NSParameterAssert(host != nil);
+    NSParameterAssert(path != nil);
+    NSParameterAssert(httpMethod != nil);
+    
     NSURL *connectionURL = [[NSURL alloc] initWithScheme:kLFSDKScheme host:host path:path];
     NSMutableURLRequest *connectionReq = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
     [connectionReq setHTTPMethod:httpMethod];
@@ -66,7 +70,7 @@ static NSOperationQueue *_LFQueue;
     
     [NSURLConnection sendAsynchronousRequest:connectionReq queue:[self LFQueue] completionHandler:^(NSURLResponse *resp, NSData *data, NSError *err) {
         
-        NSDictionary *payload = [self handleResponse:resp WithError:err WithData:data WithFailure:failure];
+        NSDictionary *payload = [self handleResponse:resp error:err data:data onFailure:failure];
         if (payload)
             success(payload);
         
@@ -75,10 +79,12 @@ static NSOperationQueue *_LFQueue;
 }
 
 + (NSDictionary *)handleResponse:(NSURLResponse *)resp
-                       WithError:(NSError *)err
-                        WithData:(NSData *)data
-                     WithFailure:(void (^)(NSError *))failure
+                       error:(NSError *)err
+                        data:(NSData *)data
+                       onFailure:(void (^)(NSError *))failure
 {
+    NSParameterAssert(resp != nil);
+    
     if (err) {
         failure(err);
         return nil;

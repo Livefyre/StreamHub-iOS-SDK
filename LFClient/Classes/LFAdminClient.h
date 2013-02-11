@@ -51,9 +51,9 @@
  */
 + (void)authenticateUserWithToken:(NSString *)userToken
                     forCollection:(NSString *)collectionId
-                       forArticle:(NSString *)articleId
-                          forSite:(NSString *)siteId
-                        onNetwork:(NSString *)networkDomain
-                          success:(void (^)(NSDictionary *userData))success
-                          failure:(void (^)(NSError *error))failure;
+                          article:(NSString *)articleId
+                             site:(NSString *)siteId
+                          network:(NSString *)networkDomain
+                        onSuccess:(void (^)(NSDictionary *userData))success
+                        onFailure:(void (^)(NSError *error))failure;
 @end

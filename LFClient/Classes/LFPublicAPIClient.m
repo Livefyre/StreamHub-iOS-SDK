@@ -30,21 +30,15 @@
 #import "LFPublicAPIClient.h"
 #import "NSString+QueryString.h"
 
-static NSString *_bootstrap = @"bootstrap";
-
 @implementation LFPublicAPIClient
 + (void)getTrendingCollectionsForTag:(NSString *)tag
-                              forSite:(NSString *)siteId
-                           onNetwork:(NSString *)networkDomain
+                                site:(NSString *)siteId
+                             network:(NSString *)networkDomain
                       desiredResults:(NSUInteger)number
-                             success:(void (^)(NSArray *))success
-                             failure:(void (^)(NSError *))failure
+                           onSuccess:(void (^)(NSArray *))success
+                           onFailure:(void (^)(NSError *))failure
 {
-    if (!networkDomain) {
-        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to get trending collections."
-                                                                                                 forKey:NSLocalizedDescriptionKey]]);
-        return;
-    }
+    NSParameterAssert(networkDomain != nil);
     
     NSMutableDictionary *paramsDict = [[NSMutableDictionary alloc] init];
     if (tag)
@@ -55,34 +49,31 @@ static NSString *_bootstrap = @"bootstrap";
         [paramsDict setObject:[NSString stringWithFormat:@"%d", number] forKey:@"number"];
     NSString *queryString = [[NSString alloc] initWithParams:paramsDict];
     
-    NSString *host = [NSString stringWithFormat:@"%@.%@", _bootstrap, networkDomain];
+    NSString *host = [NSString stringWithFormat:@"%@.%@", kBootstrapDomain, networkDomain];
     NSString *path = [NSString stringWithFormat:@"/api/v3.0/hottest/%@", queryString];
     
     [self requestWithHost:host
-                 WithPath:path
-              WithPayload:nil
-               WithMethod:@"GET"
-              WithSuccess:^(NSDictionary *res) {
+                 path:path
+              payload:nil
+               method:@"GET"
+            onSuccess:^(NSDictionary *res) {
                   NSArray *results = [res objectForKey:@"data"];
                   if (results)
                       success(results);
               }
-              WithFailure:failure];
+            onFailure:failure];
 }
-
+ 
 + (void)getUserContentForUser:(NSString *)userId
                     withToken:(NSString *)userToken
-                    onNetwork:(NSString *)networkDomain
-                  forStatuses:(NSArray *)statuses
-                   withOffset:(NSNumber *)offset
-                      success:(void (^)(NSArray *))success
-                      failure:(void (^)(NSError *))failure
+                   forNetwork:(NSString *)networkDomain
+                     statuses:(NSArray *)statuses
+                       offset:(NSNumber *)offset
+                    onSuccess:(void (^)(NSArray *))success
+                    onFailure:(void (^)(NSError *))failure
 {
-    if (!networkDomain || !userId) {
-        failure([NSError errorWithDomain:kLFError code:400u userInfo:[NSDictionary dictionaryWithObject:@"Lacking necessary parameters to get user content."
-                                                                                                 forKey:NSLocalizedDescriptionKey]]);
-        return;
-    }
+    NSParameterAssert(networkDomain != nil);
+    NSParameterAssert(userId != nil);
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     if (userToken)
@@ -93,18 +84,18 @@ static NSString *_bootstrap = @"bootstrap";
         [params setObject:[offset stringValue] forKey:@"offset"];
     NSString *queryString = [[NSString alloc] initWithParams:params];
     
-    NSString *host = [NSString stringWithFormat:@"%@.%@", _bootstrap, networkDomain];
+    NSString *host = [NSString stringWithFormat:@"%@.%@", kBootstrapDomain, networkDomain];
     NSString *path = [NSString stringWithFormat:@"/api/v3.0/author/%@/comments/%@", userId, queryString];
     
     [self requestWithHost:host
-                 WithPath:path
-              WithPayload:nil
-               WithMethod:@"GET"
-              WithSuccess:^(NSDictionary *res) {
+                 path:path
+              payload:nil
+               method:@"GET"
+            onSuccess:^(NSDictionary *res) {
                   NSArray *results = [res objectForKey:@"data"];
                   if (results)
                       success(results);
               }
-              WithFailure:failure];
+            onFailure:failure];
 }
 @end

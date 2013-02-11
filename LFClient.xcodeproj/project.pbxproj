@@ -49,6 +49,10 @@
 		1CF0625C16B1BD7100CFA905 /* hottest-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CF0625B16B1BD7100CFA905 /* hottest-sample.json */; };
 		1CF0625E16B1C5E700CFA905 /* auth-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CF0625D16B1C5E700CFA905 /* auth-sample.json */; };
 		1CF0626916B323D700CFA905 /* float-test.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CF0626816B323D700CFA905 /* float-test.json */; };
+		1CF7064216C32D5D009BD41D /* content-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CF7064116C32D5D009BD41D /* content-sample.json */; };
+		1CF7064516C420CC009BD41D /* LFStreamManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF7064416C420CC009BD41D /* LFStreamManager.m */; };
+		1CF7064616C420CC009BD41D /* LFStreamManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF7064416C420CC009BD41D /* LFStreamManager.m */; };
+		1CF7064816C4E4C0009BD41D /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CF7064716C4E4C0009BD41D /* TestConfig.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +127,10 @@
 		1CF0625B16B1BD7100CFA905 /* hottest-sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "hottest-sample.json"; sourceTree = "<group>"; };
 		1CF0625D16B1C5E700CFA905 /* auth-sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "auth-sample.json"; sourceTree = "<group>"; };
 		1CF0626816B323D700CFA905 /* float-test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "float-test.json"; sourceTree = "<group>"; };
+		1CF7064116C32D5D009BD41D /* content-sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "content-sample.json"; sourceTree = "<group>"; };
+		1CF7064316C420CB009BD41D /* LFStreamManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamManager.h; sourceTree = "<group>"; };
+		1CF7064416C420CC009BD41D /* LFStreamManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFStreamManager.m; sourceTree = "<group>"; };
+		1CF7064716C4E4C0009BD41D /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +222,8 @@
 		1C4CC89C16A48B3800C33DEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1CF7064716C4E4C0009BD41D /* TestConfig.plist */,
+				1CF7064116C32D5D009BD41D /* content-sample.json */,
 				1CF0626816B323D700CFA905 /* float-test.json */,
 				1CF0625D16B1C5E700CFA905 /* auth-sample.json */,
 				1CF0625B16B1BD7100CFA905 /* hottest-sample.json */,
@@ -260,6 +270,8 @@
 				1CF0623B16B0A3A900CFA905 /* LFPublicAPIClient.m */,
 				1CF0623C16B0A3A900CFA905 /* LFStreamClient.h */,
 				1CF0623D16B0A3A900CFA905 /* LFStreamClient.m */,
+				1CF7064316C420CB009BD41D /* LFStreamManager.h */,
+				1CF7064416C420CC009BD41D /* LFStreamManager.m */,
 				1CF0623E16B0A3A900CFA905 /* LFWriteClient.h */,
 				1CF0623F16B0A3A900CFA905 /* LFWriteClient.m */,
 			);
@@ -346,6 +358,8 @@
 				1CF0625C16B1BD7100CFA905 /* hottest-sample.json in Resources */,
 				1CF0625E16B1C5E700CFA905 /* auth-sample.json in Resources */,
 				1CF0626916B323D700CFA905 /* float-test.json in Resources */,
+				1CF7064216C32D5D009BD41D /* content-sample.json in Resources */,
+				1CF7064816C4E4C0009BD41D /* TestConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +399,7 @@
 				1CF0624C16B0A3A900CFA905 /* LFPublicAPIClient.m in Sources */,
 				1CF0624E16B0A3A900CFA905 /* LFStreamClient.m in Sources */,
 				1CF0625016B0A3A900CFA905 /* LFWriteClient.m in Sources */,
+				1CF7064516C420CC009BD41D /* LFStreamManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +424,7 @@
 				1CF0624D16B0A3A900CFA905 /* LFPublicAPIClient.m in Sources */,
 				1CF0624F16B0A3A900CFA905 /* LFStreamClient.m in Sources */,
 				1CF0625116B0A3A900CFA905 /* LFWriteClient.m in Sources */,
+				1CF7064616C420CC009BD41D /* LFStreamManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

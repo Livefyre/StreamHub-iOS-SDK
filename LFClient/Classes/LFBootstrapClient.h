@@ -44,15 +44,31 @@
  * @param siteId The Id of the article's site.
  * @param networkDomain The collection's network as identified by domain, i.e. livefyre.com.
  * @param environment (optional) Where the collection is hosted, i.e. t-402. Used for development/testing purposes.
- * @param success (optional) Callback called with a dictionary after the init data has
+ * @param success Callback called with a dictionary after the init data has
  * been retrieved.
- * @param failure (optional) Callback called with an error after a failure to retrieve data.
+ * @param failure Callback called with an error after a failure to retrieve data.
  * @return void
  */
 + (void)getInitForArticle:(NSString *)articleId
-                  forSite:(NSString *)siteId
-                onNetwork:(NSString *)networkDomain
-          withEnvironment:(NSString *)environment
-                  success:(void (^)(NSDictionary *initData))success
-                  failure:(void (^)(NSError *error))failure;
+                     site:(NSString *)siteId
+                  network:(NSString *)networkDomain
+              environment:(NSString *)environment
+                onSuccess:(void (^)(NSDictionary *initInfo))success
+                onFailure:(void (^)(NSError *error))failure;
+
+/** @name Content Retrieval */
+
+/**
+ * The init data for a collection contains information about that collection's number of pages and where to fetch the content for those pages.
+ * 
+ * @param pageIndex The page to fetch content for. The pages are numbered from zero. If the page index provided is outside the bounds of what the init data knows about the error callback will convey that failure.
+ * @param initInfo A pointer to a bootstrap's init data as returned by the bootstrap init endpoint and parsed from JSON into a dictionary.
+ * @param success Callback called with a dictionary represting the pages content.
+ * @param failure Callback called with an error after a failure to retrieve data.
+ * @return void
+ */
++ (void)getContentForPage:(NSUInteger) pageIndex
+             withInitInfo:(NSDictionary *)initInfo
+                onSuccess:(void (^)(NSDictionary *contentInfo))success
+                onFailure:(void (^)(NSError *error))failure;
 @end

@@ -69,7 +69,7 @@ static NSData *hexStringToBytes(NSString *string) {
     return string;
 }
 
-+ (NSString *)tryToDecodeEref:(NSString *)eref WithKeys:(NSArray *)keys {
++ (NSString *)tryToDecodeEref:(NSString *)eref withKeys:(NSArray *)keys {
     for (NSString *key in keys) {
         NSString *decryptedPath = [self decrypt:eref withKey:key];
         if ([decryptedPath hasPrefix:@"eref://"])

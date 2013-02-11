@@ -3,7 +3,6 @@
 //  LFClient
 //
 //  Created by zjj on 1/14/13.
-//  Copyright (c) 2013 Livefyre. All rights reserved.
 //
 //  Copyright (c) 2013 Livefyre
 //
@@ -34,36 +33,25 @@
 
 @interface LFStreamClient : LFClientBase
 /**
- * Start polling for updates made to the contents of a collection. 
+ * For successive polls, we want to build the stream endpoint once and only update the eventId going forward.
  *
- * @param collectionId The collection to start polling for updates.
- * @param eventId The event identifier of the most recent content that is represented locally.
+ * @param collectionId The collection to stream for.
  * @param networkDomain The collection's network as identified by domain, i.e. livefyre.com.
- * @param success Callback called with a dictionary after new content has been recieved.
- * @param failure Callback called with an error after a failure to retrieve data.
- * @return void
+ * @return NSString The endpoint to poll for stream data.
  */
-- (void)startStreamForCollection:(NSString *)collectionId
-                       fromEvent:(NSString *)eventId
-                       onNetwork:(NSString *)networkDomain
-                         success:(void (^)(NSDictionary *updates))success
-                         failure:(void (^)(NSError *error))failure;
++ (NSString *)buildStreamEndpointForCollection:(NSString *)collectionId
+                                       network:(NSString *)networkDomain;
 
 /**
- * Stop polling for updates made to the contents of a collection.
+ * Long poll for updates made to the contents of a collection.
  *
- * Stopping the stream happens asynchronously and so there is no gaurantee when it will stop,
- * only that it will stop before the next server call.
- *
- * @param collectionId The collection to stop polling for updates.
- * @return void 
+ * Executed synchronously, do not call directly! Also note that a general error is differentiated from a timeout, though both set an error flag. Requests will keep the connection open for about a minute before giving up and setting a timeout.
+ * @param endpoint The streaming HTTP resource.
+ * @param eventId The most recently recieved event head for this stream.
+ * @return NSDictionary The updated eventId of the stream.
  */
-- (void)stopStreamForCollection:(NSString *)collectionId;
-
-/**
- * Get the currently streaming collections on this StreamClient
- *
- * @return NSArray
- */
-- (NSArray *)getStreamingCollections;
++ (NSDictionary *)pollStreamEndpoint:(NSString *)endpoint
+                               event:(NSString *)eventId
+                             timeout:(NSError **)timeout
+                               error:(NSError **) error;
 @end
