@@ -48,6 +48,8 @@
  * Executed synchronously, do not call directly! Also note that a general error is differentiated from a timeout, though both set an error flag. Requests will keep the connection open for about a minute before giving up and setting a timeout.
  * @param endpoint The streaming HTTP resource.
  * @param eventId The most recently recieved event head for this stream.
+ * @param timeout Timeout passed by reference.
+ * @param error Error passed by reference.
  * @return NSDictionary The updated eventId of the stream.
  */
 + (NSDictionary *)pollStreamEndpoint:(NSString *)endpoint
