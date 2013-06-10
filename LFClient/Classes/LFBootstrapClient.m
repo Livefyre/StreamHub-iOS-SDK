@@ -81,9 +81,10 @@
     }
     
     NSString *networkDomain = [initInfo valueForKeyPath:@"collectionSettings.networkId"];
-    NSString *pageUrlKeyPath = [NSString stringWithFormat:@"collectionSettings.archiveInfo.pageInfo.%lu.url", (unsigned long)pageIndex];
+    NSString *pageUrlPathBase = [initInfo valueForKeyPath:@"collectionSettings.archiveInfo.pathBase"];
+
     NSString *host = [NSString stringWithFormat:@"%@.%@", kBootstrapDomain, networkDomain];
-    NSString *path = [NSString stringWithFormat:@"/bs3/%@", [initInfo valueForKeyPath:pageUrlKeyPath]];
+    NSString *path = [NSString stringWithFormat:@"/bs3%@%lu.json", pageUrlPathBase, (unsigned long)pageIndex];
     
     [self requestWithHost:host
                  path:path
