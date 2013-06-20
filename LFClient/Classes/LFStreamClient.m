@@ -38,7 +38,7 @@
     
     NSString *host = [NSString stringWithFormat:@"%@.%@", kStreamDomain, networkDomain];
     NSString *eventlessPath = [NSString stringWithFormat:@"/v3.0/collection/%@/", collectionId];
-    return [host stringByAppendingString:eventlessPath];
+    return [NSString stringWithFormat:@"%@://%@%@", kLFSDKScheme, host, eventlessPath];
 }
 
 + (NSDictionary *)pollStreamEndpoint:(NSString *)endpoint
