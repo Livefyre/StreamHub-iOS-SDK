@@ -44,7 +44,7 @@ NSString *const kCommentStatusSpam = @"spam";
 NSString *const kCommentStatusHidden = @"deleted";
 NSString *const kCommentStatusDeleted = @"hard-deleted";
 // 
-NSString *const kStreamDomain = @"stream";
+NSString *const kStreamDomain = @"stream1";
 NSString *const kAdminDomain = @"admin";
 NSString *const kBootstrapDomain = @"bootstrap";
 NSString *const kQuillDomain = @"quill";
