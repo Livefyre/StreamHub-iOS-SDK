@@ -37,10 +37,12 @@
  *
  * @param collectionId The collection to stream for.
  * @param networkDomain The collection's network as identified by domain, i.e. livefyre.com.
+ * @param stream (optional) A configuration option for stream hosts.
  * @return NSString The endpoint to poll for stream data.
  */
 + (NSString *)buildStreamEndpointForCollection:(NSString *)collectionId
-                                       network:(NSString *)networkDomain;
+                                       network:(NSString *)networkDomain
+                                        stream:(NSString *)streamDomain;
 
 /**
  * Long poll for updates made to the contents of a collection.

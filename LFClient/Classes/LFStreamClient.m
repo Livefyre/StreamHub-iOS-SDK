@@ -32,11 +32,19 @@
 @implementation LFStreamClient
 + (NSString *)buildStreamEndpointForCollection:(NSString *)collectionId
                                        network:(NSString *)networkDomain
+                                        stream:(NSString *)streamDomain
 {
     NSParameterAssert(collectionId != nil);
     NSParameterAssert(networkDomain != nil);
+
+    NSString *stream;
+    if (!streamDomain) {
+        stream = kStreamDomain;
+    } else {
+        stream = streamDomain;
+    }
     
-    NSString *host = [NSString stringWithFormat:@"%@.%@", kStreamDomain, networkDomain];
+    NSString *host = [NSString stringWithFormat:@"%@.%@", stream, networkDomain];
     NSString *eventlessPath = [NSString stringWithFormat:@"/v3.0/collection/%@/", collectionId];
     return [NSString stringWithFormat:@"%@://%@%@", kLFSDKScheme, host, eventlessPath];
 }
