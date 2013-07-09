@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>contentId</string>
+	<key>collection</key>
+	<string>collectionId</string>
+	<key>labs network</key>
+	<string>envName</string>
+	<key>system user</key>
+	<string>username</string>
+	<key>domain</key>
+	<string>domainId</string>
+	<key>domain key</key>
+	<string>domainKey</string>
+	<key>site</key>
+	<string>siteId</string>
+	<key>site key</key>
+	<string>siteKey</string>
+	<key>invalid site</key>
+	<string>notASiteId</string>
+	<key>moderator user</key>
+	<string>moderatorusername</string>
+	<key>moderator user auth token</key>
+	<string>userToken</string>
+	<key>non-moderator user</key>
+	<string>nonmoderatorusername</string>
+	<key>unknown user</key>
+	<string>unknownUserToken</string>
+	<key>existing article</key>
+	<string>articleId</string>
+	<key>nonexistant article</key>
+	<string>notAnArticleId</string>
+	<key>environment</key>
+	<string>envName</string>
+	<key>article</key>
+	<string>articleTitle</string>
+</dict>
+</plist>
