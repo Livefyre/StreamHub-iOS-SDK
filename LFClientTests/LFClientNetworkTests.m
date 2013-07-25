@@ -247,7 +247,7 @@
                        }];
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
-    
+
     NSString *prent = [[[[[res objectForKey:@"data"] objectForKey:@"messages"] objectAtIndex:0] objectForKey:@"content"] objectForKey:@"parentId"];
     STAssertEqualObjects(prent, parent, @"This response should have been a child.");
     
@@ -292,4 +292,28 @@
 //    
 //    [streamer stopStreamForCollection:[Config objectForKey:@"collection"]];
 //}
+
+- (void)testFlag {
+    __block NSDictionary *res;
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+    [LFWriteClient flagContent:[Config objectForKey:@"content"]
+                 forCollection:[Config objectForKey:@"collection"]
+                       network:[Config objectForKey:@"domain"]
+                      withFlag:OFF_TOPIC
+                          user:[Config objectForKey:@"moderator user auth token"]
+                         notes:@"fakeNotes"
+                         email:@"fakeEmail"
+                     onSuccess:^(NSDictionary *opineData) {
+                         res = opineData;
+                         dispatch_semaphore_signal(sema);
+                     } onFailure:^(NSError *error) {
+                         NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                         dispatch_semaphore_signal(sema);
+                     }];
+
+    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+
+    STAssertEqualObjects([res objectForKey:@"status"], @"ok", @"This response should have been ok");
+}
 @end

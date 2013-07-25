@@ -43,7 +43,7 @@
 - (void)setUp
 {
     [super setUp];
-    //Possible testing overkill, but a chance to play with NSURLProtocol
+    //These tests are nominal.
     [NSURLProtocol registerClass:[LFTestingURLProtocol class]];
 }
 
@@ -221,6 +221,30 @@
     
     dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
     
+    STAssertEquals([res count], 3u, @"Post content should return 3 items");
+}
+
+- (void)testFlag {
+    __block NSDictionary *res;
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+    [LFWriteClient flagContent:@"fakeContent"
+                 forCollection:@"fakeCollection"
+                       network:@"flag-sample"
+                      withFlag:OFF_TOPIC
+                          user:@"fakeUser"
+                         notes:@"fakeNotes"
+                         email:@"fakeEmail"
+                     onSuccess:^(NSDictionary *opineData) {
+                         res = opineData;
+                         dispatch_semaphore_signal(sema);
+                     } onFailure:^(NSError *error) {
+                         NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                         dispatch_semaphore_signal(sema);
+                     }];
+
+    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC));
+
     STAssertEquals([res count], 3u, @"Post content should return 3 items");
 }
 

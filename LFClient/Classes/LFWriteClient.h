@@ -100,4 +100,28 @@
             network:(NSString *)networkDomain
           onSuccess:(void (^)(NSDictionary *content))success
           onFailure:(void (^)(NSError *error))failure;
+
+/**
+ * Flag content with one of the flag types.
+ *
+ * @param contentId The is of the content to flag.
+ * @param collectionId The Id of the collection where the content appears.
+ * @param networkDomain The collection's network as identified by domain, i.e. livefyre.com.
+ * @param flagType The flagging action.
+ * @param userToken The user that is taking the flagging action.
+ * @param notes (optional) Any additional comment the user provided.
+ * @param email (optional) The email of the user.
+ * @param success Callback called with a dictionary after the flag was successfully acknowledged.
+ * @param failure Callback called with an error after a failure to post data.
+ * @return void
+ */
++ (void)flagContent:(NSString *)contentId
+      forCollection:(NSString *)collectionId
+            network:(NSString *)networkDomain
+           withFlag:(FlagType)flagType
+               user:(NSString *)userToken
+              notes:(NSString *)notes
+              email:(NSString *)email
+          onSuccess:(void (^)(NSDictionary *opineData))success
+          onFailure:(void (^)(NSError *error))failure;
 @end

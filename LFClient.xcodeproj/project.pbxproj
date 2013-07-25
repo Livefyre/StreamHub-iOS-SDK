@@ -17,6 +17,7 @@
 		1C4CC8A316A48B3800C33DEC /* LFClientNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4CC8A216A48B3800C33DEC /* LFClientNetworkTests.m */; };
 		1C70BC2216CB0AEF006243EA /* livefyre-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C70BC2016CB0AEF006243EA /* livefyre-logo.png */; };
 		1C70BC2316CB0AEF006243EA /* livefyre-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C70BC2116CB0AEF006243EA /* livefyre-logo@2x.png */; };
+		1CD5686E17A05DFC008ECF55 /* flag-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CD5686D17A05DFC008ECF55 /* flag-sample.json */; };
 		1CF061F316B0936F00CFA905 /* LFTestingURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF061F216B0936F00CFA905 /* LFTestingURLProtocol.m */; };
 		1CF061F616B093B500CFA905 /* LFClientUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF061F516B093B500CFA905 /* LFClientUnitTests.m */; };
 		1CF061FC16B098C500CFA905 /* LFARC4Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF061FB16B098C500CFA905 /* LFARC4Tests.m */; };
@@ -90,6 +91,7 @@
 		1C4CC8A216A48B3800C33DEC /* LFClientNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFClientNetworkTests.m; sourceTree = "<group>"; };
 		1C70BC2016CB0AEF006243EA /* livefyre-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "livefyre-logo.png"; path = "Resources/livefyre-logo.png"; sourceTree = "<group>"; };
 		1C70BC2116CB0AEF006243EA /* livefyre-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "livefyre-logo@2x.png"; path = "Resources/livefyre-logo@2x.png"; sourceTree = "<group>"; };
+		1CD5686D17A05DFC008ECF55 /* flag-sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "flag-sample.json"; sourceTree = "<group>"; };
 		1CF061F116B0936F00CFA905 /* LFTestingURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFTestingURLProtocol.h; sourceTree = "<group>"; };
 		1CF061F216B0936F00CFA905 /* LFTestingURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFTestingURLProtocol.m; sourceTree = "<group>"; };
 		1CF061F416B093B500CFA905 /* LFClientUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFClientUnitTests.h; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		1C4CC89C16A48B3800C33DEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1CD5686D17A05DFC008ECF55 /* flag-sample.json */,
 				1CF7064116C32D5D009BD41D /* content-sample.json */,
 				1CF0626816B323D700CFA905 /* float-test.json */,
 				1CF0625D16B1C5E700CFA905 /* auth-sample.json */,
@@ -358,6 +361,7 @@
 				1CF7064216C32D5D009BD41D /* content-sample.json in Resources */,
 				1C70BC2216CB0AEF006243EA /* livefyre-logo.png in Resources */,
 				1C70BC2316CB0AEF006243EA /* livefyre-logo@2x.png in Resources */,
+				1CD5686E17A05DFC008ECF55 /* flag-sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

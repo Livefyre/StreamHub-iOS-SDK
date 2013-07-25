@@ -86,4 +86,11 @@ enum PermissionScope {
     PermissionScopeCollection = 3,
     PermissionScopeCollectionRule = 4
 };
+
+typedef NS_ENUM(NSInteger, FlagType) {
+    OFFENSIVE,
+    SPAM,
+    DISAGREE,
+    OFF_TOPIC
+};
 @end

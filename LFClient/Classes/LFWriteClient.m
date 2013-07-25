@@ -107,4 +107,57 @@
             onSuccess:success
             onFailure:failure];
 }
+
++ (void)flagContent:(NSString *)contentId
+      forCollection:(NSString *)collectionId
+            network:(NSString *)networkDomain
+           withFlag:(FlagType)flagType
+               user:(NSString *)userToken
+              notes:(NSString *)notes
+              email:(NSString *)email
+          onSuccess:(void (^)(NSDictionary *))success
+          onFailure:(void (^)(NSError *))failure
+{
+    NSParameterAssert(contentId != nil);
+    NSParameterAssert(collectionId != nil);
+    NSParameterAssert(networkDomain != nil);
+    NSParameterAssert(userToken != nil);
+
+    NSString *flag = [self adaptFlag:flagType];
+    NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithObjects:@[contentId, collectionId, flag, userToken]
+                                                                        forKeys:@[@"message_id", @"collection_id", @"flag", @"lftoken"]];
+    if (notes)
+        [paramsDict setObject:notes forKey:@"notes"];
+    if (email)
+        [paramsDict setObject:email forKey:@"email"];
+
+    NSString *payload = [[NSString alloc] initWithParams:paramsDict];
+    NSString *host = [NSString stringWithFormat:@"%@.%@", kQuillDomain, networkDomain];
+    NSString *path = [NSString stringWithFormat:@"/api/v3.0/message/%@/flag/%@/", contentId, flag];
+
+    [self requestWithHost:host
+                     path:path
+                  payload:payload
+                   method:@"POST"
+                onSuccess:success
+                onFailure:failure];
+}
+
++ (NSString *)adaptFlag:(FlagType)flagType
+{
+    switch (flagType) {
+        case OFFENSIVE:
+            return @"offensive";
+            break;
+        case SPAM:
+            return @"spam";
+        case DISAGREE:
+            return @"disagree";
+        case OFF_TOPIC:
+            return @"off-topic";
+        default:
+            [NSException raise:@"Unknown flag type" format:@"Unknown flag type: '%d'", flagType];
+            break;
+    }
+}
 @end
