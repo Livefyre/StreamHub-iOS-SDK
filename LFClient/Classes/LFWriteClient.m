@@ -28,7 +28,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 
 #import "LFWriteClient.h"
-#import "NSString+QueryString.h"
+#import "NSDictionary+QueryString.h"
 
 @implementation LFWriteClient
 + (void)likeContent:(NSString *)contentId
@@ -65,7 +65,7 @@
     NSParameterAssert(contentId != nil);
     
     NSDictionary *paramsDict = [NSDictionary dictionaryWithObjects:@[collectionId, userToken] forKeys:@[@"collection_id", @"lftoken"]];
-    NSString *queryString = [[NSString alloc] initWithParams:paramsDict];
+    NSString *payload = [paramsDict queryString];
     
     contentId = [contentId stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *host = [NSString stringWithFormat:@"%@.%@", kQuillDomain, networkDomain];
@@ -73,7 +73,7 @@
 
     [self requestWithHost:host
                  path:path
-              payload:queryString
+              payload:payload
                method:@"POST"
             onSuccess:success
             onFailure:failure];
@@ -96,13 +96,13 @@
     if (parentId)
         [paramsDict setObject:parentId forKey:@"parent_id"];
     
-    NSString *queryString = [[NSString alloc] initWithParams:paramsDict];
+    NSString *payload = [paramsDict queryString];
     NSString *host = [NSString stringWithFormat:@"%@.%@", kQuillDomain, networkDomain];
     NSString *path = [NSString stringWithFormat:@"/api/v3.0/collection/%@/post/", collectionId];
     
     [self requestWithHost:host
                  path:path
-              payload:queryString
+              payload:payload
                method:@"POST"
             onSuccess:success
             onFailure:failure];
@@ -131,7 +131,7 @@
     if (email)
         [paramsDict setObject:email forKey:@"email"];
 
-    NSString *payload = [[NSString alloc] initWithParams:paramsDict];
+    NSString *payload = [paramsDict queryString];
     NSString *host = [NSString stringWithFormat:@"%@.%@", kQuillDomain, networkDomain];
     NSString *path = [NSString stringWithFormat:@"/api/v3.0/message/%@/flag/%@/", contentId, flag];
 

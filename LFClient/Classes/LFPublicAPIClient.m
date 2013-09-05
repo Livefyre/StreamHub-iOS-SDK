@@ -28,7 +28,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 
 #import "LFPublicAPIClient.h"
-#import "NSString+QueryString.h"
+#import "NSDictionary+QueryString.h"
 
 @implementation LFPublicAPIClient
 + (void)getHottestCollectionsForTag:(NSString *)tag
@@ -47,10 +47,10 @@
         [paramsDict setObject:siteId forKey:@"site"];
     if (number)
         [paramsDict setObject:[NSString stringWithFormat:@"%d", number] forKey:@"number"];
-    NSString *queryString = [[NSString alloc] initWithParams:paramsDict];
+    NSString *queryString = [paramsDict queryString];
     
     NSString *host = [NSString stringWithFormat:@"%@.%@", kBootstrapDomain, networkDomain];
-    NSString *path = [NSString stringWithFormat:@"/api/v3.0/hottest/%@", queryString];
+    NSString *path = [NSString stringWithFormat:@"/api/v3.0/hottest/?%@", queryString];
     
     [self requestWithHost:host
                  path:path
@@ -82,10 +82,10 @@
         [params setObject:[statuses componentsJoinedByString:@","] forKey:@"status"];
     if (offset)
         [params setObject:[offset stringValue] forKey:@"offset"];
-    NSString *queryString = [[NSString alloc] initWithParams:params];
+    NSString *queryString = [params queryString];
     
     NSString *host = [NSString stringWithFormat:@"%@.%@", kBootstrapDomain, networkDomain];
-    NSString *path = [NSString stringWithFormat:@"/api/v3.0/author/%@/comments/%@", userId, queryString];
+    NSString *path = [NSString stringWithFormat:@"/api/v3.0/author/%@/comments/?%@", userId, queryString];
     
     [self requestWithHost:host
                  path:path

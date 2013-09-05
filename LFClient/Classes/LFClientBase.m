@@ -57,14 +57,13 @@ static NSOperationQueue *_LFQueue;
     NSParameterAssert(path != nil);
     NSParameterAssert(httpMethod != nil);
     
-    NSURL *connectionURL = [[NSURL alloc] initWithScheme:kLFSDKScheme host:host path:path];
+    NSURL *connectionURL = [[NSURL alloc] initWithString:path relativeToURL:
+                            [[NSURL alloc] initWithScheme:kLFSDKScheme host:host path:@"/"]];
     NSMutableURLRequest *connectionReq = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
     [connectionReq setHTTPMethod:httpMethod];
     [connectionReq setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     
     if (payload && [httpMethod isEqualToString:@"POST"]) {
-        //strip off our beloved question mark
-        payload = [payload substringFromIndex:1];
         [connectionReq setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
     }
     

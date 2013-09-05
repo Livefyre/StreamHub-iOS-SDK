@@ -25,8 +25,6 @@
 		1CF0622716B0A39800CFA905 /* NSDate+Relative.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0622116B0A39800CFA905 /* NSDate+Relative.m */; };
 		1CF0622816B0A39800CFA905 /* NSString+Base64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0622316B0A39800CFA905 /* NSString+Base64Encoding.m */; };
 		1CF0622916B0A39800CFA905 /* NSString+Base64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0622316B0A39800CFA905 /* NSString+Base64Encoding.m */; };
-		1CF0622A16B0A39800CFA905 /* NSString+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0622516B0A39800CFA905 /* NSString+QueryString.m */; };
-		1CF0622B16B0A39800CFA905 /* NSString+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0622516B0A39800CFA905 /* NSString+QueryString.m */; };
 		1CF0624016B0A3A900CFA905 /* LFAdminClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0622E16B0A3A900CFA905 /* LFAdminClient.m */; };
 		1CF0624116B0A3A900CFA905 /* LFAdminClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0622E16B0A3A900CFA905 /* LFAdminClient.m */; };
 		1CF0624216B0A3A900CFA905 /* LFARC4.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0623016B0A3A900CFA905 /* LFARC4.m */; };
@@ -53,6 +51,9 @@
 		1CF0625E16B1C5E700CFA905 /* auth-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CF0625D16B1C5E700CFA905 /* auth-sample.json */; };
 		1CF0626916B323D700CFA905 /* float-test.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CF0626816B323D700CFA905 /* float-test.json */; };
 		1CF7064216C32D5D009BD41D /* content-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CF7064116C32D5D009BD41D /* content-sample.json */; };
+		EF4FE6CD17D904AE0090067C /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4FE6CC17D904AE0090067C /* NSDictionary+QueryString.m */; };
+		EF4FE6CE17D904AE0090067C /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4FE6CC17D904AE0090067C /* NSDictionary+QueryString.m */; };
+		EF4FE6D017D908C40090067C /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF4FE6CF17D908C40090067C /* TestConfig.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,8 +103,6 @@
 		1CF0622116B0A39800CFA905 /* NSDate+Relative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Relative.m"; sourceTree = "<group>"; };
 		1CF0622216B0A39800CFA905 /* NSString+Base64Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64Encoding.h"; sourceTree = "<group>"; };
 		1CF0622316B0A39800CFA905 /* NSString+Base64Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64Encoding.m"; sourceTree = "<group>"; };
-		1CF0622416B0A39800CFA905 /* NSString+QueryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+QueryString.h"; sourceTree = "<group>"; };
-		1CF0622516B0A39800CFA905 /* NSString+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+QueryString.m"; sourceTree = "<group>"; };
 		1CF0622D16B0A3A900CFA905 /* LFAdminClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFAdminClient.h; sourceTree = "<group>"; };
 		1CF0622E16B0A3A900CFA905 /* LFAdminClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFAdminClient.m; sourceTree = "<group>"; };
 		1CF0622F16B0A3A900CFA905 /* LFARC4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFARC4.h; sourceTree = "<group>"; };
@@ -131,6 +130,9 @@
 		1CF0625D16B1C5E700CFA905 /* auth-sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "auth-sample.json"; sourceTree = "<group>"; };
 		1CF0626816B323D700CFA905 /* float-test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "float-test.json"; sourceTree = "<group>"; };
 		1CF7064116C32D5D009BD41D /* content-sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "content-sample.json"; sourceTree = "<group>"; };
+		EF4FE6CB17D904AE0090067C /* NSDictionary+QueryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QueryString.h"; sourceTree = "<group>"; };
+		EF4FE6CC17D904AE0090067C /* NSDictionary+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryString.m"; sourceTree = "<group>"; };
+		EF4FE6CF17D908C40090067C /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 		1C4CC89B16A48B3800C33DEC /* LFClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				EF4FE6CF17D908C40090067C /* TestConfig.plist */,
 				1C0ADC3016A5DBF000ACC0EA /* Config.h */,
 				1C0ADC3116A5DBF000ACC0EA /* Config.m */,
 				1CF061FA16B098C500CFA905 /* LFARC4Tests.h */,
@@ -247,8 +250,8 @@
 				1CF0622116B0A39800CFA905 /* NSDate+Relative.m */,
 				1CF0622216B0A39800CFA905 /* NSString+Base64Encoding.h */,
 				1CF0622316B0A39800CFA905 /* NSString+Base64Encoding.m */,
-				1CF0622416B0A39800CFA905 /* NSString+QueryString.h */,
-				1CF0622516B0A39800CFA905 /* NSString+QueryString.m */,
+				EF4FE6CB17D904AE0090067C /* NSDictionary+QueryString.h */,
+				EF4FE6CC17D904AE0090067C /* NSDictionary+QueryString.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF4FE6D017D908C40090067C /* TestConfig.plist in Resources */,
 				1C4CC8A016A48B3800C33DEC /* InfoPlist.strings in Resources */,
 				1C0ADC3916A6238900ACC0EA /* init-sample.json in Resources */,
 				1CF0625616B1BD5B00CFA905 /* like-sample.json in Resources */,
@@ -391,7 +395,7 @@
 			files = (
 				1CF0622616B0A39800CFA905 /* NSDate+Relative.m in Sources */,
 				1CF0622816B0A39800CFA905 /* NSString+Base64Encoding.m in Sources */,
-				1CF0622A16B0A39800CFA905 /* NSString+QueryString.m in Sources */,
+				EF4FE6CD17D904AE0090067C /* NSDictionary+QueryString.m in Sources */,
 				1CF0624016B0A3A900CFA905 /* LFAdminClient.m in Sources */,
 				1CF0624216B0A3A900CFA905 /* LFARC4.m in Sources */,
 				1CF0624416B0A3A900CFA905 /* LFBootstrapClient.m in Sources */,
@@ -415,13 +419,13 @@
 				1CF061FC16B098C500CFA905 /* LFARC4Tests.m in Sources */,
 				1CF0622716B0A39800CFA905 /* NSDate+Relative.m in Sources */,
 				1CF0622916B0A39800CFA905 /* NSString+Base64Encoding.m in Sources */,
-				1CF0622B16B0A39800CFA905 /* NSString+QueryString.m in Sources */,
 				1CF0624116B0A3A900CFA905 /* LFAdminClient.m in Sources */,
 				1CF0624316B0A3A900CFA905 /* LFARC4.m in Sources */,
 				1CF0624516B0A3A900CFA905 /* LFBootstrapClient.m in Sources */,
 				1CF0624716B0A3A900CFA905 /* LFClient.m in Sources */,
 				1CF0624916B0A3A900CFA905 /* LFClientBase.m in Sources */,
 				1CF0624B16B0A3A900CFA905 /* LFConstants.m in Sources */,
+				EF4FE6CE17D904AE0090067C /* NSDictionary+QueryString.m in Sources */,
 				1CF0624D16B0A3A900CFA905 /* LFPublicAPIClient.m in Sources */,
 				1CF0624F16B0A3A900CFA905 /* LFStreamClient.m in Sources */,
 				1CF0625116B0A3A900CFA905 /* LFWriteClient.m in Sources */,
