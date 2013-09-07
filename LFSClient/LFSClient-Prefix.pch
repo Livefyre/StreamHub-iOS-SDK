@@ -1,0 +1,10 @@
+//
+// Prefix header for all source files of the 'LFSClient' target in the 'LFSClient' project
+//
+// This should make compile times faster while hacking on LFSClient, but for when the project is used in other apps these files are individually imported in the requisite classes.
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+#endif

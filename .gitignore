@@ -16,5 +16,26 @@ profile
 *.moved-aside
 DerivedData
 .idea/
-doc/
-docs/
+
+LFSTestConfig.plist
+*.bak
+*.orig
+
+#CocoaPods
+Pods/
+Podfile.lock
+
+#ctags
+tags
+
+# Vim
+*.swp
+
+# Python
+*.pyc
+
+# Clang dependencies
+*.d
+
+# Our custom build script intermediates
+DerivedData/
