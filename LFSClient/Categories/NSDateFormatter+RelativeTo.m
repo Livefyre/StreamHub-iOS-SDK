@@ -45,7 +45,7 @@
             // year is the same as relativeTo year
             return [NSString stringWithFormat:@"%d %@",
                     [components day],
-                    [months objectAtIndex:[components month]]];
+                    [months objectAtIndex:[components month] - 1]];
         } else {
             // year is different than relativeTo year
             return [NSString stringWithFormat:@"%d %@ %d",

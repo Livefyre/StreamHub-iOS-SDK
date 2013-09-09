@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import <SystemConfiguration/SystemConfiguration.h>
+//#import <MobileCoreServices/MobileCoreServices.h>
 #import "AFNetworkingTests.h"
 #import "LFSBootstrapClient.h"
 #import "LFSJSONRequestOperation.h"

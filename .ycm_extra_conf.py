@@ -105,9 +105,21 @@ flags = [
 '-IPods/Headers',
 '-I{derivedDataPath}/Build/Intermediates/{project}.build/{configuration}-iphonesimulator/{target}.build/DerivedSources/i386',
 '-I{derivedDataPath}/Build/Intermediates/{project}.build/{configuration}-iphonesimulator/{target}.build/DerivedSources',
+
+#'-D__i386__=1',
+
+# for some reason clang complains if we don't throw the below two lines in...
+'-D__arm__=1',
 '-I/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/include',
+
+#'-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include',
+#'-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.0/include',
+#'-I/Applications/Xcode.app/Contents/Developer/usr/lib/llvm-gcc/4.2.1/include',
+'-I/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/usr/include',
+'-I/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/usr/local/include',
 '-F{derivedDataPath}/Build/Products/{configuration}-iphonesimulator',
-'-F/Applications/Xcode.app/Contents/Developer/Library/Frameworks',
+'-F/Applications/Xcode.app/Contents/Developer/Library/Frameworks', # include needed for SenTesting
+'-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/Developer/Library/Frameworks',
 '-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/System/Library/Frameworks',
 '-DNS_BLOCK_ASSERTIONS=1',
 #'-MMD',
