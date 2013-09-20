@@ -9,7 +9,7 @@ For information about the Livefyre API, visit https://github.com/Livefyre/livefy
 
 # Getting Started
 
-## Cocoa Pods
+## Installation: Cocoa Pods
 
 The easiest way to add StreamHub SDK to your project is to use CocoaPods (if you aren't
 using CocoaPods already, you should!). StreamHub SDK does not yet have a spec on CocoaPods.org, 
@@ -17,7 +17,7 @@ so for now just specify Github repository when adding it to your pods. An exampl
 
     platform :ios, :deployment_target => '6.0'
 
-    pod 'StreamHub-iOS-SDK', :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK', :commit => 'bec9627553f454ed3538449ac3d53e0b572a292c'
+    pod 'StreamHub-iOS-SDK', :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK', :commit => '73642375688f1300a6f66021f5e0448cbabd09fe'
 
 Once your Podfile is placed in your app project root, simply run:
 
@@ -26,7 +26,7 @@ Once your Podfile is placed in your app project root, simply run:
 This will download all the dependencies and create a file called `MyApp.xcworkspace` which you should
 use to open your app project in Xcode in the future.
 
-## Subproject
+## Installation: Subproject
 
 Alternatively, clone the repository:
 
@@ -34,6 +34,12 @@ Alternatively, clone the repository:
 
 And then add the Xcode project (LFSClient.xcodeproj) to your app as a subproject (easily done 
 by simply dragging the LFSClient.xcodeproj file into Project Navigator pane in Xcode).
+
+## Xcode Documentation
+
+You can browse the documentation online at http://livefyre.github.com/StreamHub-iOS-SDK/ or you
+can build the "Documentation" target in your Xcode (requires `appledoc` to be installed) on your
+system.
 
 # Requirements
 

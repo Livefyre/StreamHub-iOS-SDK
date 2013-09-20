@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		EFD5603C17ECE7E0000D8DEC /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = EFD5603F17ECE7E0000D8DEC /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				EFD5604217ECE85B000D8DEC /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1C0ADC3916A6238900ACC0EA /* init-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C0ADC3816A6238900ACC0EA /* init-sample.json */; };
 		1C4CC88516A48B3800C33DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4CC88416A48B3800C33DEC /* Foundation.framework */; };
@@ -444,6 +458,7 @@
 			targets = (
 				1C4CC88016A48B3800C33DEC /* LFSClient */,
 				1C4CC89116A48B3800C33DEC /* LFSClientTests */,
+				EFD5603C17ECE7E0000D8DEC /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -516,6 +531,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EFD5604217ECE85B000D8DEC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"StreamHub-iOS-SDK\" \\\n--project-company \"Livefyre\" \\\n--company-id com.livefyre \\\n--exit-threshold 2 \\\n--ignore .m \\\n--docsetutil-path `xcode-select -print-path`/usr/bin/docsetutil \\\n--output \"AppleDoc\" \\\n\"./LFSClient\"";
 		};
 		F907893BB75C4BA08B5E8193 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -726,6 +754,20 @@
 			};
 			name = Release;
 		};
+		EFD5603D17ECE7E0000D8DEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EFD5603E17ECE7E0000D8DEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -755,6 +797,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		EFD5603F17ECE7E0000D8DEC /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFD5603D17ECE7E0000D8DEC /* Debug */,
+				EFD5603E17ECE7E0000D8DEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
