@@ -81,7 +81,7 @@
         return;
     }
     
-    if (pageIndex < 0 || pageIndex >= count) {
+    if (pageIndex < 0 || (NSUInteger)pageIndex >= count) {
         if (failure) {
             // HTTP index code 416 seems to describe range error better than HTTP 400
             NSBlockOperation *opFailure = [[NSBlockOperation alloc] init];

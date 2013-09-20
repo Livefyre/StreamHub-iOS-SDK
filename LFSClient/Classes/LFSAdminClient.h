@@ -21,7 +21,6 @@
  * @param collectionId The Id of the collection to auth against.
  * @param success   Success callback
  * @param failure   Failure callback
- * @return void
  */
 
 - (void)authenticateUserWithToken:(NSString *)userToken
@@ -40,7 +39,6 @@
  * @param articleId The Id of the collection's article.
  * @param success   Success callback
  * @param failure   Failure callback
- * @return void
  */
 
 - (void)authenticateUserWithToken:(NSString *)userToken

@@ -27,8 +27,8 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSString+LFSEref.h"
 #import <CommonCrypto/CommonCryptor.h>
+#import "NSString+LFSEref.h"
 
 static NSData *hexStringToBytes(NSString *string)
 {

@@ -93,9 +93,10 @@ static dispatch_queue_t json_request_operation_processing_queue() {
     else if (![responseJSON respondsToSelector:@selector(objectForKey:)])
     {
         // Payload of wrong type
-        NSString *errorTemplate = @"Response was parsed as type `%@' whereas a dictionary was expected";
-        NSString *errorDescription = [NSString stringWithFormat:errorTemplate,
-                                      NSStringFromClass([responseJSON class])];
+        NSString *errorDescription = 
+            [NSString 
+            stringWithFormat:@"Response was parsed as type `%@' whereas a dictionary was expected",
+            NSStringFromClass([responseJSON class])];
         _responseJSON = nil;
         self.JSONError = [NSError errorWithDomain:NSURLErrorDomain
                                              code:NSURLErrorCannotParseResponse

@@ -31,6 +31,8 @@
 
 @implementation LFSConstants
 
+NSString* const LFSSystemVersion70 = @"7.0";
+
 NSString *const LFSScheme = @"http";
 NSString *const LFSErrorDomain = @"LFSErrorDomain";
 

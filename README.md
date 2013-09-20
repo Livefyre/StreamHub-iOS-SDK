@@ -11,9 +11,9 @@ For information about the Livefyre API, visit https://github.com/Livefyre/livefy
 
 ## Cocoa Pods
 
-The easiest way to install StreamHub SDK into your project is to use CocoaPods (if you aren't
+The easiest way to add StreamHub SDK to your project is to use CocoaPods (if you aren't
 using CocoaPods already, you should!). StreamHub SDK does not yet have a spec on CocoaPods.org, 
-so you should specify Github repository when adding it to your pods. Here is an example Podfile:
+so for now just specify Github repository when adding it to your pods. An example Podfile:
 
     platform :ios, :deployment_target => '6.0'
 

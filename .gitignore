@@ -39,3 +39,6 @@ tags
 
 # Our custom build script intermediates
 DerivedData/
+
+#Experimental stuff
+examples/exp_*

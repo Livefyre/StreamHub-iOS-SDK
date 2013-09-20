@@ -38,9 +38,17 @@ typedef void (^LFHandleBlock) (id responseObject);
 typedef void (^AFSuccessBlock) (AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFFailureBlock) (AFHTTPRequestOperation *operation, NSError *error);
 
+#define LFS_SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define LFS_SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define LFS_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define LFS_SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define LFS_SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
 #endif
 
 @interface LFSConstants : NSObject
+
+extern NSString* const LFSSystemVersion70;
 
 extern NSString *const LFSScheme;
 extern NSString *const LFSErrorDomain;

@@ -23,7 +23,6 @@
  * @param collectionId The collection in which the content appears.
  * @param success      Success callback
  * @param failure      Failure callback
- * @return void
  */
 - (void)postOpinion:(LFSOpinion)action
             forUser:(NSString *)userToken
@@ -44,7 +43,6 @@
  *        @"email" (optional) The email of the user.
  * @param success      Success callback
  * @param failure      Failure callback
- * @return void
  */
 - (void)postFlag:(LFSUserFlag)flag
          forUser:(NSString *)userToken
@@ -65,7 +63,6 @@
  * @param parentId (optional) The post that this is a response to, if applicable.
  * @param success Success callback
  * @param failure Failure callback
- * @return void
  */
 - (void)postNewContent:(NSString *)body
                forUser:(NSString *)userToken
@@ -88,7 +85,6 @@
  * @param tagArray  User-assigned Tag array
  * @param success   Success callback
  * @param failure   Failure callback
- * @return void
  */
 - (void)postNewArticle:(NSString *)articleId
                forSite:(NSString *)siteId

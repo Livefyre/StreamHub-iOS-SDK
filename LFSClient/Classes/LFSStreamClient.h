@@ -13,7 +13,7 @@
 /**
  @property eventId Current streaming URL
  */
-@property (nonatomic, strong, readonly) NSURL *collectionStreamURLString;
+@property (nonatomic, readonly) NSURL *collectionStreamURLString;
 
 /**
  @property eventId current collection Id
@@ -33,7 +33,6 @@
  * @param handler   Callback to handle response data
  * @param success   Success callback (if provided, invalidates handler)
  * @param failure   Failure callback
- * @return void
  */
 
 - (void)setResultHandler:(LFHandleBlock)handler

@@ -16,23 +16,23 @@
 /**
   @property lfEnvironment Environment with which this class instance was initialized
  */
-@property (nonatomic, readonly, strong) NSString* lfEnvironment;
+@property (nonatomic, readonly) NSString* lfEnvironment;
 
 /**
  @property lfNetwork Network with which this class instance was initialized
  */
-@property (nonatomic, readonly, strong) NSString* lfNetwork;
+@property (nonatomic, readonly) NSString* lfNetwork;
 
 /**
  @property subdomain abstract (to be overriden) subdomain of the baseURL
  */
-@property (nonatomic, readonly, strong) NSString *subdomain;
+@property (nonatomic, readonly) NSString *subdomain;
 
 
 /**
  * Initialize Livefyre client
  *
- * @param networkDomain network as identified by domain, i.e. livefyre.com.
+ * @param network network as identified by domain, i.e. livefyre.com.
  * @param environment (optional) Where collection(s) are hosted, i.e. t-402.
  *        Used for development/testing purposes.
  * @return LFSClient instance
@@ -45,7 +45,7 @@
 /**
  * Initialize Livefyre client
  *
- * @param networkDomain network as identified by domain, i.e. livefyre.com.
+ * @param network network as identified by domain, i.e. livefyre.com.
  * @param environment (optional) Where collection(s) are hosted, i.e. t-402.
  *        Used for development/testing purposes.
  * @return LFSClient instance
@@ -58,7 +58,7 @@
  Creates an `LFSJSONRequestOperation` with a `POST` request, and enqueues it to the HTTP client's operation queue.
  Let developer specify the particular parameter encoding to use.
  
- @param path The path to be appended to the HTTP client's base URL and used as the request URL.
+ @param url URL to be used as request URL
  @param parameters The parameters to be encoded and set in the request HTTP body.
  @param parameterEncoding The `AFHTTPClientParameterEncoding` value corresponding to how parameters are encoded into a request body
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the created request operation and the object created from the response data of request.
@@ -80,7 +80,7 @@ parameterEncoding:(AFHTTPClientParameterEncoding)parameterEncoding
  If the HTTP method is `GET`, `HEAD`, or `DELETE`, the parameters will be used to construct a url-encoded query string that is appended to the request's URL. Otherwise, the parameters will be encoded according to the value of the `parameterEncoding` property, and set as the request body.
  
  @param method The HTTP method for the request, such as `GET`, `POST`, `PUT`, or `DELETE`. This parameter must not be `nil`.
- @param path The path to be appended to the HTTP client's base URL and used as the request URL. If `nil`, no path will be appended to the base URL.
+ @param url URL to be used as request URL
  @param parameters The parameters to be either set as a query string for `GET` requests, or the request HTTP body.
  @param parameterEncoding The `AFHTTPClientParameterEncoding` value corresponding to how parameters are encoded into a request body
  

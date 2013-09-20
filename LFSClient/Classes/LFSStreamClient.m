@@ -60,7 +60,7 @@ static const NSString *const kLFSMaxEventId = @"maxEventId";
     if (_collectionStreamURLString != nil) {
         return _collectionStreamURLString;
     } else {
-        NSString *component = [NSString stringWithFormat:@"v3.0/collection/%@", _collectionId];
+        NSString *component = [NSString stringWithFormat:@"v3.0/collection/%@", self.collectionId];
         _collectionStreamURLString = [self.baseURL URLByAppendingPathComponent:component];
         return _collectionStreamURLString;
     }
@@ -103,38 +103,43 @@ static const NSString *const kLFSMaxEventId = @"maxEventId";
         return;
     }
     LFSJSONRequestOperation *op =
-    (LFSJSONRequestOperation *)[self HTTPRequestOperationWithRequest:[self buildRequestWithEventId:eventId]
-                                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                                 
-                                                                 if (self.successBlock) {
-                                                                     self.successBlock(operation, responseObject);
-                                                                 } else {
-                                                                     // if success block is not provided, manually reschedule
-                                                                     // polling
-                                                                     NSDictionary *json = (NSDictionary*)responseObject;
-                                                                     // received data
-                                                                     if (self.resultHandler) {
-                                                                         self.resultHandler(responseObject);
-                                                                     }
-                                                                     NSNumber *maxEventId = [json objectForKey:kLFSMaxEventId];
-                                                                     // issue another request
-                                                                     [self startStreamWithEventId:maxEventId];
-                                                                 }
-                                                             }
-                                                             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                                 
-                                                                 if (self.failureBlock) {
-                                                                     // developer can choose to restart
-                                                                     // by providing a custom failure block
-                                                                     self.failureBlock(operation, error);
-                                                                 } else if (error.domain == NSURLErrorDomain &&
-                                                                            error.code == NSURLErrorTimedOut) {
-                                                                     // time out
-                                                                     [self performSelector:@selector(startStreamWithEventId:)
-                                                                                withObject:eventId
-                                                                                afterDelay:2.0];
-                                                                 }
-                                                             }];
+    (LFSJSONRequestOperation *)[self HTTPRequestOperationWithRequest:
+                                [self buildRequestWithEventId:eventId]
+                                                             success:
+                                ^(AFHTTPRequestOperation *operation, id responseObject)
+                                {
+                                    
+                                    if (self.successBlock) {
+                                        self.successBlock(operation, responseObject);
+                                    } else {
+                                        // if success block is not provided, manually reschedule
+                                        // polling
+                                        NSDictionary *json = (NSDictionary*)responseObject;
+                                        // received data
+                                        if (self.resultHandler) {
+                                            self.resultHandler(responseObject);
+                                        }
+                                        NSNumber *maxEventId = [json objectForKey:kLFSMaxEventId];
+                                        // issue another request
+                                        [self startStreamWithEventId:maxEventId];
+                                    }
+                                }
+                                                             failure:
+                                ^(AFHTTPRequestOperation *operation, NSError *error)
+                                {
+                                    
+                                    if (self.failureBlock) {
+                                        // developer can choose to restart
+                                        // by providing a custom failure block
+                                        self.failureBlock(operation, error);
+                                    } else if (error.domain == NSURLErrorDomain &&
+                                               error.code == NSURLErrorTimedOut) {
+                                        // time out
+                                        [self performSelector:@selector(startStreamWithEventId:)
+                                                   withObject:eventId
+                                                   afterDelay:2.0];
+                                    }
+                                }];
     
     [self enqueueHTTPRequestOperation:op];
 }

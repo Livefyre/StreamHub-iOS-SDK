@@ -37,8 +37,8 @@
 
 /**
  * A method to assist with decoding content erefs using a Livefyre user's key or keys.
+ * Invoked on the eref one attempts to decode.
  *
- * @self   The eref to attempt to decode.
  * @param  keys The keys to apply to the encoded content.
  * @return NSString
  */
@@ -46,8 +46,8 @@
 
 /**
  * A method to assist with decoding Livefyre content ciphers.
+ * Invoked on the cipher text.
  *
- * @self   The cipher text.
  * @param  key The secret key.
  * @return NSString
  */

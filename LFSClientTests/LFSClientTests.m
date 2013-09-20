@@ -22,113 +22,29 @@
 
 #import <SystemConfiguration/SystemConfiguration.h>
 //#import <MobileCoreServices/MobileCoreServices.h>
-#import "AFNetworkingTests.h"
-#import "LFSBootstrapClient.h"
+#import "LFSBaseClient.h"
 #import "LFSJSONRequestOperation.h"
-
-@interface LFSBufferedInputStreamProvider : NSObject <NSStreamDelegate>
-@property (nonatomic, strong) NSData *data;
-@property (nonatomic, strong) NSInputStream *inputStream;
-@property (nonatomic, strong) NSOutputStream *outputStream;
-@property (nonatomic, readonly) NSUInteger bytesWritten;
-
-- (id)initWithData:(NSData *)data;
-@end
-
-#pragma mark - LFBufferedInputStreamProvider
-
-@implementation LFSBufferedInputStreamProvider
-
-- (id)initWithData:(NSData *)data {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    self.data = data;
-
-    CFReadStreamRef readStream;
-    CFWriteStreamRef writeStream;
-    CFStreamCreateBoundPair(NULL, &readStream, &writeStream, 16);
-    
-    self.inputStream = CFBridgingRelease(readStream);
-    
-    self.outputStream = CFBridgingRelease(writeStream);
-    self.outputStream.delegate = self;
-    [self.outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
-    
-    [self.outputStream open];
-
-    return self;
-}
-
-- (void)dealloc {
-    [self cleanup];
-}
-
-- (void)cleanup {
-    [self.outputStream close];
-    self.outputStream.delegate = nil;
-    [self.outputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
-    _outputStream = nil;
-
-    [self.inputStream close];
-    _inputStream = nil;
-}
-
-- (void)writeBytesIfPossible {
-    while ([self.outputStream hasSpaceAvailable] && self.bytesWritten < [self.data length]) {
-        const uint8_t *bytes = [self.data bytes];
-        NSInteger bytesWritten = [self.outputStream write:bytes maxLength:[self.data length] - self.bytesWritten];
-
-        if (bytesWritten < 0) {
-            [self cleanup];
-            return;
-        }
-
-        _bytesWritten += bytesWritten;
-    }
-
-    if (self.bytesWritten >= [self.data length]) {
-        [self cleanup];
-    }
-}
-
-#pragma mark -
-
-- (void)stream:(NSStream *)stream
-   handleEvent:(NSStreamEvent)eventCode
-{
-    if (stream == self.outputStream && (eventCode & NSStreamEventHasSpaceAvailable)) {
-        [self writeBytesIfPossible];
-    } else if (eventCode & NSStreamEventErrorOccurred || eventCode & NSStreamEventEndEncountered) {
-        [self cleanup];
-    }
-}
-
-@end
-
-#pragma mark - Test setup
+#import "AFNetworkingTests.h"
 
 @interface LFSClientTests : SenTestCase
-@property (readwrite, nonatomic, strong) LFSBootstrapClient *client;
+@property (readwrite, nonatomic, strong) LFSBaseClient *client;
 @end
 
 @implementation LFSClientTests
 @synthesize client = _client;
 
 - (void)setUp {
-    self.client = [LFSBootstrapClient clientWithBaseURL:[NSURL URLWithString:AFNetworkingTestsBaseURLString]];
+    self.client = [LFSBaseClient clientWithBaseURL:[NSURL URLWithString:AFNetworkingTestsBaseURLString]];
 }
 
 #pragma mark - Test cases
 
 - (void)testInitRaisesException {
-    expect(^{ (void)[[LFSBootstrapClient alloc] init]; }).to.raiseAny();
+    expect(^{ (void)[[LFSBaseClient alloc] init]; }).to.raiseAny();
 }
 
 - (void)testInitAppendsTerminatingSlashToPath {
-    LFSBootstrapClient *client = [[LFSBootstrapClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://httpbin.org/test"]];
+    LFSBaseClient *client = [[LFSBaseClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://httpbin.org/test"]];
     expect([[client baseURL] absoluteString]).to.equal(@"http://httpbin.org/test/");
 }
 
@@ -150,6 +66,7 @@
     expect(^{ [self.client setDefaultHeader:@"x-some-key" value:nil]; }).toNot.raise(nil);
 }
 
+/* Not testing this for now
 - (void)testReachabilityStatus {
     [Expecta setAsynchronousTestTimeout:5.0];
 
@@ -163,6 +80,7 @@
 
     expect(reachabilityStatus).will.equal(@(AFNetworkReachabilityStatusReachableViaWiFi));
 }
+*/
 
 - (void)testJSONRequestOperationContruction {
     NSMutableURLRequest *request = [self.client requestWithMethod:@"GET" path:@"/path" parameters:nil];
@@ -345,15 +263,13 @@
 }
 
 - (void)testPostWithParameters {
-    [Expecta setAsynchronousTestTimeout:5.0];
-
     __block id blockResponseObject = nil;
     [self.client postPath:@"/post" parameters:@{ @"key": @"value" } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         blockResponseObject = responseObject;
     } failure:nil];
 
     expect([self.client.operationQueue operationCount]).will.equal(0);
-    expect(blockResponseObject).willNot.beNil();
+    expect(blockResponseObject).notTo.beNil();
     expect(blockResponseObject).to.beKindOf([NSData class]);
 
     NSError *error = nil;
@@ -425,7 +341,7 @@
 }
 
 - (void)testMultipartUploadDoesNotFailDueToStreamSentAnEventBeforeBeingOpenedError {
-    NSString *pathToImage = [[NSBundle bundleForClass:[LFSBootstrapClient class]] pathForResource:@"livefyre-logo" ofType:@"png"];
+    NSString *pathToImage = [[NSBundle bundleForClass:[LFSBaseClient class]] pathForResource:@"livefyre-logo" ofType:@"png"];
     NSData *imageData = [NSData dataWithContentsOfFile:pathToImage];
     NSMutableURLRequest *request = [self.client multipartFormRequestWithMethod:@"POST" path:@"/post" parameters:@{ @"foo": @"bar" } constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"icon[image]" fileName:@"livefyre-logo.png" mimeType:@"image/png"];
@@ -436,6 +352,5 @@
     expect(operation.isFinished).will.beTruthy();
     expect(operation.error).notTo.equal(NSURLErrorTimedOut);
 }
-
 
 @end

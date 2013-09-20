@@ -90,6 +90,11 @@ static const NSString* const LFSUserFlagString[] = {
     NSParameterAssert(body != nil);
     NSParameterAssert(collectionId != nil);
     
+    // TODO: figure out whether to use defaults like this throughout
+    if (userToken == nil) {
+        userToken = @"";
+    }
+    
     NSMutableDictionary *parameters =
     [NSMutableDictionary
      dictionaryWithObjects:@[body, userToken]
