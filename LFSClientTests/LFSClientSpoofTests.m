@@ -28,6 +28,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 
 #import <SenTestingKit/SenTestingKit.h>
+#import <AFHTTPRequestOperationLogger/AFHTTPRequestOperationLogger.h>
 
 #import "LFSTestingURLProtocol.h"
 #import "LFSClient.h"
@@ -43,45 +44,26 @@
 @interface LFSClientSpoofTests : SenTestCase
 @end
 
-@interface LFSClientSpoofTests()
-@property (readwrite, nonatomic, strong) LFSBootstrapClient *client;
-@property (readwrite, nonatomic, strong) LFSBootstrapClient *clientHottest;
-@property (readwrite, nonatomic, strong) LFSBootstrapClient *clientUserContent;
-@property (readwrite, nonatomic, strong) LFSAdminClient *clientAdmin;
-@property (readwrite, nonatomic, strong) LFSWriteClient *clientLike;
-@property (readwrite, nonatomic, strong) LFSWriteClient *clientPost;
-@property (readwrite, nonatomic, strong) LFSWriteClient *clientFlag;
-@end
-
 @implementation LFSClientSpoofTests
 - (void)setUp
 {
     [super setUp];
+    
     //These tests are nominal.
     [NSURLProtocol registerClass:[LFSTestingURLProtocol class]];
     
-    self.client = [LFSBootstrapClient clientWithNetwork:@"init-sample" environment:nil ];
-    self.clientHottest = [LFSBootstrapClient clientWithNetwork:@"hottest-sample" environment:nil];
-    self.clientUserContent = [LFSBootstrapClient clientWithNetwork:@"usercontent-sample" environment:nil ];
-    self.clientAdmin = [LFSAdminClient clientWithNetwork:@"usercontent-sample" environment:nil];
-    self.clientLike = [LFSWriteClient clientWithNetwork:@"like-sample" environment:nil ];
-    self.clientPost = [LFSWriteClient clientWithNetwork:@"post-sample" environment:nil ];
-    self.clientFlag = [LFSWriteClient clientWithNetwork:@"flag-sample" environment:nil ];
-    
     // set timeout to 60 seconds
     [Expecta setAsynchronousTestTimeout:60.0f];
+    
+    [[AFHTTPRequestOperationLogger sharedLogger] startLogging];
 }
 
 - (void)tearDown
 {
+    [[AFHTTPRequestOperationLogger sharedLogger] stopLogging];
+    
     // Tear-down code here.
     [NSURLProtocol unregisterClass:[LFSTestingURLProtocol class]];
-    
-    // cancelling all operations just in case (not strictly required)
-    for (NSOperation *operation in self.client.operationQueue.operations) {
-        [operation cancel];
-    }
-    self.client = nil;
     
     [super tearDown];
 }
@@ -94,7 +76,9 @@
     
     // This is the easiest way to use LFHTTPClient
     __block NSDictionary *bootstrapInitInfo = nil;
-    [self.client getInitForSite:@"fakeSite"
+    
+    LFSBootstrapClient *client = [LFSBootstrapClient clientWithNetwork:@"init-sample" environment:nil ];
+    [client getInitForSite:@"fakeSite"
                         article:@"fakeArticle"
                       onSuccess:^(NSOperation *operation, id JSON){
                           op0 = (LFSJSONRequestOperation*)operation;
@@ -119,7 +103,7 @@
     // Get Page 1
     __block NSDictionary *contentInfo1 = nil;
     __block LFSJSONRequestOperation *op1 = nil;
-    [self.client getContentForPage:0
+    [client getContentForPage:0
                          onSuccess:^(NSOperation *operation, id JSON){
                              op1 = (LFSJSONRequestOperation*)operation;
                              contentInfo1 = JSON;
@@ -140,7 +124,7 @@
     // Get Page 2
     __block NSDictionary *contentInfo2 = nil;
     __block LFSJSONRequestOperation *op2 = nil;
-    [self.client getContentForPage:1
+    [client getContentForPage:1
                          onSuccess:^(NSOperation *operation, id JSON){
                              op2 = (LFSJSONRequestOperation*)operation;
                              contentInfo2 = JSON;
@@ -165,18 +149,20 @@
     __block NSArray *result = nil;
     
     // Actual call would look something like this:
-    [self.clientHottest getHottestCollectionsForSite:@"site"
-                                                 tag:@"taggy"
-                                      desiredResults:10u
-                                           onSuccess:^(NSOperation *operation, id responseObject) {
-                                               op = (LFSJSONRequestOperation *)operation;
-                                               result = (NSArray *)responseObject;
-                                           } onFailure:^(NSOperation *operation, NSError *error) {
-                                               op = (LFSJSONRequestOperation *)operation;
-                                               NSLog(@"Error code %d, with description %@",
-                                                     error.code,
-                                                     [error localizedDescription]);
-                                           }];
+    LFSBootstrapClient *clientHottest = [LFSBootstrapClient
+                                         clientWithNetwork:@"hottest-sample" environment:nil];
+    [clientHottest getHottestCollectionsForSite:@"site"
+                                            tag:@"taggy"
+                                 desiredResults:10u
+                                      onSuccess:^(NSOperation *operation, id responseObject) {
+                                          op = (LFSJSONRequestOperation *)operation;
+                                          result = (NSArray *)responseObject;
+                                      } onFailure:^(NSOperation *operation, NSError *error) {
+                                          op = (LFSJSONRequestOperation *)operation;
+                                          NSLog(@"Error code %d, with description %@",
+                                                error.code,
+                                                [error localizedDescription]);
+                                      }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -193,19 +179,20 @@
     __block NSArray *result = nil;
     
     // Actual call would look something like this:
-    [self.clientUserContent getUserContentForUser:@"fakeUser"
-                                            token:nil
-                                         statuses:nil
-                                           offset:nil
-                                        onSuccess:^(NSOperation *operation, id responseObject) {
-                                            op = (LFSJSONRequestOperation *)operation;
-                                            result = (NSArray *)responseObject;
-                                        } onFailure:^(NSOperation *operation, NSError *error) {
-                                            op = (LFSJSONRequestOperation *)operation;
-                                            NSLog(@"Error code %d, with description %@",
-                                                  error.code,
-                                                  [error localizedDescription]);
-                                        }];
+    LFSBootstrapClient *client = [LFSBootstrapClient clientWithNetwork:@"usercontent-sample" environment:nil ];
+    [client getUserContentForUser:@"fakeUser"
+                            token:nil
+                         statuses:nil
+                           offset:nil
+                        onSuccess:^(NSOperation *operation, id responseObject) {
+                            op = (LFSJSONRequestOperation *)operation;
+                            result = (NSArray *)responseObject;
+                        } onFailure:^(NSOperation *operation, NSError *error) {
+                            op = (LFSJSONRequestOperation *)operation;
+                            NSLog(@"Error code %d, with description %@",
+                                  error.code,
+                                  [error localizedDescription]);
+                        }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -223,7 +210,8 @@
     __block id result = nil;
     
     // Actual call would look something like this:
-    [self.clientAdmin authenticateUserWithToken:@"fakeToken"
+    LFSAdminClient *clientAdmin = [LFSAdminClient clientWithNetwork:@"usercontent-sample" environment:nil];
+    [clientAdmin authenticateUserWithToken:@"fakeToken"
                                      collection:@"fakeColl"
                                       onSuccess:^(NSOperation *operation, id responseObject) {
                                           op = (LFSJSONRequestOperation *)operation;
@@ -249,7 +237,8 @@
     __block id result = nil;
     
     // Actual call would look something like this:
-    [self.clientAdmin authenticateUserWithToken:@"fakeToken"
+    LFSAdminClient *clientAdmin = [LFSAdminClient clientWithNetwork:@"usercontent-sample" environment:nil];
+    [clientAdmin authenticateUserWithToken:@"fakeToken"
                                            site:@"fakeSite"
                                         article:@"fakeArticle"
                                       onSuccess:^(NSOperation *operation, id responseObject) {
@@ -277,7 +266,8 @@
     __block id result = nil;
     
     // Actual call would look something like this:
-    [self.clientLike postOpinion:LFSOpinionLike
+    LFSWriteClient *clientLike = [LFSWriteClient clientWithNetwork:@"like-sample" environment:nil ];
+    [clientLike postOpinion:LFSOpinionLike
                          forUser:@"fakeUserToken"
                       forContent:@"fakeContent"
                     inCollection:@"fakeColl"
@@ -308,20 +298,22 @@
     NSString *content = [NSString
                          stringWithFormat:@"test post, %d",
                          arc4random()];
-    [self.clientPost postNewContent:content
-                            forUser:@"fakeUser"
-                      forCollection:@"fakeColl"
-                          inReplyTo:nil
-                          onSuccess:^(NSOperation *operation, id responseObject) {
-                              op = (LFSJSONRequestOperation*)operation;
-                              result = responseObject;
-                          }
-                          onFailure:^(NSOperation *operation, NSError *error) {
-                              op = (LFSJSONRequestOperation*)operation;
-                              NSLog(@"Error code %d, with description %@",
-                                    error.code,
-                                    [error localizedDescription]);
-                          }];
+    
+    LFSWriteClient *clientPost = [LFSWriteClient clientWithNetwork:@"post-sample" environment:nil ];
+    [clientPost postNewContent:content
+                       forUser:@"fakeUser"
+                 forCollection:@"fakeColl"
+                     inReplyTo:nil
+                     onSuccess:^(NSOperation *operation, id responseObject) {
+                         op = (LFSJSONRequestOperation*)operation;
+                         result = responseObject;
+                     }
+                     onFailure:^(NSOperation *operation, NSError *error) {
+                         op = (LFSJSONRequestOperation*)operation;
+                         NSLog(@"Error code %d, with description %@",
+                               error.code,
+                               [error localizedDescription]);
+                     }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -336,21 +328,22 @@
     __block id result = nil;
     
     // Actual call would look something like this:
-    [self.clientFlag postFlag:LFSFlagOfftopic
-                      forUser:@"fakeUserToken"
-                   forContent:@"fakeContent"
-                 inCollection:@"fakeCollection"
-                   parameters:@{@"notes":@"fakeNotes", @"email":@"fakeEmail"}
-                    onSuccess:^(NSOperation *operation, id responseObject) {
-                        op = (LFSJSONRequestOperation*)operation;
-                        result = responseObject;
-                    }
-                    onFailure:^(NSOperation *operation, NSError *error) {
-                        op = (LFSJSONRequestOperation*)operation;
-                        NSLog(@"Error code %d, with description %@",
-                              error.code,
-                              [error localizedDescription]);
-                    }];
+    LFSWriteClient *clientFlag = [LFSWriteClient clientWithNetwork:@"flag-sample" environment:nil ];
+    [clientFlag postFlag:LFSFlagOfftopic
+                 forUser:@"fakeUserToken"
+              forContent:@"fakeContent"
+            inCollection:@"fakeCollection"
+              parameters:@{@"notes":@"fakeNotes", @"email":@"fakeEmail"}
+               onSuccess:^(NSOperation *operation, id responseObject) {
+                   op = (LFSJSONRequestOperation*)operation;
+                   result = responseObject;
+               }
+               onFailure:^(NSOperation *operation, NSError *error) {
+                   op = (LFSJSONRequestOperation*)operation;
+                   NSLog(@"Error code %d, with description %@",
+                         error.code,
+                         [error localizedDescription]);
+               }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();

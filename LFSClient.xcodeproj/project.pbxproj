@@ -543,7 +543,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"StreamHub-iOS-SDK\" \\\n--project-company \"Livefyre\" \\\n--company-id com.livefyre \\\n--exit-threshold 2 \\\n--ignore .m \\\n--docsetutil-path `xcode-select -print-path`/usr/bin/docsetutil \\\n--output \"AppleDoc\" \\\n\"./LFSClient\"";
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"StreamHub-iOS-SDK\" \\\n--project-company \"Livefyre\" \\\n--company-id \"com.livefyre\" \\\n--exit-threshold 2 \\\n--ignore \".m\" \\\n--docsetutil-path `xcode-select -print-path`\"/usr/bin/docsetutil\" \\\n--output \"AppleDoc\" \\\n\"./LFSClient\"\ncp -R `grep Path \"AppleDoc/docset-installed.txt\" | sed 's/^Path: //'`\"/Contents/Resources/Documents/\"* \"gh-pages/\"";
 		};
 		F907893BB75C4BA08B5E8193 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -805,6 +805,7 @@
 				EFD5603E17ECE7E0000D8DEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

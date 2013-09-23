@@ -30,7 +30,7 @@
 - (void)tearDown
 {
     // Tear-down code here.
-
+    [super tearDown];
 }
 
 #pragma mark -

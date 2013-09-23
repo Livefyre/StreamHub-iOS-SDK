@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <AFHTTPRequestOperationLogger/AFHTTPRequestOperationLogger.h>
 //#import <MobileCoreServices/MobileCoreServices.h>
 #import "LFSBaseClient.h"
 #import "LFSJSONRequestOperation.h"
@@ -34,7 +35,15 @@
 @synthesize client = _client;
 
 - (void)setUp {
+    [super setUp];
+    [[AFHTTPRequestOperationLogger sharedLogger] startLogging];
     self.client = [LFSBaseClient clientWithBaseURL:[NSURL URLWithString:AFNetworkingTestsBaseURLString]];
+}
+
+- (void)tearDown {
+    [[AFHTTPRequestOperationLogger sharedLogger] stopLogging];
+    self.client = nil;
+    [super tearDown];
 }
 
 #pragma mark - Test cases
@@ -160,6 +169,7 @@
     expect(batchCallbackTime).beGreaterThan(secondCallbackTime);
 }
 
+/* not testing this for now
 - (void)testAuthorizationHeaderWithInvalidUsernamePassword {
     [Expecta setAsynchronousTestTimeout:5.0];
 
@@ -170,6 +180,7 @@
 
     expect(response.statusCode).will.equal(401);
 }
+*/
 
 - (void)testAuthorizationHeaderWithValidUsernamePassword {
     [Expecta setAsynchronousTestTimeout:5.0];

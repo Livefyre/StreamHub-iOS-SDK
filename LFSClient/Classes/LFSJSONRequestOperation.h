@@ -17,9 +17,13 @@
  By default, `LFJSONRequestOperation` accepts the following MIME types, which includes the official standard, `application/json`, as well as other commonly-used types:
  
  - `application/json`
+ - `application/javascript`
+ - `application/x-javascript`
  - `text/json`
- 
- @warning JSON parsing will use the built-in `NSJSONSerialization` class.
+ - `text/javascript`
+ - `text/x-javascript`
+
+ @note JSON parsing will use a modified copy of `JSONKit`. Numbers that over- or underflow their representing types will be truncated to their corresponding uppper or lower type bounds, respectively.
  */
 @interface LFSJSONRequestOperation : AFHTTPRequestOperation
 
