@@ -115,7 +115,7 @@ typedef NS_ENUM(NSUInteger, LFSContentSource) {
     LFSContentSourceFlickr,
     LFSContentSourceYouTube,
     LFSContentSourceRSS,
-    LFSContentInstagram
+    LFSContentSourceInstagram
 };
 
 @end
