@@ -11,19 +11,28 @@ def DirectoryOfThisScript():
     return os.path.dirname(os.path.abspath(__file__))
 
 
-def ParamArray(prefix, args):
-    # given a list of tuples (parameters and their values), return
-    # a flattened list generator of items with prefix string prepended
-    # to the first element of each tuple
+def PrefixAllKeys(prefix, args):
+    # given a list of tuples where 1st element is a key and 2nd elment is a
+    # value, prefix all keys with a particular prefix string
     return (arg for t in args for arg in [prefix + t[0], t[1]])
 
 
-def FilterOut(keys, args):
-    # take a list of tuples as second argument and return a list
-    # generator of tuples that does not contain any tuples whose
-    # first element matches any element fo the key list
-    pattern = '^(' + '|'.join(re.escape(key) for key in keys) + ')$'
+def DropPairs(forKeys, args):
+    # given a list of tuples where 1st element is a key and 2nd element is a
+    # value, drop all tuples whose keys match thos in the dropKeys list
+    pattern = '^(' + '|'.join(re.escape(key) for key in forKeys) + ')$'
     return (t for t in args if not re.match(pattern, t[0]))
+
+
+def PrefixPaths(forKeys, root, args):
+    # given a list of tuples where 1st element is a key and 2nd element is a
+    # value, prefix those values which correspond to keys in forKeys list
+    pattern = '^(' + '|'.join(re.escape(key) for key in forKeys) + ')$'
+    for t in args:
+        if (re.match(pattern, t[0]) and not os.path.isabs(t[1])):
+            yield (t[0], os.path.join(root, t[1]))
+        else:
+            yield t
 
 
 def main():
@@ -34,6 +43,7 @@ def main():
     workspace_option = 'workspace'
     workspace_suffix = '.xcworkspace'
     skip_keys = ['target', 'project', 'product']
+    path_keys = ['workspace', 'derivedDataPath']
     script_dir = DirectoryOfThisScript()
 
     config_path = os.path.join(script_dir, '.ycm_extra_conf.cfg')
@@ -66,7 +76,9 @@ def main():
             options = dict(config.items(section))
             workspace_name = options[workspace_option]
             options[workspace_option] = workspace_name + workspace_suffix
-            param = ParamArray('-', FilterOut(skip_keys, options.items()))
+            param = PrefixAllKeys('-',
+                        PrefixPaths(path_keys, os.path.join(script_dir, ''),
+                            DropPairs(skip_keys, options.items())))
             subprocess.call([executable] + list(param))
 
 

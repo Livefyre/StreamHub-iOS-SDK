@@ -78,7 +78,9 @@ typedef NS_ENUM(NSUInteger, LFSUserFlag) {
 typedef NS_ENUM(NSUInteger, LFSContentType) {
     LFSContentTypeMessage = 0u, //A message posted by a user in reply to an article or another comment
     LFSContentTypeOpine, // An opinion from a user indicating that they like a comment or an embed
-    LFSContentTypeEmbed // An embedded image which is part of a comment
+    LFSContentTypeShare, //Unused?
+    LFSContentTypeOEmbed, // An embedded image which is part of a comment
+    LFSContentTypeStruct //A primitive structure which the engine treats as an opaque object.
 };
 
 typedef NS_ENUM(NSUInteger, LFSContentVisibility) {
@@ -103,6 +105,17 @@ typedef NS_ENUM(NSUInteger, LFSPermissionScope) {
     LFSPermissionScopeSite,
     LFSPermissionScopeCollection,
     LFSPermissionScopeCollectionRule
+};
+
+typedef NS_ENUM(NSUInteger, LFSContentSource) {
+    LFSContentSourceLivefyre = 0u,
+    LFSContentSourceTwitter,
+    LFSContentSourceFacebook,
+    LFSContentSourceGooglePlus,
+    LFSContentSourceFlickr,
+    LFSContentSourceYouTube,
+    LFSContentSourceRSS,
+    LFSContentInstagram
 };
 
 @end
