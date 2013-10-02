@@ -25,7 +25,7 @@
     NSTimeInterval diffSs = [anotherDate timeIntervalSinceDate:date];
     if (diffSs < 0) {
         // Future
-        return @"";
+        return @"0s";
     } else if (diffSs < 60) {
         // Less than 60s ago -> e.g. 5s
         return [NSString stringWithFormat:@"%ds", (int)diffSs];
@@ -66,7 +66,7 @@
     NSTimeInterval diffSs = [anotherDate timeIntervalSinceDate:date];
     if (diffSs < 0) {
         // Future
-        return @"";
+        return @"Posted 0s ago";
     } else if (diffSs < 60) {
         // Less than 60s ago -> e.g. 5s
         return [NSString stringWithFormat:@"Posted %ds ago", (int)diffSs];

@@ -37,7 +37,7 @@
     NSDate *date = [NSDate distantFuture];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setCalendar:[NSCalendar currentCalendar]];
-    expect([formatter relativeStringFromDate:date]).to.equal(@"");
+    expect([formatter relativeStringFromDate:date]).to.equal(@"0s");
 }
 
 - (void)testPast

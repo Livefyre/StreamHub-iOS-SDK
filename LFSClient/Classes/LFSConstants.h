@@ -73,8 +73,6 @@ typedef NS_ENUM(NSUInteger, LFSUserFlag) {
     LFSFlagOfftopic
 };
 
-// Not used for now...
-
 typedef NS_ENUM(NSUInteger, LFSContentType) {
     LFSContentTypeMessage = 0u, //A message posted by a user in reply to an article or another comment
     LFSContentTypeOpine, // An opinion from a user indicating that they like a comment or an embed
