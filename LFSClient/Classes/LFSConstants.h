@@ -60,19 +60,21 @@ extern NSString *const LFSNetworkSettings;
 extern NSString *const LFSSiteSettings;
 
 // user content preferences (like, unlike, etc)
-typedef NS_ENUM(NSUInteger, LFSOpinion) {
-    LFSOpinionLike = 0u,
-    LFSOpinionUnlike
+typedef NS_ENUM(NSUInteger, LFSOpine) {
+    LFSOpineLike = 0u,
+    LFSOpineUnlike
 };
 
 // moderator content flags
+// https://github.com/Livefyre/lfdj/blob/production/lfwrite/lfwrite/api/v3_0/msg/opine.py#L168
 typedef NS_ENUM(NSUInteger, LFSUserFlag) {
-    LFSFlagOffensive = 0u,
-    LFSFlagSpam,
+    LFSFlagSpam = 0u,
+    LFSFlagOffensive,
     LFSFlagDisagree,
     LFSFlagOfftopic
 };
 
+// https://github.com/Livefyre/lfdj/blob/production/lfcore/lfcore/v2/publishing/models.proto#L74
 typedef NS_ENUM(NSUInteger, LFSContentType) {
     LFSContentTypeMessage = 0u, //A message posted by a user in reply to an article or another comment
     LFSContentTypeOpine, // An opinion from a user indicating that they like a comment or an embed
@@ -81,6 +83,7 @@ typedef NS_ENUM(NSUInteger, LFSContentType) {
     LFSContentTypeStruct //A primitive structure which the engine treats as an opaque object.
 };
 
+// https://github.com/Livefyre/lfdj/blob/rc/lfcore/lfcore/v2/fulfillment/bootstrap/models.proto#L106
 typedef NS_ENUM(NSUInteger, LFSContentVisibility) {
     LFSContentVisibilityNone = 0u, //content is visible to no one, usually due to being deleted
     LFSContentVisibilityEveryone, //content is visible to everyone
@@ -89,6 +92,7 @@ typedef NS_ENUM(NSUInteger, LFSContentVisibility) {
     // collection, usually meaning that it's waiting for approval
 };
 
+// https://github.com/Livefyre/lfdj/blob/production/lfcore/lfcore/v2/publishing/models.proto#L179
 typedef NS_ENUM(NSUInteger, LFSPermission) {
     LFSPermissionNone = 0u,
     LFSPermissionWhitelist,
@@ -97,6 +101,7 @@ typedef NS_ENUM(NSUInteger, LFSPermission) {
     LFSPermissionModerator
 };
 
+// https://github.com/Livefyre/lfdj/blob/production/lfcore/lfcore/v2/util/models.proto#L21
 typedef NS_ENUM(NSUInteger, LFSPermissionScope) {
     LFSPermissionScopeGlobal = 0u,
     LFSPermissionScopeNetwork,
@@ -105,15 +110,5 @@ typedef NS_ENUM(NSUInteger, LFSPermissionScope) {
     LFSPermissionScopeCollectionRule
 };
 
-typedef NS_ENUM(NSUInteger, LFSContentSource) {
-    LFSContentSourceLivefyre = 0u,
-    LFSContentSourceTwitter,
-    LFSContentSourceFacebook,
-    LFSContentSourceGooglePlus,
-    LFSContentSourceFlickr,
-    LFSContentSourceYouTube,
-    LFSContentSourceRSS,
-    LFSContentSourceInstagram
-};
 
 @end

@@ -17,14 +17,14 @@
  * The comment must be in a collection the user is authenticated for and it must have been posted by a
  * different user. Trying to like things other than comments may have odd results.
  *
- * @param action       One of the following: LFSOpinionLike, LFSOpinionUnlike
+ * @param action       One of the following: LFSOpineLike, LFSOpineUnlike
  * @param userToken    JWT-encoded user token
  * @param contentId    id of content which is being liked/unliked
  * @param collectionId The collection in which the content appears.
  * @param success      Success callback
  * @param failure      Failure callback
  */
-- (void)postOpinion:(LFSOpinion)action
+- (void)postOpinion:(LFSOpine)action
             forUser:(NSString *)userToken
          forContent:(NSString *)contentId
        inCollection:(NSString *)collectionId

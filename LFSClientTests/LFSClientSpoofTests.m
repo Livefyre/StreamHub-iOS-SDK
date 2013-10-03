@@ -79,17 +79,17 @@
     
     LFSBootstrapClient *client = [LFSBootstrapClient clientWithNetwork:@"init-sample" environment:nil ];
     [client getInitForSite:@"fakeSite"
-                        article:@"fakeArticle"
-                      onSuccess:^(NSOperation *operation, id JSON){
-                          op0 = (LFSJSONRequestOperation*)operation;
-                          bootstrapInitInfo = JSON;
-                      }
-                      onFailure:^(NSOperation *operation, NSError *error) {
-                          op0 = (LFSJSONRequestOperation*)operation;
-                          NSLog(@"Error code %d, with description %@",
-                                error.code,
-                                [error localizedDescription]);
-                      }
+                   article:@"fakeArticle"
+                 onSuccess:^(NSOperation *operation, id JSON){
+                     op0 = (LFSJSONRequestOperation*)operation;
+                     bootstrapInitInfo = JSON;
+                 }
+                 onFailure:^(NSOperation *operation, NSError *error) {
+                     op0 = (LFSJSONRequestOperation*)operation;
+                     NSLog(@"Error code %d, with description %@",
+                           error.code,
+                           [error localizedDescription]);
+                 }
      ];
     
     // Wait 'til done and then verify that everything is OK
@@ -104,16 +104,16 @@
     __block NSDictionary *contentInfo1 = nil;
     __block LFSJSONRequestOperation *op1 = nil;
     [client getContentForPage:0
-                         onSuccess:^(NSOperation *operation, id JSON){
-                             op1 = (LFSJSONRequestOperation*)operation;
-                             contentInfo1 = JSON;
-                         }
-                         onFailure:^(NSOperation *operation, NSError *error) {
-                             op1 = (LFSJSONRequestOperation*)operation;
-                             NSLog(@"Error code %d, with description %@",
-                                   error.code,
-                                   [error localizedDescription]);
-                         }];
+                    onSuccess:^(NSOperation *operation, id JSON){
+                        op1 = (LFSJSONRequestOperation*)operation;
+                        contentInfo1 = JSON;
+                    }
+                    onFailure:^(NSOperation *operation, NSError *error) {
+                        op1 = (LFSJSONRequestOperation*)operation;
+                        NSLog(@"Error code %d, with description %@",
+                              error.code,
+                              [error localizedDescription]);
+                    }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op1.isFinished).will.beTruthy();
@@ -125,16 +125,16 @@
     __block NSDictionary *contentInfo2 = nil;
     __block LFSJSONRequestOperation *op2 = nil;
     [client getContentForPage:1
-                         onSuccess:^(NSOperation *operation, id JSON){
-                             op2 = (LFSJSONRequestOperation*)operation;
-                             contentInfo2 = JSON;
-                         }
-                         onFailure:^(NSOperation *operation, NSError *error) {
-                             op2 = (LFSJSONRequestOperation*)operation;
-                             NSLog(@"Error code %d, with description %@",
-                                   error.code,
-                                   [error localizedDescription]);
-                         }];
+                    onSuccess:^(NSOperation *operation, id JSON){
+                        op2 = (LFSJSONRequestOperation*)operation;
+                        contentInfo2 = JSON;
+                    }
+                    onFailure:^(NSOperation *operation, NSError *error) {
+                        op2 = (LFSJSONRequestOperation*)operation;
+                        NSLog(@"Error code %d, with description %@",
+                              error.code,
+                              [error localizedDescription]);
+                    }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op2.isFinished).will.beTruthy();
@@ -212,17 +212,17 @@
     // Actual call would look something like this:
     LFSAdminClient *clientAdmin = [LFSAdminClient clientWithNetwork:@"usercontent-sample" environment:nil];
     [clientAdmin authenticateUserWithToken:@"fakeToken"
-                                     collection:@"fakeColl"
-                                      onSuccess:^(NSOperation *operation, id responseObject) {
-                                          op = (LFSJSONRequestOperation *)operation;
-                                          result = (NSArray *)responseObject;
-                                      }
-                                      onFailure:^(NSOperation *operation, NSError *error) {
-                                          op = (LFSJSONRequestOperation *)operation;
-                                          NSLog(@"Error code %d, with description %@",
-                                                error.code,
-                                                [error localizedDescription]);
-                                      }];
+                                collection:@"fakeColl"
+                                 onSuccess:^(NSOperation *operation, id responseObject) {
+                                     op = (LFSJSONRequestOperation *)operation;
+                                     result = (NSArray *)responseObject;
+                                 }
+                                 onFailure:^(NSOperation *operation, NSError *error) {
+                                     op = (LFSJSONRequestOperation *)operation;
+                                     NSLog(@"Error code %d, with description %@",
+                                           error.code,
+                                           [error localizedDescription]);
+                                 }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -239,18 +239,18 @@
     // Actual call would look something like this:
     LFSAdminClient *clientAdmin = [LFSAdminClient clientWithNetwork:@"usercontent-sample" environment:nil];
     [clientAdmin authenticateUserWithToken:@"fakeToken"
-                                           site:@"fakeSite"
-                                        article:@"fakeArticle"
-                                      onSuccess:^(NSOperation *operation, id responseObject) {
-                                          op = (LFSJSONRequestOperation *)operation;
-                                          result = (NSArray *)responseObject;
-                                      }
-                                      onFailure:^(NSOperation *operation, NSError *error) {
-                                          op = (LFSJSONRequestOperation *)operation;
-                                          NSLog(@"Error code %d, with description %@",
-                                                error.code,
-                                                [error localizedDescription]);
-                                      }];
+                                      site:@"fakeSite"
+                                   article:@"fakeArticle"
+                                 onSuccess:^(NSOperation *operation, id responseObject) {
+                                     op = (LFSJSONRequestOperation *)operation;
+                                     result = (NSArray *)responseObject;
+                                 }
+                                 onFailure:^(NSOperation *operation, NSError *error) {
+                                     op = (LFSJSONRequestOperation *)operation;
+                                     NSLog(@"Error code %d, with description %@",
+                                           error.code,
+                                           [error localizedDescription]);
+                                 }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -267,20 +267,20 @@
     
     // Actual call would look something like this:
     LFSWriteClient *clientLike = [LFSWriteClient clientWithNetwork:@"like-sample" environment:nil ];
-    [clientLike postOpinion:LFSOpinionLike
-                         forUser:@"fakeUserToken"
-                      forContent:@"fakeContent"
-                    inCollection:@"fakeColl"
-                       onSuccess:^(NSOperation *operation, id responseObject) {
-                           op = (LFSJSONRequestOperation*)operation;
-                           result = responseObject;
-                       }
-                       onFailure:^(NSOperation *operation, NSError *error) {
-                           op = (LFSJSONRequestOperation*)operation;
-                           NSLog(@"Error code %d, with description %@",
-                                 error.code,
-                                 [error localizedDescription]);
-                       }];
+    [clientLike postOpinion:LFSOpineLike
+                    forUser:@"fakeUserToken"
+                 forContent:@"fakeContent"
+               inCollection:@"fakeColl"
+                  onSuccess:^(NSOperation *operation, id responseObject) {
+                      op = (LFSJSONRequestOperation*)operation;
+                      result = responseObject;
+                  }
+                  onFailure:^(NSOperation *operation, NSError *error) {
+                      op = (LFSJSONRequestOperation*)operation;
+                      NSLog(@"Error code %d, with description %@",
+                            error.code,
+                            [error localizedDescription]);
+                  }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();

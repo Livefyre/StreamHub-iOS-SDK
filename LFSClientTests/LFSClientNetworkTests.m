@@ -84,7 +84,7 @@
                       [[LFSConfig objectForKey:@"article"] base64String]];
     
     LFSBootstrapClient *client = [LFSBootstrapClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
-                                       environment:[LFSConfig objectForKey:@"environment"]];
+                                                           environment:[LFSConfig objectForKey:@"environment"]];
     NSURLRequest *request = [client requestWithMethod:@"GET" path:path parameters:nil];
     LFSJSONRequestOperation *op = [LFSJSONRequestOperation
                                    JSONRequestOperationWithRequest:request
@@ -118,15 +118,15 @@
     LFSBootstrapClient *client = [LFSBootstrapClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                            environment:[LFSConfig objectForKey:@"environment"]];
     [client getPath:path
-              parameters:nil
-                 success:^(AFHTTPRequestOperation *operation, id JSON){
-                     op = operation;
-                     result = JSON;
-                 }
-                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                     op = operation;
-                     NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
-                 }];
+         parameters:nil
+            success:^(AFHTTPRequestOperation *operation, id JSON){
+                op = operation;
+                result = JSON;
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                op = operation;
+                NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+            }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -146,15 +146,15 @@
     LFSBootstrapClient *client = [LFSBootstrapClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                            environment:[LFSConfig objectForKey:@"environment"]];
     [client getInitForSite:[LFSConfig objectForKey:@"site"]
-                        article:[LFSConfig objectForKey:@"article"]
-                      onSuccess:^(NSOperation *operation, id JSON){
-                          op = (LFSJSONRequestOperation*)operation;
-                          result = JSON;
-                      }
-                      onFailure:^(NSOperation *operation, NSError *error) {
-                          op = (LFSJSONRequestOperation*)operation;
-                          NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
-                      }
+                   article:[LFSConfig objectForKey:@"article"]
+                 onSuccess:^(NSOperation *operation, id JSON){
+                     op = (LFSJSONRequestOperation*)operation;
+                     result = JSON;
+                 }
+                 onFailure:^(NSOperation *operation, NSError *error) {
+                     op = (LFSJSONRequestOperation*)operation;
+                     NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                 }
      ];
     
     // Wait 'til done and then verify that everything is OK
@@ -176,15 +176,15 @@
     LFSBootstrapClient *client = [LFSBootstrapClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                            environment:[LFSConfig objectForKey:@"environment"]];
     [client getHottestCollectionsForSite:[LFSConfig objectForKey:@"site"]
-                                          tag:@"tag"
-                               desiredResults:10u
-                                    onSuccess:^(NSOperation *operation, id responseObject) {
-                                        op = (LFSJSONRequestOperation *)operation;
-                                        result = (NSArray *)responseObject;
-                                    } onFailure:^(NSOperation *operation, NSError *error) {
-                                        op = (LFSJSONRequestOperation *)operation;
-                                        NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
-                                    }];
+                                     tag:@"tag"
+                          desiredResults:10u
+                               onSuccess:^(NSOperation *operation, id responseObject) {
+                                   op = (LFSJSONRequestOperation *)operation;
+                                   result = (NSArray *)responseObject;
+                               } onFailure:^(NSOperation *operation, NSError *error) {
+                                   op = (LFSJSONRequestOperation *)operation;
+                                   NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                               }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -230,7 +230,7 @@
     NSString *userToken = [LFSConfig objectForKey:@"moderator user auth token"];
     
     LFSAdminClient *clientAdmin = [LFSAdminClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
-                                                   environment:nil ];
+                                                        environment:nil ];
     [clientAdmin authenticateUserWithToken:userToken
                                       site:[LFSConfig objectForKey:@"site"]
                                    article:[LFSConfig objectForKey:@"article"]
@@ -259,17 +259,17 @@
     NSString *userToken = [LFSConfig objectForKey:@"moderator user auth token"];
     
     LFSAdminClient *clientAdmin = [LFSAdminClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
-                                                   environment:nil ];
+                                                        environment:nil ];
     [clientAdmin authenticateUserWithToken:userToken
-                                     collection:[LFSConfig objectForKey:@"collection"]
-                                      onSuccess:^(NSOperation *operation, id responseObject) {
-                                          op = (LFSJSONRequestOperation *)operation;
-                                          result = (NSDictionary *)responseObject;
-                                      }
-                                      onFailure:^(NSOperation *operation, NSError *error) {
-                                          op = (LFSJSONRequestOperation *)operation;
-                                          NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
-                                      }];
+                                collection:[LFSConfig objectForKey:@"collection"]
+                                 onSuccess:^(NSOperation *operation, id responseObject) {
+                                     op = (LFSJSONRequestOperation *)operation;
+                                     result = (NSDictionary *)responseObject;
+                                 }
+                                 onFailure:^(NSOperation *operation, NSError *error) {
+                                     op = (LFSJSONRequestOperation *)operation;
+                                     NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                                 }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -285,19 +285,19 @@
     __block NSDictionary *result = nil;
     
     LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
-                                        environment:nil ];
-    [clientWrite postOpinion:LFSOpinionLike
-                          forUser:[LFSConfig objectForKey:@"moderator user auth token"]
-                       forContent:[LFSConfig objectForKey:@"content"]
-                     inCollection:[LFSConfig objectForKey:@"collection"]
-                        onSuccess:^(NSOperation *operation, id responseObject) {
-                            op = (LFSJSONRequestOperation *)operation;
-                            result = (NSDictionary *)responseObject;
-                        }
-                        onFailure:^(NSOperation *operation, NSError *error) {
-                            op = (LFSJSONRequestOperation *)operation;
-                            NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
-                        }];
+                                                        environment:nil ];
+    [clientWrite postOpinion:LFSOpineLike
+                     forUser:[LFSConfig objectForKey:@"moderator user auth token"]
+                  forContent:[LFSConfig objectForKey:@"content"]
+                inCollection:[LFSConfig objectForKey:@"collection"]
+                   onSuccess:^(NSOperation *operation, id responseObject) {
+                       op = (LFSJSONRequestOperation *)operation;
+                       result = (NSDictionary *)responseObject;
+                   }
+                   onFailure:^(NSOperation *operation, NSError *error) {
+                       op = (LFSJSONRequestOperation *)operation;
+                       NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                   }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -311,18 +311,18 @@
     
     LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                         environment:nil ];
-    [clientWrite postOpinion:LFSOpinionUnlike
-                          forUser:[LFSConfig objectForKey:@"moderator user auth token"]
-                       forContent:[LFSConfig objectForKey:@"content"]
-                     inCollection:[LFSConfig objectForKey:@"collection"]
-                        onSuccess:^(NSOperation *operation, id responseObject) {
-                            op = (LFSJSONRequestOperation *)operation;
-                            result = (NSDictionary *)responseObject;
-                        }
-                        onFailure:^(NSOperation *operation, NSError *error) {
-                            op = (LFSJSONRequestOperation *)operation;
-                            NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
-                        }];
+    [clientWrite postOpinion:LFSOpineUnlike
+                     forUser:[LFSConfig objectForKey:@"moderator user auth token"]
+                  forContent:[LFSConfig objectForKey:@"content"]
+                inCollection:[LFSConfig objectForKey:@"collection"]
+                   onSuccess:^(NSOperation *operation, id responseObject) {
+                       op = (LFSJSONRequestOperation *)operation;
+                       result = (NSDictionary *)responseObject;
+                   }
+                   onFailure:^(NSOperation *operation, NSError *error) {
+                       op = (LFSJSONRequestOperation *)operation;
+                       NSLog(@"Error code %d, with description %@", error.code, [error localizedDescription]);
+                   }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -341,19 +341,19 @@
     LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                         environment:nil ];
     [clientWrite postNewContent:[NSString stringWithFormat:@"test post, %d", arc4random()]
-                             forUser:[LFSConfig objectForKey:@"moderator user auth token"]
-                       forCollection:[LFSConfig objectForKey:@"collection"]
-                           inReplyTo:nil
-                           onSuccess:^(NSOperation *operation, id responseObject) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               result = responseObject;
-                           }
-                           onFailure:^(NSOperation *operation, NSError *error) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               NSLog(@"Error code %d, with description %@",
-                                     error.code,
-                                     [error localizedDescription]);
-                           }];
+                        forUser:[LFSConfig objectForKey:@"moderator user auth token"]
+                  forCollection:[LFSConfig objectForKey:@"collection"]
+                      inReplyTo:nil
+                      onSuccess:^(NSOperation *operation, id responseObject) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          result = responseObject;
+                      }
+                      onFailure:^(NSOperation *operation, NSError *error) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          NSLog(@"Error code %d, with description %@",
+                                error.code,
+                                [error localizedDescription]);
+                      }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -374,19 +374,19 @@
     LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                         environment:nil ];
     [clientWrite postNewContent:[NSString stringWithFormat:@"test reply, %d", arc4random()]
-                             forUser:[LFSConfig objectForKey:@"moderator user auth token"]
-                       forCollection:[LFSConfig objectForKey:@"collection"]
-                           inReplyTo:parent
-                           onSuccess:^(NSOperation *operation, id responseObject) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               result = responseObject;
-                           }
-                           onFailure:^(NSOperation *operation, NSError *error) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               NSLog(@"Error code %d, with description %@",
-                                     error.code,
-                                     [error localizedDescription]);
-                           }];
+                        forUser:[LFSConfig objectForKey:@"moderator user auth token"]
+                  forCollection:[LFSConfig objectForKey:@"collection"]
+                      inReplyTo:parent
+                      onSuccess:^(NSOperation *operation, id responseObject) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          result = responseObject;
+                      }
+                      onFailure:^(NSOperation *operation, NSError *error) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          NSLog(@"Error code %d, with description %@",
+                                error.code,
+                                [error localizedDescription]);
+                      }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -409,20 +409,20 @@
     LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                         environment:nil ];
     [clientWrite postFlag:LFSFlagOfftopic
-                       forUser:[LFSConfig objectForKey:@"moderator user auth token"]
-                    forContent:[LFSConfig objectForKey:@"content"]
-                  inCollection:[LFSConfig objectForKey:@"collection"]
-                    parameters:@{@"notes":@"fakeNotes", @"email":@"fakeEmail"}
-                     onSuccess:^(NSOperation *operation, id responseObject) {
-                         op = (LFSJSONRequestOperation*)operation;
-                         result = responseObject;
-                     }
-                     onFailure:^(NSOperation *operation, NSError *error) {
-                         op = (LFSJSONRequestOperation*)operation;
-                         NSLog(@"Error code %d, with description %@",
-                               error.code,
-                               [error localizedDescription]);
-                     }];
+                  forUser:[LFSConfig objectForKey:@"moderator user auth token"]
+               forContent:[LFSConfig objectForKey:@"content"]
+             inCollection:[LFSConfig objectForKey:@"collection"]
+               parameters:@{@"notes":@"fakeNotes", @"email":@"fakeEmail"}
+                onSuccess:^(NSOperation *operation, id responseObject) {
+                    op = (LFSJSONRequestOperation*)operation;
+                    result = responseObject;
+                }
+                onFailure:^(NSOperation *operation, NSError *error) {
+                    op = (LFSJSONRequestOperation*)operation;
+                    NSLog(@"Error code %d, with description %@",
+                          error.code,
+                          [error localizedDescription]);
+                }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -442,22 +442,22 @@
     LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                         environment:nil ];
     [clientWrite postNewArticle:@"justTesting7"
-                             forSite:[LFSConfig objectForKey:@"site"]
-                       secretSiteKey:[LFSConfig objectForKey:@"site key"]
-                               title:@"La la la la"
-                                tags:@[@"hey", @"hello"]
-                             withURL:[NSURL URLWithString:@"http://erere.com/ererereer"]
-                           onSuccess:^(NSOperation *operation, id responseObject) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               result = responseObject;
-                           }
-                           onFailure:^(NSOperation *operation, NSError *error) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               NSLog(@"Error code %d. Description: %@. Recovery Suggestion: %@",
-                                     error.code,
-                                     [error localizedDescription],
-                                     [error localizedRecoverySuggestion]);
-                           }];
+                        forSite:[LFSConfig objectForKey:@"site"]
+                  secretSiteKey:[LFSConfig objectForKey:@"site key"]
+                          title:@"La la la la"
+                           tags:@[@"hey", @"hello"]
+                        withURL:[NSURL URLWithString:@"http://erere.com/ererereer"]
+                      onSuccess:^(NSOperation *operation, id responseObject) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          result = responseObject;
+                      }
+                      onFailure:^(NSOperation *operation, NSError *error) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          NSLog(@"Error code %d. Description: %@. Recovery Suggestion: %@",
+                                error.code,
+                                [error localizedDescription],
+                                [error localizedRecoverySuggestion]);
+                      }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -484,22 +484,22 @@
     LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
                                                         environment:nil ];
     [clientWrite postNewArticle:@"justTesting8"
-                             forSite:[LFSConfig objectForKey:@"site"]
-                       secretSiteKey:nil
-                               title:@"La la la la"
-                                tags:@[@"hey", @"hello"]
-                             withURL:[NSURL URLWithString:@"http://erere.com/ererereer"]
-                           onSuccess:^(NSOperation *operation, id responseObject) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               result = responseObject;
-                           }
-                           onFailure:^(NSOperation *operation, NSError *error) {
-                               op = (LFSJSONRequestOperation*)operation;
-                               NSLog(@"Error code %d. Description: %@. Recovery Suggestion: %@",
-                                     error.code,
-                                     [error localizedDescription],
-                                     [error localizedRecoverySuggestion]);
-                           }];
+                        forSite:[LFSConfig objectForKey:@"site"]
+                  secretSiteKey:nil
+                          title:@"La la la la"
+                           tags:@[@"hey", @"hello"]
+                        withURL:[NSURL URLWithString:@"http://erere.com/ererereer"]
+                      onSuccess:^(NSOperation *operation, id responseObject) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          result = responseObject;
+                      }
+                      onFailure:^(NSOperation *operation, NSError *error) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          NSLog(@"Error code %d. Description: %@. Recovery Suggestion: %@",
+                                error.code,
+                                [error localizedDescription],
+                                [error localizedRecoverySuggestion]);
+                      }];
     
     // Wait 'til done and then verify that everything is OK
     expect(op.isFinished).will.beTruthy();
@@ -515,56 +515,56 @@
 }
 
 /*
-- (void)testStream {
-    // Get Init
-    __block LFSJSONRequestOperation *op0 = nil;
-    
-    // This is the easiest way to use LFHTTPClient
-    __block NSDictionary *bootstrapInitInfo = nil;
-    LFSBootstrapClient *clientStreamBootstrap = [LFSBootstrapClient clientWithNetwork:@"livefyre.com"
- environment:@"t402.livefyre.com"];
-    [clientStreamBootstrap getInitForSite:@"303613"
-                              article:@"215"
-                            onSuccess:^(NSOperation *operation, id JSON){
-                                op0 = (LFSJSONRequestOperation*)operation;
-                                bootstrapInitInfo = JSON;
-                            }
-                            onFailure:^(NSOperation *operation, NSError *error) {
-                                op0 = (LFSJSONRequestOperation*)operation;
-                                NSLog(@"Error code %d, with description %@",
-                                      error.code,
-                                      [error localizedDescription]);
-                            }
-     ];
-    
-    // Wait 'til done and then verify that everything is OK
-    expect(op0.isFinished).will.beTruthy();
-    expect(op0).to.beInstanceOf([LFSJSONRequestOperation class]);
-    expect(op0.error).notTo.equal(NSURLErrorTimedOut);
-    // Collection dictionary should have 4 keys: headDocument, collectionSettings, networkSettings, siteSettings
-    expect(bootstrapInitInfo).to.haveCountOf(4);
-    
-    NSDictionary *collectionSettings = [bootstrapInitInfo objectForKey:@"collectionSettings"];
-    NSString *collectionId = [collectionSettings objectForKey:@"collectionId"];
-    NSNumber *eventId = [collectionSettings objectForKey:@"event"];
-    
-    __block id result = nil;
+ - (void)testStream {
+ // Get Init
+ __block LFSJSONRequestOperation *op0 = nil;
  
-    LFSStreamClient *clientStream = [LFSStreamClient clientWithNetwork:@"livefyre.com"
+ // This is the easiest way to use LFHTTPClient
+ __block NSDictionary *bootstrapInitInfo = nil;
+ LFSBootstrapClient *clientStreamBootstrap = [LFSBootstrapClient clientWithNetwork:@"livefyre.com"
+ environment:@"t402.livefyre.com"];
+ [clientStreamBootstrap getInitForSite:@"303613"
+ article:@"215"
+ onSuccess:^(NSOperation *operation, id JSON){
+ op0 = (LFSJSONRequestOperation*)operation;
+ bootstrapInitInfo = JSON;
+ }
+ onFailure:^(NSOperation *operation, NSError *error) {
+ op0 = (LFSJSONRequestOperation*)operation;
+ NSLog(@"Error code %d, with description %@",
+ error.code,
+ [error localizedDescription]);
+ }
+ ];
+ 
+ // Wait 'til done and then verify that everything is OK
+ expect(op0.isFinished).will.beTruthy();
+ expect(op0).to.beInstanceOf([LFSJSONRequestOperation class]);
+ expect(op0.error).notTo.equal(NSURLErrorTimedOut);
+ // Collection dictionary should have 4 keys: headDocument, collectionSettings, networkSettings, siteSettings
+ expect(bootstrapInitInfo).to.haveCountOf(4);
+ 
+ NSDictionary *collectionSettings = [bootstrapInitInfo objectForKey:@"collectionSettings"];
+ NSString *collectionId = [collectionSettings objectForKey:@"collectionId"];
+ NSNumber *eventId = [collectionSettings objectForKey:@"event"];
+ 
+ __block id result = nil;
+ 
+ LFSStreamClient *clientStream = [LFSStreamClient clientWithNetwork:@"livefyre.com"
  environment:@"t402.livefyre.com"];
  
-    [clientStream setCollectionId:collectionId];
-    
-    
-    [clientStream setResultHandler:^(id responseObject) {
-        NSLog(@"%@", responseObject);
-        result = nil;
-    } success:nil failure:nil];
-    [clientStream startStreamWithEventId:eventId];
-    
-    expect(result).will.beTruthy();
-    NSLog(@"%@", result);
-}
-*/
+ [clientStream setCollectionId:collectionId];
+ 
+ 
+ [clientStream setResultHandler:^(id responseObject) {
+ NSLog(@"%@", responseObject);
+ result = nil;
+ } success:nil failure:nil];
+ [clientStream startStreamWithEventId:eventId];
+ 
+ expect(result).will.beTruthy();
+ NSLog(@"%@", result);
+ }
+ */
 
 @end

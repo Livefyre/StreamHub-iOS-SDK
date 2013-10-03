@@ -10,14 +10,18 @@
 #import <JWT/JWT.h>
 #import <NSString-Hashes/NSString+Hashes.h>
 
-static const NSString* const LFSOpinionString[] = {
+#define LFS_OPINE_ENDPOINTS_LENGTH 2u
+static const NSString* const LFSOpineEndpoints[LFS_OPINE_ENDPOINTS_LENGTH] =
+{
     @"like",
     @"unlike"
 };
 
-static const NSString* const LFSUserFlagString[] = {
-    @"offensive",
+#define LFS_USER_FLAGS_LENGTH 4u
+static const NSString* const LFSUserFlags[LFS_USER_FLAGS_LENGTH] =
+{
     @"spam",
+    @"offensive",
     @"disagree",
     @"off-topic"
 };
@@ -29,7 +33,7 @@ static const NSString* const LFSUserFlagString[] = {
 
 #pragma mark - Methods
 
-- (void)postOpinion:(LFSOpinion)action
+- (void)postOpinion:(LFSOpine)action
             forUser:(NSString*)userToken
          forContent:(NSString *)contentId
        inCollection:(NSString *)collectionId
@@ -37,8 +41,9 @@ static const NSString* const LFSUserFlagString[] = {
           onFailure:(LFSFailureBlock)failure
 {
     NSParameterAssert(contentId != nil);
+    NSParameterAssert((NSUInteger)action < LFS_OPINE_ENDPOINTS_LENGTH);
     
-    const NSString *actionEndpoint = LFSOpinionString[action];
+    const NSString *actionEndpoint = LFSOpineEndpoints[action];
     NSDictionary *parameters = @{@"collection_id":collectionId,
                                  @"lftoken": userToken};
     NSString *path = [NSString
@@ -60,8 +65,9 @@ static const NSString* const LFSUserFlagString[] = {
        onFailure:(LFSFailureBlock)failure
 {
     NSParameterAssert(contentId != nil);
+    NSParameterAssert((NSUInteger)flag < LFS_USER_FLAGS_LENGTH);
     
-    const NSString *flagString = LFSUserFlagString[flag];
+    const NSString *flagString = LFSUserFlags[flag];
     NSMutableDictionary *parameters1 =
     [NSMutableDictionary
      dictionaryWithObjects:@[contentId, collectionId, flagString, userToken]
