@@ -362,6 +362,44 @@
     expect(result).to.beTruthy();
 }
 
+- (void)testPostResponse
+{
+    //Note: this test fails when the URL is wrong (the way it's meant to be)
+    __block LFSJSONRequestOperation *op = nil;
+    __block id result = nil;
+    
+    // Actual call would look something like this:
+    LFSWriteClient *clientWrite = [LFSWriteClient clientWithNetwork:[LFSConfig objectForKey:@"domain"]
+                                                        environment:nil ];
+    NSString *testString = [NSString stringWithFormat:@"Chars -):&@;));&(@ 1536495@ &$)((/ %d",
+                            arc4random()];
+    [clientWrite postNewContent:testString
+                        forUser:[LFSConfig objectForKey:@"moderator user auth token"]
+                  forCollection:[LFSConfig objectForKey:@"collection"]
+                      inReplyTo:nil
+                      onSuccess:^(NSOperation *operation, id responseObject) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          result = responseObject;
+                      }
+                      onFailure:^(NSOperation *operation, NSError *error) {
+                          op = (LFSJSONRequestOperation*)operation;
+                          NSLog(@"Error code %d, with description %@",
+                                error.code,
+                                [error localizedDescription]);
+                      }];
+    
+    // Wait 'til done and then verify that everything is OK
+    expect(op.isFinished).will.beTruthy();
+    expect(op).to.beInstanceOf([LFSJSONRequestOperation class]);
+    expect(op.error).notTo.equal(NSURLErrorTimedOut);
+    expect(result).to.beTruthy();
+    
+    NSDictionary *message = [[result objectForKey:@"messages"] objectAtIndex:0u];
+    NSString *responseString = [[message objectForKey:@"content"] objectForKey:@"bodyHtml"];
+    NSString *expectedString = [NSString stringWithFormat:@"<p>%@</p>", testString];
+    expect(responseString).to.equal(expectedString);
+}
+
 - (void)testPostInReplyTo
 {
     //Note: this test fails when the URL is wrong (the way it's meant to be)
