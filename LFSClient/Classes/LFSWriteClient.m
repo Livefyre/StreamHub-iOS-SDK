@@ -133,7 +133,10 @@
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     id rating = [mutableParameters objectForKey:LFSCollectionPostRatingKey];
     if (rating != nil && ![rating isKindOfClass:[NSString class]]) {
-        [mutableParameters setObject:[rating JSONString] forKey:LFSCollectionPostRatingKey];
+        NSError *serializationError = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:rating options:0 error:&serializationError];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [mutableParameters setObject:jsonString forKey:LFSCollectionPostRatingKey];
     }
     
     [self postPath:path
@@ -169,8 +172,11 @@
     // tags are optional and have to be stringified
     NSArray *tagArray = [collectionMeta objectForKey:LFSCollectionMetaTagsKey];
     if (tagArray != nil) {
-        [mutableMeta setObject:[tagArray componentsJoinedByString:@","]
-                        forKey:LFSCollectionMetaTagsKey];
+        if ([tagArray isKindOfClass:[NSArray class]]) {
+            [mutableMeta setObject:[tagArray componentsJoinedByString:@","] forKey:LFSCollectionMetaTagsKey];
+        } else {
+            [mutableMeta setObject:tagArray forKey:LFSCollectionMetaTagsKey];
+        }
     }
     
     NSDictionary *parameters;

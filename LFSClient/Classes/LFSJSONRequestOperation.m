@@ -7,7 +7,6 @@
 //
 
 #import "LFSJSONRequestOperation.h"
-#import "JSONKit.h"
 
 static const NSString *const kLFSResponseTimeout = @"timeout";
 static const NSString *const kLFSResponseHost = @"h";
@@ -58,8 +57,7 @@ static dispatch_queue_t json_request_operation_processing_queue() {
     if (!_responseJSON && [self.responseData length] > 0 && [self isFinished] && !self.JSONError)
     {
         NSError *error = nil;
-        JSONDecoder *decoder = [JSONDecoder decoderWithParseOptions:(JKParseOptionTruncateNumbers | self.JSONReadingOptions)];
-        id responseJSON = [decoder objectWithData:self.responseData error:&error];
+        id responseJSON = [NSJSONSerialization JSONObjectWithData:self.responseData options:0 error:&error];
         [self setResponseJSON:responseJSON withError:error];
     }
     [self.lock unlock];
@@ -165,7 +163,9 @@ static dispatch_queue_t json_request_operation_processing_queue() {
         NSError *error = super.error;
         if (error.code == -1011) {
             // Expected status code in (200-299), got 403
-            NSDictionary *object = error.localizedRecoverySuggestion.objectFromJSONString;
+            NSData *jsonData = [error.localizedRecoverySuggestion dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *serializationError = nil;
+            NSDictionary *object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&serializationError];
             NSInteger errorCode = [[object objectForKey:@"code"] integerValue];
             NSString *errorMessage = [NSString stringWithFormat:@"Error %zd: %@", errorCode, [object objectForKey:@"msg"]];
             NSString *errorType = [object objectForKey:@"error_type"];

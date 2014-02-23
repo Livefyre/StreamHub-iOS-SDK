@@ -121,7 +121,7 @@ parameterEncoding:(AFHTTPClientParameterEncoding)parameterEncoding
                     [request setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wassign-enum"
-                    [request setHTTPBody:[parameters JSONDataWithOptions:JKSerializeOptionNone error:&error]];
+                    [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:0 error:&error]];
 #pragma clang diagnostic pop
                     break;
                 case AFPropertyListParameterEncoding:
