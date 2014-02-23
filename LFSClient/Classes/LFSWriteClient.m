@@ -133,7 +133,10 @@
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     id rating = [mutableParameters objectForKey:LFSCollectionPostRatingKey];
     if (rating != nil && ![rating isKindOfClass:[NSString class]]) {
-        [mutableParameters setObject:[rating JSONString] forKey:LFSCollectionPostRatingKey];
+        NSError *serializationError = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:rating options:0 error:&serializationError];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [mutableParameters setObject:jsonString forKey:LFSCollectionPostRatingKey];
     }
     
     [self postPath:path

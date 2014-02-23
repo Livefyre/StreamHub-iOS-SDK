@@ -22,8 +22,4 @@ It lets you create apps that obtain user-generated content through Livefyre, pol
     s.dependency 'Base64', '~> 1.0.1'
     s.dependency 'NSString-Hashes', '~> 1.2.0'
   end
-  s.subspec 'no-arc' do |sp|
-    sp.source_files = 'JSONKit/**/*.{h,m}'
-    sp.requires_arc = false
-  end
 end

@@ -9,7 +9,6 @@
 #import <AFNetworking/AFHTTPClient.h>
 #import "LFSConstants.h"
 #import "LFSJSONRequestOperation.h"
-#import "JSONKit.h"
 
 @interface LFSBaseClient : AFHTTPClient
 
