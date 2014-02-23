@@ -172,8 +172,11 @@
     // tags are optional and have to be stringified
     NSArray *tagArray = [collectionMeta objectForKey:LFSCollectionMetaTagsKey];
     if (tagArray != nil) {
-        [mutableMeta setObject:[tagArray componentsJoinedByString:@","]
-                        forKey:LFSCollectionMetaTagsKey];
+        if ([tagArray isKindOfClass:[NSArray class]]) {
+            [mutableMeta setObject:[tagArray componentsJoinedByString:@","] forKey:LFSCollectionMetaTagsKey];
+        } else {
+            [mutableMeta setObject:tagArray forKey:LFSCollectionMetaTagsKey];
+        }
     }
     
     NSDictionary *parameters;
