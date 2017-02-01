@@ -42,6 +42,8 @@
 		72F67B1CFF41A0DD3AE29C17 /* libPods-LFSClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB67478FD7D4B467193F64A /* libPods-LFSClient.a */; };
 		8411D2B8606A9C35610FEEDC /* libPods-LFSClientTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DDA0DA2907287D1310B575 /* libPods-LFSClientTests.a */; };
 		9B0AF83A1DB8A3D80034D038 /* LFSTestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B0AF8391DB8A3D80034D038 /* LFSTestConfig.plist */; };
+		9B1F18071E41BA0B00E4B769 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F18061E41BA0B00E4B769 /* README.md */; };
+		9B1F18481E41EAA300E4B769 /* README_SWIFT.md in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F18471E41EAA300E4B769 /* README_SWIFT.md */; };
 		9BB333951DB504D5007F0BB8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BB333941DB504D5007F0BB8 /* XCTest.framework */; };
 		D9F69E5B1D1C357D006BD38E /* LFAuthViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9F69E571D1C357D006BD38E /* LFAuthViewController.h */; };
 		D9F69E5C1D1C357D006BD38E /* LFAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F69E581D1C357D006BD38E /* LFAuthViewController.m */; };
@@ -143,6 +145,8 @@
 		8DB67478FD7D4B467193F64A /* libPods-LFSClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFSClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0D5D5EC2EDAA54D52C3F87 /* Pods-LFSClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFSClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFSClient/Pods-LFSClient.debug.xcconfig"; sourceTree = "<group>"; };
 		9B0AF8391DB8A3D80034D038 /* LFSTestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LFSTestConfig.plist; sourceTree = "<group>"; };
+		9B1F18061E41BA0B00E4B769 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9B1F18471E41EAA300E4B769 /* README_SWIFT.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README_SWIFT.md; sourceTree = "<group>"; };
 		9BB333941DB504D5007F0BB8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		BFE79D056598ECF7C7091D77 /* Pods-test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-test/Pods-test.debug.xcconfig"; sourceTree = "<group>"; };
 		D9F69E571D1C357D006BD38E /* LFAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFAuthViewController.h; path = LFSClient/Classes/LFAuthViewController.h; sourceTree = "<group>"; };
@@ -248,6 +252,8 @@
 		1C4CC88616A48B3800C33DEC /* LFSClient */ = {
 			isa = PBXGroup;
 			children = (
+				9B1F18061E41BA0B00E4B769 /* README.md */,
+				9B1F18471E41EAA300E4B769 /* README_SWIFT.md */,
 				EF3F1E4017C45E8E004E61A4 /* Classes */,
 				1CF0621F16B0A39800CFA905 /* Categories */,
 				1C4CC88716A48B3800C33DEC /* Supporting Files */,
@@ -592,6 +598,8 @@
 				EF860D4718F280EE0015431B /* LFSJSONResponseSerializer.m in Sources */,
 				EFA0456517D806130012CD31 /* LFSBootstrapClient.m in Sources */,
 				D9F69E5C1D1C357D006BD38E /* LFAuthViewController.m in Sources */,
+				9B1F18071E41BA0B00E4B769 /* README.md in Sources */,
+				9B1F18481E41EAA300E4B769 /* README_SWIFT.md in Sources */,
 				EFA0456B17D806130012CD31 /* LFSStreamClient.m in Sources */,
 				EFF3049517E68961005358F5 /* NSDateFormatter+RelativeTo.m in Sources */,
 				EFF3049817E68961005358F5 /* NSString+LFSEref.m in Sources */,
