@@ -19,7 +19,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, :deployment_target => '6.0'
 
-pod 'StreamHub-iOS-SDK', '~> 1.3'
+pod 'StreamHub-iOS-SDK', :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK.git'
 ```
 
 Then simply:
@@ -81,7 +81,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, :deployment_target => '8.0'
 
-pod 'StreamHub-iOS-SDK', '~> 1.3'
+pod 'StreamHub-iOS-SDK', :git => 'https://github.com/Livefyre/StreamHub-iOS-SDK.git'
 ```
 
 Then simply:
